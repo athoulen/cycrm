@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+		"http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<data-sources/>
+	<!-- 注册ActionForm -->
+	<form-beans>
+		<form-bean name="userForm" type="com.blueair.struts.form.UserForm"/>
+		<form-bean name="medForm" type="com.blueair.struts.form.MedicineForm"/>
+		<form-bean name="categoryForm" type="com.blueair.struts.form.CategoryForm"/>
+		<form-bean name="sellDetailForm" type="com.blueair.struts.form.SellDetailForm"/>
+	</form-beans>
+	<global-exceptions/>
+	<!-- 全局跳转 -->
+	<global-forwards>
+		<forward name="login" path="/login.jsp" redirect="true"/>
+		<forward name="buy" path="/sell/sell.do?command=add"/>
+		<forward name="error" path="/error.jsp"/>
+		<forward name="manage" path="/manager.jsp"/>
+	</global-forwards>
+	
+	<action-mappings>
+		<!-- 用户登录 -->
+		<action path="/login" type="com.blueair.struts.action.LoginAction" name="userForm" scope="request">
+			<forward name="loginFail" path="/login.jsp"/>
+		</action>
+	
+	</action-mappings>
+</struts-config>
