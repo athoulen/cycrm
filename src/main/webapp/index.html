@@ -2,84 +2,10 @@
 <html ng-app="app">
 	<head>
 		<meta charset="utf-8" />
-		<title></title>
-		<link rel="stylesheet" type="text/css" href="src/dist/css/style.css"/>
-		<link rel="stylesheet" type="text/css" href="src/dist/css/bootstrap.css" />
-		<link rel="stylesheet" type="text/css" href="src/dist/css/ngDialog.css" />
-		<link rel="stylesheet" type="text/css" href="src/dist/css/ngDialog-theme-default.css" />
-		<link rel="stylesheet" type="text/css" href="src/dist/css/datepicker.css" />
+		<title>测试一下</title>
 	</head>
 	<body>
-	<!-- view视图 -->
-		<div ui-view id="main-view">
-			<!-- <div style="height:100%;width:100%;opacity:0.5;padding-top:10%;text-align:center;">
-				<img src="src/dist/img/timg.gif" />
-			</div> -->
-		</div>
+		<h1>感觉好吗？ </h1>
 	</body>
-	<script src="src/dist/js/jquery.js"></script>
-	<script src='src/dist/js/bootstrap.js'></script>
-	<script src="src/dist/js/angular.js" ></script>
-	<script type="text/javascript" src="src/dist/js/angular-ui-router.js" ></script>
-	<script src="src/dist/js/index.js"></script>
-    <script type="text/javascript" charset="utf-8" src="src/dist/js/ngDialog.min.js"> </script>
-    <script src='src/dist/js/ui-bootstrap-tpls.js'></script>
-    <script src='src/dist/js/Sortable.min.js'></script>
-	<script src="src/dist/js/jquery.jcryption-1.1.js"></script>
-    <script type="text/ng-template" >
-		<div style='position:relative;'>
-			<div style='height:35px;width:150px;border:1px solid #ccc;' ng-click='selecTurn($event)'></div>
-			<ul ng-show='selecShow' style='position:absolute;top:100%;margin:0;padding:0;text-indent:10px;'>
-				<li ng-repeat='x in multList track by $index' ng-click='change(x)'>{{x.name}}</li>
-			</ul>
-		</div>
-    </script>
-   <script type="text/ng-template" id="ykf_tpl_modal" >
-		<div class="ykfadmin-modal-content" ng-if="ykf_confirm_show">
-		  <div class="ykfadmin-modal-wrap" ng-class="confirm_show">
-		    <div class="ykfadmin-modal-head" ng-show="ykf_confirm_title_show" ng-bind="ykf_confirm_title"></div>
-		    <div class="ykfadmin-modal-main" add-dom="ykf_confirm_msg"></div>
-		    <div class="ykfadmin-modal-foot">
-		      <span ng-click="ykf_modal_close()">取消</span>
-		      <span ng-click="ykf_modal_sure()">确定</span>
-		    </div>
-		  </div>  
-		  <div class="ykfadmin-modal-cover"></div>
-		</div>
-   </script>
-   <script type="text/ng-template" id="ykf_tpl_alert_modal" >
-		<div class="ykfadmin-modal-content" ng-if="ykf_alert_show">
-		  <div class="ykfadmin-modal-wrap" ng-class="confirm_show">
-		    <div class="ykfadmin-modal-head" ng-show="ykf_confirm_title_show" ng-bind="ykf_alert_title"></div>
-		    <div class="ykfadmin-modal-main" add-dom="ykf_alert_msg"></div>
-		    <div class="ykfadmin-modal-foot">
-		      <span ng-click="ykf_alert_sure()">确定</span>
-		    </div>
-		  </div>  
-		  <div class="ykfadmin-modal-cover"></div>
-		</div>
-   </script>
-<script type="text/ng-template" id="selects">
-    <div class="selects-box">
-        <div class="selects-wrap" ng-repeat="x in viewMsg track by $index">
-        	<div class="d1">选项{{$index+1}}</div>
-        	<div class="d2">
-				<span class='ic'></span>
-	            <div class="selects-main" ng-init="indexP = $index" ng-click="x.listShow()" ng-bind="x.firstName"></div>
-	            <ul class="slide" ng-show="x.liShow" ng-click = "stopBuble($event)">
-	                <li ng-repeat="y in x.list track by $index">
-	                    <input type="text" ng-model="y.name" ng-show="y.inputShow" ng-blur="y.inputBlur(x,$index,indexP)" is-focus="y.focus" />
-	                    <span class="li-msg" ng-click="y.check(x,y.name,indexP)" ng-bind="y.name"></span>
-	                    <span class="ykfadmin-bj-icon li-handle" ng-click="y.edit(x)"></span>
-	                    <span class="ykfadmin-del-icon li-handle" ng-click="y.delete(x,$index,indexP)"></span>
-	                </li>
-	                <li class="last"><a href="javascript:;" ng-click="x.add()">添加</a></li>
-	            </ul>
-        	</div>
-        	<div class="d3"><span class="ykfadmin-del-icon" ng-click="x.deleParent($index)"></span></div>
-        </div>
-        <div class="addslide"><a href="javascript:;" ng-click="addMenu()">添加</a></div>
-        <tipalert></tipalert>
-    </div>
-</script>
+	
 </html>

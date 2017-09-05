@@ -1,12 +1,17 @@
 package com.blueair.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.blueair.dao.impl.BaseDaoImpl;
 
 
 /**
  * 服务基类
  */
+@Service("baseService")
 public class BaseServiceImpl {
+	@Autowired
 	private BaseDaoImpl baseDao;
 
 	public BaseDaoImpl getBaseDao() {

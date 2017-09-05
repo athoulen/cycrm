@@ -27,11 +27,20 @@ import com.blueair.shiro.util.Generator;
  * 自定义的指定Shiro验证用户登录的类 
  * @see 在本例中定义了2个用户:shilei和other,shilei具有admin角色和admin:manage权限,other不具有任何角色和权限 
  */  
-@Service
 public class UserRealm extends AuthorizingRealm {
 	private static final Logger logger = LoggerFactory.getLogger(UserRealm.class);
-	@Autowired
 	private IUserService userService;
+	
+	public IUserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(IUserService userService) {
+		this.userService = userService;
+	}
+
+
+
 	/** 
      * 为当前登录的Subject授予角色和权限 
      * @see 经测试:本例中该方法的调用时机为需授权资源被访问时 

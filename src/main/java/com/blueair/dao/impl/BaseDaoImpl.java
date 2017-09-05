@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
 
 import com.blueair.dao.IBaseDao;
 import com.blueair.util.ConvertUtil;
@@ -13,6 +14,7 @@ import com.blueair.util.ConvertUtil;
 /**
  * 用户Dao基类
  */
+@Repository("baseDao")
 public class BaseDaoImpl implements IBaseDao {
 	private SqlSession sqlSession;
 	

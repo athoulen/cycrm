@@ -69,6 +69,10 @@
         <property name="realm" ref="userRealm"/>
         <property name="sessionManager" ref="sessionManager"/>
     </bean>
+    
+    <bean id="userRealm" class="com.blueair.shiro.realm.UserRealm">
+    	<property name="userService" ref="userService"/>
+    </bean>
 
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
@@ -80,7 +84,7 @@
         <property name="arguments" ref="securityManager"/>
     </bean>
     <!-- 基于Form表单的身份验证过滤器 -->
-    <bean id="authcFilter" class="com.cmos.ccps.shiro.filter.MyFormAuthenticationFilter">
+    <bean id="authcFilter" class="com.blueair.shiro.filter.MyFormAuthenticationFilter">
         <property name="usernameParam" value="username"/>
         <property name="passwordParam" value="password"/>
         <property name="failureKeyAttribute" value="shiroLoginFailure"/>

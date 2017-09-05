@@ -40,7 +40,7 @@
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!--上传文件大小限制30M ； 1024*1024*30 放宽至30M-->
-		<property name="maxUploadSize" value="35000000"></property>
+		<property name="maxUploadSize" value="10240000"></property>
 	</bean>
 	<!-- fastjson解析器 -->
 	<mvc:annotation-driven>
