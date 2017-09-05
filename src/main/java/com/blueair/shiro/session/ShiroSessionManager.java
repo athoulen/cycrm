@@ -49,7 +49,7 @@ public class ShiroSessionManager implements ShiroSessionRepository{
 		Session session = null;
 		try {
 			String sessionKey = buildRedisSessionKey(sessionId);
-			session =sessionMap.get(SerializeUtil.serialize(sessionKey));
+			session =sessionMap.get(sessionKey);
 		} catch (Exception e) {
 			logger.error("getSession error ", e);
 		}

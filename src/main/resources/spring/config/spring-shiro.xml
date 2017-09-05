@@ -111,8 +111,8 @@
 				/login/login = authc
 				/login/isVerifyByCode==anon
 				/home/* = authc
-				/api/login/getVerifyCode/** = anon
-				/api/v1/login = anon
+				/api/getVerifyCode/** = anon
+				/api/login = anon
             </value>
         </property>
     </bean>

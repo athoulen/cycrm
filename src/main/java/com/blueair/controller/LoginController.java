@@ -28,7 +28,7 @@ import com.blueair.shiro.util.Generator;
 import com.blueair.util.RemoteUtil;
 import com.blueair.util.VerifyCodeUtil;
 
-@RestController("login")
+@RestController(value="/login")
 public class LoginController extends BaseController {
 	
 	private static Logger logger = LoggerFactory
@@ -37,7 +37,7 @@ public class LoginController extends BaseController {
 	/**
 	 * 获取验证码图片和文本(验证码文本会保存在HttpSession中)
 	 */
-	@RequestMapping("/getVerifyCodeImage")
+	@RequestMapping(value="/getVerifyCodeImage")
 	public void getVerifyCodeImage(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 
@@ -56,7 +56,6 @@ public class LoginController extends BaseController {
 				verifyCode, 90, 30, 3, true, Color.WHITE, Color.BLACK, null);
 		// 写给浏览器
 		ImageIO.write(bufferedImage, "JPEG", response.getOutputStream());
-
 	}
 	
 	@RequestMapping("/login")
