@@ -168,7 +168,11 @@
 				<artifactId>fastjson</artifactId>
 				<version>1.2.7</version>
 			</dependency>
-			
+			<dependency>
+				<groupId>commons-configuration</groupId>
+				<artifactId>commons-configuration</artifactId>
+				<version>1.10</version>
+			</dependency>
 			
 		    <dependency>
 		      <groupId>junit</groupId>

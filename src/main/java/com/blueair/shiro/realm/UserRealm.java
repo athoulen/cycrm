@@ -91,7 +91,7 @@ public class UserRealm extends AuthorizingRealm {
         User user=getLoginUser(name);
         String pwd;
         if(user!=null){
-        	pwd =(String) user.getPassword();
+        	pwd = user.getPassword();
         }else{
         	throw new UnknownAccountException("没有查找到管理员");
         }
