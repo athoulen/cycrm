@@ -3,7 +3,7 @@ package com.blueair.bean;
 public class User {
 
 	private Integer id;					//用户ID
-	private Integer AreaCode;		//区域ID
+	private Integer areaCode;		//区域ID
 	private String type;					//管理员类型	0：普通权限，1：全区域权限，2：管理员权限
 	private String username;		//用户名
 	private String password;		//密码
@@ -17,10 +17,10 @@ public class User {
 		this.id = id;
 	}
 	public Integer getAreaCode() {
-		return AreaCode;
+		return areaCode;
 	}
 	public void setAreaCode(Integer areaCode) {
-		AreaCode = areaCode;
+		this.areaCode = areaCode;
 	}
 	public String getType() {
 		return type;

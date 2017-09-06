@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ZoneMapper" >
+  <resultMap id="BaseResultMap" type="com.blueair.bean.Zone" >
+    <id column="area_id" property="zoneId" jdbcType="INTEGER" />
+    <result column="area_name" property="zoneName" jdbcType="VARCHAR" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="LOG_BASIC_Column_List" >
+  		area_id,area_name,desc
+  </sql>
+  <select id="queryForAllZones">
+  	select 
+  	<include refid="LOG_BASIC_Column_List"/>
+  	from cy_area_info_table
+  </select>
+</mapper>

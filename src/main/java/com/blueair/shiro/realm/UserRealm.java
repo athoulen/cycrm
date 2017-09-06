@@ -15,8 +15,6 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.blueair.bean.User;
 import com.blueair.service.IUserService;
@@ -46,7 +44,8 @@ public class UserRealm extends AuthorizingRealm {
      * @see 经测试:本例中该方法的调用时机为需授权资源被访问时 
      * @see 经测试:并且每次访问需授权资源时都会执行该方法中的逻辑,这表明本例中默认并未启用AuthorizationCache 
       */   
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals){  
+    @SuppressWarnings("unused")
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals){  
         //获取当前登录的用户名,等价于(String)principals.fromRealm(this.getName()).iterator().next()  
         String currentUsername = (String)super.getAvailablePrincipal(principals);  
         logger.info("当前用户:"+currentUsername);

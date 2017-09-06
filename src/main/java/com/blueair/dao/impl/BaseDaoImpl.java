@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.blueair.dao.IBaseDao;
@@ -14,17 +15,11 @@ import com.blueair.util.ConvertUtil;
 /**
  * 用户Dao基类
  */
-@Repository("baseDao")
+@Repository(value="baseDao")
 public class BaseDaoImpl implements IBaseDao {
+	@Autowired
 	private SqlSession sqlSession;
 	
-	public SqlSession getSqlSession() {
-		return sqlSession;
-	}
-
-	public void setSqlSession(SqlSession sqlSession) {
-		this.sqlSession = sqlSession;
-	}
 	/**
 	 * 根据Id获取对象
 	 * 
@@ -35,7 +30,7 @@ public class BaseDaoImpl implements IBaseDao {
 	 * @return Object对象
 	 */
 	public Object queryForObject(String sqlId, int id) {
-		return getSqlSession().selectOne(sqlId, id);
+		return sqlSession.selectOne(sqlId, id);
 	}
 
 	/**
@@ -51,7 +46,7 @@ public class BaseDaoImpl implements IBaseDao {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T queryForObject(String sqlId, int id, Class<T> cls) {
-		return (T) getSqlSession().selectOne(sqlId, id);
+		return (T) sqlSession.selectOne(sqlId, id);
 	}
 
 	/**
@@ -67,7 +62,7 @@ public class BaseDaoImpl implements IBaseDao {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T queryForObject(String sqlId, long id, Class<T> cls) {
-		return (T) getSqlSession().selectOne(sqlId, id);
+		return (T) sqlSession.selectOne(sqlId, id);
 	}
 	
 	/**
@@ -80,7 +75,7 @@ public class BaseDaoImpl implements IBaseDao {
 	 * @return
 	 */
 	public Object queryForObject(String sqlId, Map<String, Object> params) {
-		return getSqlSession().selectOne(sqlId, params);
+		return sqlSession.selectOne(sqlId, params);
 	}
 
 	/**
@@ -97,7 +92,7 @@ public class BaseDaoImpl implements IBaseDao {
 	@SuppressWarnings("unchecked")
 	public <T> T queryForObject(String sqlId, Map<String, Object> params,
 			Class<T> cls) {
-		return (T) getSqlSession().selectOne(sqlId, params);
+		return (T) sqlSession.selectOne(sqlId, params);
 	}
 
 	/**
@@ -110,7 +105,7 @@ public class BaseDaoImpl implements IBaseDao {
 	 * @return 条数
 	 */
 	public int getTotalCount(String sqlId, Map<String, String> params) {
-		return (Integer) getSqlSession().selectOne(sqlId, params);
+		return (Integer) sqlSession.selectOne(sqlId, params);
 	}
 
 	/**
@@ -126,7 +121,7 @@ public class BaseDaoImpl implements IBaseDao {
 	 */
 	public <T> List<T> queryForList(String sqlId, Map<String, String> params,
 			Class<T> cls) {
-		return getSqlSession().selectList(sqlId, params);
+		return sqlSession.selectList(sqlId, params);
 	}
 	
 	/**
@@ -142,7 +137,7 @@ public class BaseDaoImpl implements IBaseDao {
 	 */
 	public <T> List<T> queryForListForObject(String sqlId, Map<String, Object> params,
 			Class<T> cls) {
-		return getSqlSession().selectList(sqlId, params);
+		return sqlSession.selectList(sqlId, params);
 	}
 
 	/**
@@ -156,7 +151,7 @@ public class BaseDaoImpl implements IBaseDao {
 	 */
 	public List<Map<String, Object>> queryForList(String sqlId,
 			Map<String, Object> param) {
-		List<Map<String, Object>> list = getSqlSession().selectList(sqlId, param);
+		List<Map<String, Object>> list = sqlSession.selectList(sqlId, param);
 		List<Map<String, Object>> beans = ConvertUtil.convertSqlMap2JavaMap(list);
 		return beans;
 	}
@@ -170,7 +165,7 @@ public class BaseDaoImpl implements IBaseDao {
 	 *            对象
 	 */
 	public int update(String sqlId, Object object) {
-		return getSqlSession().update(sqlId, object);
+		return sqlSession.update(sqlId, object);
 	}
 
 	/**
@@ -183,7 +178,7 @@ public class BaseDaoImpl implements IBaseDao {
 	 * @return 插入条数
 	 */
 	public int insert(String sqlId, Object object) {
-		return (Integer) getSqlSession().insert(sqlId, object);
+		return (Integer) sqlSession.insert(sqlId, object);
 	}
 
 	/**
@@ -196,7 +191,7 @@ public class BaseDaoImpl implements IBaseDao {
 	 * @return 主键
 	 */
 	public int delete(String sqlId, int id) {
-		return getSqlSession().delete(sqlId, id);
+		return sqlSession.delete(sqlId, id);
 	}
 	
 	/**
@@ -209,7 +204,7 @@ public class BaseDaoImpl implements IBaseDao {
 	 * @return 主键
 	 */
 	public int delete(String sqlId, long id) {
-		return getSqlSession().delete(sqlId, id);
+		return sqlSession.delete(sqlId, id);
 	}
 	
 	/**
@@ -222,7 +217,7 @@ public class BaseDaoImpl implements IBaseDao {
 	 * @return 主键
 	 */
 	public int delete(String sqlId, Map<String, Object> map) {
-		return getSqlSession().delete(sqlId, map);
+		return sqlSession.delete(sqlId, map);
 	}
 	
 	/**
@@ -237,11 +232,11 @@ public class BaseDaoImpl implements IBaseDao {
 	 * @return 列表<cls对应的类>
 	 */
 	public <T> List<T> queryList(String sqlId, Map<String, Object> params, Class<T> cls) {
-		return getSqlSession().selectList(sqlId, params);
+		return sqlSession.selectList(sqlId, params);
 	}
 
 
     public <T> List<T> queryForList(String sqlId, Object object, Class<T> cls) {
-        return getSqlSession().selectList(sqlId, object);
+        return sqlSession.selectList(sqlId, object);
     }
 }

@@ -9,7 +9,7 @@ import com.blueair.dao.impl.BaseDaoImpl;
 /**
  * 服务基类
  */
-@Service("baseService")
+@Service(value="baseService")
 public class BaseServiceImpl {
 	@Autowired
 	private BaseDaoImpl baseDao;
