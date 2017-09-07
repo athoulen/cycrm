@@ -198,6 +198,19 @@
 				<artifactId>jackson-databind</artifactId>
 				<version>2.6.3</version>
 			</dependency>
+			<!-- POI配置 -->
+			<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+			<dependency>
+			    <groupId>org.apache.poi</groupId>
+			    <artifactId>poi</artifactId>
+			    <version>3.11</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-excelant -->
+			<dependency>
+			    <groupId>org.apache.poi</groupId>
+			    <artifactId>poi-excelant</artifactId>
+			    <version>3.11</version>
+			</dependency>
 			
 		    <dependency>
 		      <groupId>junit</groupId>
