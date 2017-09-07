@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="MerchanMapper" >
+  <resultMap id="BaseResultMap" type="com.blueair.bean.Merchandiser" >
+    <id column="merch_id" property="merchId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="class_type" property="classType" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMap" type="com.blueair.bean.MerchandiserKey" >
+    <id column="merch_id" property="merchId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap type="com.blueair.bean.MerchandiserDetail" id="DetailResultMap" extends="BaseResultMap">
+  	<association property="parent" column="{parentId=parent_id}" select="MerchanMapper.queryMerchanKey"/>
+  </resultMap>
+  
+  <sql id="BASIC_Column_List" >
+  		merch_id,name,class_type,parent_id,desc
+  </sql>
+  <sql id="KEY_Column_List" >
+  		merch_id,name
+  </sql>
+  
+  <insert id="insertMerchan" parameterType="com.blueair.bean.Merchandiser">
+  		insert into cy_merchandiser_table
+  		<set>
+  			name=#{name},
+  			class_type=#{classType},
+  			<if test="parentId!=null">
+  			parent_id=#{parentId},
+  			</if>
+  			<if test="desc!=null">
+  			desc=#{desc},
+  			</if>
+  		</set>
+  </insert>
+  
+  <update id="updateMerchan" parameterType="com.blueair.bean.Merchandiser">
+  		update cy_merchandiser_table
+  		<set>
+  			name=#{name},
+  			class_type=#{classType},
+  			<if test="parentId!=null">
+  			parent_id=#{parentId},
+  			</if>
+  			<if test="desc!=null">
+  			desc=#{desc},
+  			</if>
+  		</set>
+  		where merch_id=#{merchId}
+  </update>
+  
+  <delete id="deleteMerchan" parameterType="Integer">
+  		delete from cy_merchandiser_table where merch_id=#{id}
+  </delete>
+  
+  <select id="queryMerchandisers" resultMap="BaseResultMap">
+  		select 
+  		<include refid="BASIC_Column_List"/>
+		from   cy_merchandiser_table
+		where name like CONCAT('%',#{name,jdbcType=VARCHAR},'%') 
+		and desc like CONCAT('%',#{desc,jdbcType=VARCHAR},'%')
+		limit #{firstItem},#{pageSize}
+  </select>
+  <select id="queryMerchandisersCount" resultType="Integer">
+  		select count(0)
+		from   cy_merchandiser_table
+		where name like CONCAT('%',#{name,jdbcType=VARCHAR},'%') 
+		and desc like CONCAT('%',#{desc,jdbcType=VARCHAR},'%')
+  </select>
+  <select id="queryMerchandiser" parameterType="Integer" resultMap="DetailResultMap">
+  		select 
+  		<include refid="BASIC_Column_List"/>
+		from   cy_merchandiser_table
+		where merch_id=#{id}
+  </select>
+  <select id="queryMerchanKey" resultMap="KeyResultMap">
+  		select 
+  		<include refid="KEY_Column_List"/>
+  		from cy_merchandiser_table
+  		where merch_id=#{parentId}
+  </select>
+</mapper>

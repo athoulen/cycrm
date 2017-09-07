@@ -7,12 +7,12 @@
     <result column="desc" property="desc" jdbcType="VARCHAR" />
   </resultMap>
   
-  <sql id="LOG_BASIC_Column_List" >
+  <sql id="BASIC_Column_List" >
   		area_id,area_name,desc
   </sql>
   <select id="queryForAllZones">
-  	select 
-  	<include refid="LOG_BASIC_Column_List"/>
-  	from cy_area_info_table
+	  	select 
+	  	<include refid="BASIC_Column_List"/>
+	  	from cy_area_info_table	
   </select>
 </mapper>

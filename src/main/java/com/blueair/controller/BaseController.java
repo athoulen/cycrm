@@ -3,6 +3,7 @@ package com.blueair.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -75,7 +76,7 @@ public class BaseController {
 		return output;
 	}
 	
-	public ModelMap rightPageListResult(ModelMap map,String message,String objectName,HashMap<String, Object> bean) {
+	public ModelMap rightPageListResult(ModelMap map,String message,String objectName,Map<String, Object> bean) {
 		ModelMap output = map;
 		if (output == null) {
 			output = new ModelMap();

@@ -4,6 +4,8 @@
 <configuration>
 	<mappers>
 		<mapper resource="orm/UserMapper.xml"/>
+		<mapper resource="orm/ZoneMapper.xml"/>
+		<mapper resource="orm/MerchanMapper.xml"/>
 	</mappers>
 </configuration>
 

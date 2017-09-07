@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2017-09-05 18:06:00
+Date: 2017-09-07 15:17:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -57,6 +57,23 @@ INSERT INTO `cy_city_info_table` VALUES ('4', '1', '周口', null);
 INSERT INTO `cy_city_info_table` VALUES ('5', '1', '漯河', null);
 
 -- ----------------------------
+-- Table structure for cy_merchandiser_table
+-- ----------------------------
+DROP TABLE IF EXISTS `cy_merchandiser_table`;
+CREATE TABLE `cy_merchandiser_table` (
+  `merch_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `class_type` int(255) NOT NULL,
+  `parent_id` int(11) DEFAULT '0',
+  `desc` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`merch_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of cy_merchandiser_table
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for cy_user_info_table
 -- ----------------------------
 DROP TABLE IF EXISTS `cy_user_info_table`;
@@ -65,7 +82,7 @@ CREATE TABLE `cy_user_info_table` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `area_code` int(255) DEFAULT '0',
-  `type` varchar(255) NOT NULL COMMENT '管理员类型 0为普通权限；1为全部区域权限；2为超级管理员权限',
+  `type` varchar(255) NOT NULL DEFAULT '0' COMMENT '管理员类型 0为普通权限；1为全部区域权限；2为超级管理员权限',
   `last_log` varchar(255) DEFAULT NULL COMMENT '上次登录时间',
   `login_times` bigint(20) DEFAULT '0' COMMENT '登录次数',
   PRIMARY KEY (`id`)
