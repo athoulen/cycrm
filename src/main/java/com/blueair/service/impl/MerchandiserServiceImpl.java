@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.blueair.bean.Merchandiser;
 import com.blueair.service.IMerchandiserService;
-
+@Service("merchanService")
 public class MerchandiserServiceImpl extends BaseServiceImpl implements IMerchandiserService {
 
 	@Override
@@ -57,5 +59,11 @@ public class MerchandiserServiceImpl extends BaseServiceImpl implements IMerchan
 	@Override
 	public Merchandiser queryMerchandiser(Integer id) throws Exception{
 		return getBaseDao().queryForObject("MerchanMapper.queryMerchandiser", id, Merchandiser.class);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<String, Object> queryForMerchanMap(){
+		return getBaseDao().queryForMap("MerchanMapper.queryForMerchanMap", null, "name", "merchanId");
 	}
 }

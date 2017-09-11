@@ -2,10 +2,14 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <settings>  
+        <setting name="logImpl" value="LOG4J"/>  
+    </settings>  
 	<mappers>
 		<mapper resource="orm/UserMapper.xml"/>
 		<mapper resource="orm/ZoneMapper.xml"/>
 		<mapper resource="orm/MerchanMapper.xml"/>
+		<mapper resource="orm/ProductMapper.xml"/>
 	</mappers>
 </configuration>
 

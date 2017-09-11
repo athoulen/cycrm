@@ -246,6 +246,10 @@ public final class ConvertUtil {
 		return beans;
 	}
 	
+	public static <T> List<T> convertList2Beans(List<Map<String, Object>> list, Class<T> clz) {
+		return BeanUtil.convertList2Beans(list, clz);
+	}
+	
 	public static List<Map<String, Object>> convertBeans2List(Object... objects) {
 		return BeanUtil.convertBeans2List(objects);
 	}

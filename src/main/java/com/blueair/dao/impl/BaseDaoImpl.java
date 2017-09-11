@@ -1,15 +1,18 @@
 package com.blueair.dao.impl;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.executor.result.DefaultResultContext;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.blueair.dao.IBaseDao;
 import com.blueair.util.ConvertUtil;
-
+import com.blueair.util.MapResultHandler;
  
 
 /**
@@ -154,6 +157,32 @@ public class BaseDaoImpl implements IBaseDao {
 		List<Map<String, Object>> list = sqlSession.selectList(sqlId, param);
 		List<Map<String, Object>> beans = ConvertUtil.convertSqlMap2JavaMap(list);
 		return beans;
+	}
+	
+	/**
+	 * 查询Map集合
+	 * 
+	 * @param sqlId
+	 *            脚本编号
+	 * @param params
+	 *            参数
+	 * @return 列表
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Map queryForMap(String sqlId, Map<String, Object> param, String mapKey, String mapValue) {
+
+		List list = this.sqlSession.selectList(sqlId, param, RowBounds.DEFAULT);
+		MapResultHandler mapResultHandler = new MapResultHandler(mapKey, mapValue, this.sqlSession);
+		DefaultResultContext context = new DefaultResultContext();
+
+		for (Iterator it = list.iterator(); it.hasNext();) {
+			Object o = it.next();
+			context.nextResultObject(o);
+			mapResultHandler.handleResult(context);
+		}
+
+		Map selectedMap = mapResultHandler.getMappedResults();
+		return selectedMap;
 	}
 
 	/**

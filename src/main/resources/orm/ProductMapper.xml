@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.blueair.bean.Merchandiser" >
+    <id column="product_id" property="id" jdbcType="INTEGER" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_norms" property="productNorms" jdbcType="VARCHAR" />
+    <result column="manufacture" property="manufacture" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="CacadeMap" type="java.util.Map" >
+    <id column="manufacture" property="manufacture" jdbcType="VARCHAR" />
+    <collection property="productName" column="{manufacture=manufacture}" 
+    ofType="java.util.Map"
+    select="ProductMapper.queryProductName"/>
+  </resultMap>
+  
+  <resultMap type="java.util.Map" id="ProductNameMap">
+  	<id column="product_name" property="productName" jdbcType="VARCHAR"/>
+  	<collection property="productNorms" column="{manufacture=manufacture,productName=product_name}" 
+  	ofType="java.util.Map"
+  	select="ProductMapper.queryProductNorms" />
+  </resultMap>
+  
+  <select id="getProductCountByNameAndId" resultType="Integer">
+  		select count(0) from cy_product_table 
+  		where product_name=#{productName} and product_norms=#{productNorms}
+  		and manufacture=#{manufacture}
+  		<if test="id!=null">
+  		and product_id!=#{id}
+  		</if>
+  </select>
+  <insert id="insertProduct" useGeneratedKeys="true" keyProperty="id">
+  		insert into cy_product_table
+  		<set>
+  			product_name=#{productName},
+  			product_norms=#{productNorms},
+  			manufacture=#{manufacture}
+  		</set>
+  </insert>
+  <update id="updateProduct">
+  		update cy_product_table
+  		<set>
+  			product_name=#{productName},
+  			product_norms=#{productNorms},
+  			manufacture=#{manufacture}
+  		</set>
+  		where product_id=#{id}
+  </update>
+  
+  <select id="queryProductById" resultMap="BaseResultMap">
+  		select * from cy_product_table
+  		where product_id=#{id}
+  </select>
+  
+  <select id="queryProductsBlur" resultMap="BaseResultMap">
+  		select * from cy_product_table
+  		where product_name like CONCAT('%',#{productName,jdbcType=VARCHAR},'%') 
+  		and product_norms like CONCAT('%',#{productNorms,jdbcType=VARCHAR},'%') 
+  		and manufacture like CONCAT('%',#{manufacture,jdbcType=VARCHAR},'%')
+  		limit #{firstItem},#{pageSize}
+  </select>
+  
+  <select id="queryProductsCount" resultType="Integer">
+  		select count(0) from cy_product_table
+  		where product_name like CONCAT('%',#{productName,jdbcType=VARCHAR},'%') 
+  		and product_norms like CONCAT('%',#{productNorms,jdbcType=VARCHAR},'%') 
+  		and manufacture like CONCAT('%',#{manufacture,jdbcType=VARCHAR},'%')
+  </select>
+  
+  <select id="loadProductsCas" resultMap="CacadeMap">
+  		select distinct manufacture from cy_product_table
+  </select>
+  
+  <select id="queryProductName" resultMap="ProductNameMap">
+  		select distinct product_name,manufacture  from cy_product_table
+  		where manufacture='${manufacture}'
+  </select>
+  
+  <select id="queryProductNorms" resultType="java.util.Map">
+  		select product_id as productId,product_norms as productNorms  from cy_product_table
+  		where manufacture='${manufacture}' and product_name='${productName}'
+  </select>
+  
+  <select id="loadProductsManufacture" resultType="String">
+  		select manufacture from cy_product_table
+  </select>
+</mapper>

@@ -7,6 +7,16 @@
     <result column="desc" property="desc" jdbcType="VARCHAR" />
   </resultMap>
   
+  <resultMap type="java.util.Map" id="AreaResultMap">
+  	<id column="area_id" property="areaId" jdbcType="INTEGER" />
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap type="java.util.Map" id="CityResultMap">
+  	<id column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <sql id="BASIC_Column_List" >
   		area_id,area_name,desc
   </sql>
@@ -14,5 +24,11 @@
 	  	select 
 	  	<include refid="BASIC_Column_List"/>
 	  	from cy_area_info_table	
+  </select>
+  <select id="queryForAreaInfoMap" resultMap="AreaResultMap">
+  		select area_id,area_name from cy_area_info_table
+  </select>
+  <select id="queryForCityInfoMap" resultMap="CityResultMap">
+  		select city_id,city_name from cy_city_info_table
   </select>
 </mapper>

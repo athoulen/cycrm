@@ -45,4 +45,10 @@ public interface IMerchandiserService {
 	 * @throws Exception
 	 */
 	public Merchandiser queryMerchandiser(Integer id) throws Exception;
+
+	/**
+	 * 查询商业公司名称与ID对应Map
+	 * @return
+	 */
+	public Map<String, Object> queryForMerchanMap();
 }

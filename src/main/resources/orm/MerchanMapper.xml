@@ -9,7 +9,11 @@
     <result column="desc" property="desc" jdbcType="VARCHAR" />
   </resultMap>
   
-  <resultMap id="BaseResultMap" type="com.blueair.bean.MerchandiserKey" >
+  <resultMap id="KeyResultMap" type="com.blueair.bean.MerchandiserKey" >
+    <id column="merch_id" property="merchId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultInfoMap" type="java.util.Map" >
     <id column="merch_id" property="merchId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
@@ -83,5 +87,11 @@
   		<include refid="KEY_Column_List"/>
   		from cy_merchandiser_table
   		where merch_id=#{parentId}
+  </select>
+  
+  <select id="queryForMerchanMap" resultMap="BaseResultInfoMap">
+		select   
+		<include refid="KEY_Column_List"/>
+		from cy_merchandiser_table
   </select>
 </mapper>
