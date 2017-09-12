@@ -29,7 +29,12 @@
   		merch_id,name
   </sql>
   
-  <insert id="insertMerchan" parameterType="com.blueair.bean.Merchandiser">
+  <select id="queryDuplicateMerchan" resultType="Integer">
+  		select count(0) from cy_merchandiser_table
+  		where name=#{name}
+  </select>
+  
+  <insert id="insertMerchan" parameterType="java.util.Map">
   		insert into cy_merchandiser_table
   		<set>
   			name=#{name},
@@ -40,6 +45,8 @@
   			<if test="desc!=null">
   			desc=#{desc},
   			</if>
+  			create_by=#{operator},
+  			create_time=#{createTime}
   		</set>
   </insert>
   

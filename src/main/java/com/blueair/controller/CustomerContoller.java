@@ -22,14 +22,19 @@ import com.blueair.bean.CustomerExcel;
 import com.blueair.bean.Product;
 import com.blueair.cache.CustomerCache;
 import com.blueair.cache.MerchanCache;
+import com.blueair.service.ICustomerService;
 import com.blueair.service.IProductService;
+import com.blueair.util.DataCheckUtil;
 import com.blueair.util.DateUtil;
+import com.blueair.util.JsonUtil;
 import com.blueair.util.PoiExcelUtil;
 import com.blueair.web.exception.ServiceException;
 
 @RestController
 @RequestMapping("customer")
 public class CustomerContoller extends BaseController {
+	@Autowired
+	private ICustomerService customerService;
 	
 	private Logger logger=LoggerFactory.getLogger(CustomerContoller.class);
 
@@ -154,5 +159,84 @@ public class CustomerContoller extends BaseController {
 		return backPeriod;
 	}*/
 	
+	/**
+	 * 添加客户
+	 * @param request
+	 * @param json
+	 * @return
+	 */
+	@RequestMapping("/insert/one")
+	public ModelMap insertCustomer(HttpServletRequest request,String json){
+		Customer customer = JsonUtil.convertJson2Object(json, Customer.class);
+		int result=customerService.insertCustomer(customer);
+		switch (result) {
+		case 1:
+			return rightResult(null, "添加成功！");
+		case 0:
+			return errorResult("服务故障，未添加成功！");
+		case -1:
+			return errorResult("客户名重复，未添加成功！");
+		default:
+			return errorResult("未知错误！");
+		}
+	}
 	
+	/**
+	 * 修改客户
+	 * @param request
+	 * @param json
+	 * @return
+	 */
+	@RequestMapping("/update/one")
+	public ModelMap updateCustomer(HttpServletRequest request,String json){
+		Customer customer = JsonUtil.convertJson2Object(json, Customer.class);
+		int result=customerService.updateCustomer(customer);
+		switch (result) {
+		case 1:
+			return rightResult(null, "修改成功！");
+		case 0:
+			return errorResult("服务故障，未修改成功！");
+		case -1:
+			return errorResult("客户名重复，未修改成功！");
+		default:
+			return errorResult("未知错误！");
+		}
+	}
+	
+	/**
+	 * ID查询客户
+	 * @param request
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/query/one/{id:\\d+}")
+	public ModelMap queryCustomerById(HttpServletRequest request,Integer id){
+		return rightObjectResult(null, "查询成功！", "customer", customerService.queryCustomerById(id));
+	}
+	
+	/**
+	 * 模糊查询客户列表，可分页与不分页
+	 * @param request
+	 * @param customer
+	 * @param page
+	 * @param pageSize
+	 * @param flag		1：分页	0：不分页
+	 * @return
+	 */
+	@RequestMapping("/query/list")
+	public ModelMap queryCustomers(HttpServletRequest request,Customer customer,int page,int pageSize,int flag){
+		if(DataCheckUtil.isStringEmpty(customer.getCustomerName())){
+			customer.setCustomerName("");
+		}
+		if(DataCheckUtil.isStringEmpty(customer.getPhone())){
+			customer.setPhone("");
+		}
+		int firstItem=(page-1)*pageSize;
+		Map<String, Object> customers = customerService.queryCustomersBlur(customer, firstItem, pageSize, flag);
+		if(flag==1){
+			return rightPageListResult(null, "查询成功！", "customers", customers);
+		}else{
+			return rightObjectResult(null, "查询成功！", "customers", customers);
+		}
+	}
 }

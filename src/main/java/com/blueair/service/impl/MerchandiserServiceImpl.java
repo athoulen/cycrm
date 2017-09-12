@@ -8,18 +8,21 @@ import org.springframework.stereotype.Service;
 
 import com.blueair.bean.Merchandiser;
 import com.blueair.service.IMerchandiserService;
+import com.blueair.shiro.util.Generator;
+import com.blueair.util.ConvertUtil;
+import com.blueair.util.OperateUtil;
 @Service("merchanService")
 public class MerchandiserServiceImpl extends BaseServiceImpl implements IMerchandiserService {
 
 	@Override
 	public int addMerchandiser(Merchandiser merchan) {
-		Map<String, Object> params=new HashMap<>();
-		params.put("name", merchan.getName());
+		Map<String, Object> params=ConvertUtil.convertBean2Map(merchan);
 		int count=getBaseDao().queryForObject("MerchanMapper.queryDuplicateMerchan", params,Integer.class);
 		if(count>0){
 			return -1;
 		}
-		int result = getBaseDao().insert("MerchanMapper.insertMerchan", merchan);
+		OperateUtil.insertOperatorInfo(params);
+		int result = getBaseDao().insert("MerchanMapper.insertMerchan", params);
 		if(result>0){
 			return 1;
 		}
