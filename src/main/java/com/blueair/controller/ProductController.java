@@ -121,7 +121,7 @@ public class ProductController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("/query/list")
-	public ModelMap queryForProductsBlur(HttpServletRequest request,Product product,int page,int pageSize){
+	public ModelMap queryForProductsBlur(HttpServletRequest request,Product product,int page,int pageSize,int flag){
 		if (DataCheckUtil.isStringEmpty(product.getProductName())) {
 			product.setProductName("");
 		}
@@ -133,8 +133,12 @@ public class ProductController extends BaseController {
 		}
 		int firstItem=(page-1)*pageSize;
 		try {
-			Map<String, Object> bean=productService.queryForProductsBlur(product,firstItem,pageSize);
-			return rightPageListResult(null, "查询成功！", "products", bean);
+			Map<String, Object> bean=productService.queryForProductsBlur(product,firstItem,pageSize,flag);
+			if(flag==1){
+				return rightPageListResult(null, "查询成功！", "products", bean);
+			}else{
+				return rightObjectResult(null, "查询成功！", "products", bean);
+			}
 		} catch (ServiceException e) {
 			logger.debug("产品列表模糊查询故障{}",e);
 			return errorResult("查询失败！");
@@ -160,10 +164,32 @@ public class ProductController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("/query/prodName")
-	public ModelMap loadProductsName(HttpServletRequest request,String maf){
-		List<String> list=productService.loadProductsManufacture();
+	public ModelMap queryProductsNameByMaf(HttpServletRequest request,String maf){
+		List<Map<String, Object>> list=productService.queryProductsNameByMaf(maf);
 		return rightObjectResult(null, "查询成功！", "products", list);
 	}
 	
+	/**
+	 * 通过生成厂家和产品名称查询规格与ID
+	 * @param request
+	 * @param maf
+	 * @param productName
+	 * @return
+	 */
+	@RequestMapping("/query/prodNorms")
+	public ModelMap queryProductsByNameAndMaf(HttpServletRequest request,String maf,String productName){
+		List<Map<String, Object>> list=productService.queryProductsByNameAndMaf(maf,productName);
+		return rightObjectResult(null, "查询成功！", "products", list);
+	}
+	
+	/**
+	 * 联查产品列表
+	 * @return
+	 */
+	@RequestMapping("/query/cas")
+	public ModelMap loadProductsCas() {
+		List<Map<String, Object>> products = productService.loadProductsCas();
+		return rightObjectResult(null, "查询成功！", "products", products);
+	}
 	
 }

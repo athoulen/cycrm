@@ -39,11 +39,30 @@ public interface IProductService {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public Map<String, Object> queryForProductsBlur(Product product, int firstItem, int pageSize) throws ServiceException ;
+	public Map<String, Object> queryForProductsBlur(Product product, int firstItem, int pageSize,int flag) throws ServiceException ;
 
 	/**
-	 * 级联查询产品列表
+	 * 联查产品列表
+	 * @return
+	 */
+	public List<Map<String, Object>> loadProductsCas();
+	/**
+	 * 查询生产厂家
 	 * @return
 	 */
 	public List<String> loadProductsManufacture();
+
+	/**
+	 * 通过生产厂家查询产品名称
+	 * @return
+	 */
+	public List<Map<String, Object>> queryProductsNameByMaf(String maf);
+
+	/**
+	 * 通过生成厂家和产品名称查询规格与ID
+	 * @param maf
+	 * @param productName
+	 * @return
+	 */
+	public List<Map<String, Object>> queryProductsByNameAndMaf(String maf, String productName);
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="ProductMapper" >
-  <resultMap id="BaseResultMap" type="com.blueair.bean.Merchandiser" >
+  <resultMap id="BaseResultMap" type="com.blueair.bean.Product" >
     <id column="product_id" property="id" jdbcType="INTEGER" />
     <result column="product_name" property="productName" jdbcType="VARCHAR" />
     <result column="product_norms" property="productNorms" jdbcType="VARCHAR" />
@@ -58,7 +58,9 @@
   		where product_name like CONCAT('%',#{productName,jdbcType=VARCHAR},'%') 
   		and product_norms like CONCAT('%',#{productNorms,jdbcType=VARCHAR},'%') 
   		and manufacture like CONCAT('%',#{manufacture,jdbcType=VARCHAR},'%')
+  		<if test="flag==1">
   		limit #{firstItem},#{pageSize}
+  		</if>
   </select>
   
   <select id="queryProductsCount" resultType="Integer">
@@ -83,6 +85,16 @@
   </select>
   
   <select id="loadProductsManufacture" resultType="String">
-  		select manufacture from cy_product_table
+  		select distinct manufacture from cy_product_table
+  </select>
+  
+  <select id="queryProductsNameByMaf" resultType="java.util.Map">
+  		select distinct product_name,manufacture from cy_product_table
+  		where manufacture="昆明中药"
+  </select>
+  
+  <select id="queryProductsByNameAndMaf" resultType="java.util.Map">
+  		select product_id as productId,product_norms as productNorms from
+  		cy_product_table where manufacture=#{manufacture} and product_name=#{productName} 
   </select>
 </mapper>

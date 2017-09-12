@@ -76,12 +76,13 @@ public class ProductServiceImpl extends BaseServiceImpl implements IProductServi
 	}
 
 	@Override
-	public Map<String, Object> queryForProductsBlur(Product product, int firstItem, int pageSize)
+	public Map<String, Object> queryForProductsBlur(Product product, int firstItem, int pageSize,int flag)
 			throws ServiceException {
 		Map<String, Object> resultMap=new HashMap<>();
 		Map<String, Object> params=ConvertUtil.convertBean2Map(product);
 		params.put("firstItem", firstItem);
 		params.put("pageSize", pageSize);
+		params.put("flag", flag);
 		List<Product> products=getBaseDao().queryForList("ProductMapper.queryProductsBlur", params, Product.class);
 		Integer totalCount=getBaseDao().queryForObject("ProductMapper.queryProductsCount", params, Integer.class);
 		resultMap.put("list", products);
@@ -93,6 +94,26 @@ public class ProductServiceImpl extends BaseServiceImpl implements IProductServi
 	public List<String> loadProductsManufacture() {
 		List<String> list = getBaseDao().queryForList("ProductMapper.loadProductsManufacture", null,String.class);
 		return list;
+	}
+
+	@Override
+	public List<Map<String,Object>> queryProductsNameByMaf(String maf) {
+		Map<String, Object> params=new HashMap<>();
+		params.put("manufacture", maf);
+		return getBaseDao().queryForList("ProductMapper.queryProductsNameByMaf", params);
+	}
+
+	@Override
+	public List<Map<String, Object>> queryProductsByNameAndMaf(String maf, String productName) {
+		Map<String, Object> params=new HashMap<>();
+		params.put("manufacture", maf);
+		params.put("productName", productName);
+		return getBaseDao().queryForList("ProductMapper.queryProductsByNameAndMaf", params);
+	}
+
+	@Override
+	public List<Map<String, Object>> loadProductsCas() {
+		return getBaseDao().queryForList("ProductMapper.loadProductsCas", null);
 	}
 
 	
