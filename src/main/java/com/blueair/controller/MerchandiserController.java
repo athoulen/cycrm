@@ -1,5 +1,6 @@
 package com.blueair.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blueair.bean.Merchandiser;
+import com.blueair.bean.MerchandiserKey;
 import com.blueair.constant.AdminConstants;
 import com.blueair.service.IMerchandiserService;
 import com.blueair.shiro.util.Generator;
@@ -144,4 +146,28 @@ public class MerchandiserController extends BaseController {
 			logger.debug("Merchan查询失败",e);
 			return errorResult("查询失败！");	}
 		}
+	
+	/**
+	 * 查询一级商业公司
+	 * @param request
+	 * @param json
+	 * @return
+	 */
+	@RequestMapping("/merchan/uppers")
+	public ModelMap queryUpperMerchandisers(){
+		List<MerchandiserKey> merchanKeys=merchanService.queryUpperMerchandisers();
+		return rightObjectResult(null, "查询成功！", "merchans", merchanKeys);
+	}
+	
+	/**
+	 * 查询二级商业公司
+	 * @param request
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/merchan/lower")
+	public ModelMap queryLowerMerchandisers(HttpServletRequest request,@PathVariable("id") Integer id){
+		List<MerchandiserKey> merchanKeys=merchanService.queryLowerMerchandisers(id);
+		return rightObjectResult(null, "查询成功！", "merchans", merchanKeys);
+	}
 }

@@ -52,6 +52,10 @@
   		select * from cy_product_table
   		where product_id=#{id}
   </select>
+  <select id="queryProductById2" resultMap="BaseResultMap">
+  		select * from cy_product_table
+  		where product_id=#{productId}
+  </select>
   
   <select id="queryProductsBlur" resultMap="BaseResultMap">
   		select * from cy_product_table

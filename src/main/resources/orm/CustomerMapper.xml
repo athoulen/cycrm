@@ -16,6 +16,16 @@
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
   </resultMap>
   
+  <resultMap type="com.blueair.bean.CustomerKey" id="KeyResultMap">
+  	<id column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <id column="serial_code" property="serialCode" jdbcType="VARCHAR" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="deposit_bank" property="depositBank" jdbcType="VARCHAR" />
+    <result column="account_name" property="accountName" jdbcType="VARCHAR" />
+    <result column="account_code" property="accountCode" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <select id="queryCustomerByName" resultType="Integer">
   		select count(0) from cy_customer_table where customer_name=#{customerName}
   		<if test="customerId!=null">
@@ -77,4 +87,8 @@
   		and phone like CONCAT('%',#{phone,jdbcType=VARCHAR},'%')
   </select>
   
+  <select id="queryCustomerKeyInfo" resultMap="KeyResultMap">
+  		select customer_id,serial_code,customer_name,phone,deposit_bank,account_name,account_code
+  		from cy_customer_table where customer_id=#{customerId}
+  </select>
 </mapper>

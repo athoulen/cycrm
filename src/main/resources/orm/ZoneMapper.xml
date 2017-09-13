@@ -31,4 +31,10 @@
   <select id="queryForCityInfoMap" resultMap="CityResultMap">
   		select city_id,city_name from cy_city_info_table
   </select>
+  <select id="queryAreaById" resultMap="AreaResultMap">
+  		select area_id,area_name from cy_area_info_table where area_id=#{zoneId}
+  </select>
+  <select id="queryCityById" resultMap="CityResultMap">
+  		select city_id,city_name from cy_city_info_table where city_id=#{cityId}
+  </select>
 </mapper>

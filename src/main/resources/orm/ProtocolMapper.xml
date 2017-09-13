@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ProtocolMapper" >
+  <resultMap id="BaseResultMap" type="com.blueair.bean.ProtocolBase" >
+    <id column="protocol_id" property="protocolId" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="area_id" property="zoneId" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="upper_merchan" property="upperMerchan" jdbcType="INTEGER" />
+    <result column="lower_merchan" property="lowerMerchan" jdbcType="INTEGER" />
+    <result column="hospital" property="hospital" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="promotion_expense" property="promotionExpense" jdbcType="DOUBLE" />
+    <result column="bail" property="bail" jdbcType="DOUBLE" />
+    <result column="bail_desc" property="bailDesc" jdbcType="VARCHAR" />
+    <result column="switch_expense" property="switchExpense" jdbcType="DOUBLE" />
+    <result column="switch_standard" property="switchStandard" jdbcType="TINYINT" />
+    <result column="switch_amount" property="switchAmount" jdbcType="BIGINT" />
+    <result column="back_period" property="backPeriod" jdbcType="INTEGER" />
+    <result column="rebate_payer" property="rebatePayer" jdbcType="TINYINT" />
+    <result column="rebate" property="rebate" jdbcType="DOUBLE" />
+    <result column="is_honour" property="isHonour" jdbcType="TINYINT" />
+    <result column="protocol_start" property="startTime" jdbcType="VARCHAR" />
+    <result column="protocol_end" property="endTime" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="is_valid" property="isValid" jdbcType="TINYINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="DetailResultMap" type="com.blueair.bean.Protocol" extends="BaseResultMap">
+  	<association property="customer" column="customer_id" select="CustomerMapper.queryCustomerKeyInfo"/>
+    <association property="zone" column="area_id" select="ZoneMapper.queryAreaById"/>
+    <association property="city" column="city_id" select="ZoneMapper.queryCityById"/>
+    <association property="upperMerchanInfo" column="upper_merchan" select="MerchanMapper.queryMerchandiserCas"/>
+    <association property="lowerMerchanInfo" column="lower_merchan" select="MerchanMapper.queryMerchandiserCas"/>
+    <association property="product" column="product_id" select="ProductMapper.queryProductById2"/>
+  </resultMap>
+  
+  <resultMap id="KeyResultMap" type="com.blueair.bean.ProtocolKey" >
+    <id column="protocol_id" property="protocolId" jdbcType="INTEGER" />
+    <result column="customer_name" property="customerName" jdbcType="INTEGER" />
+    <result column="hospital" property="hospital" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="INTEGER" />
+    <result column="promotion_expense" property="promotionExpense" jdbcType="DOUBLE" />
+    <result column="bail" property="bail" jdbcType="DOUBLE" />
+    <result column="switch_expense" property="switchExpense" jdbcType="DOUBLE" />
+    <result column="switch_amount" property="switchAmount" jdbcType="BIGINT" />
+    <result column="back_period" property="backPeriod" jdbcType="INTEGER" />
+    <result column="rebate_payer" property="rebatePayer" jdbcType="TINYINT" />
+    <result column="rebate" property="rebate" jdbcType="DOUBLE" />
+    <result column="protocol_start" property="startTime" jdbcType="VARCHAR" />
+    <result column="protocol_end" property="endTime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap type="com.blueair.bean.ProtocolQueryKey" id="KeyQueryMap">
+  	<result column="customer_id" property="customerId" jdbcType="INTEGER"/>
+    <result column="hospital" property="hospital" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  <select id="queryProtocolByCondition" parameterType="com.blueair.bean.ProtocolBase" resultType="Integer">
+  		select count(0) from cy_customer_protocol_table
+  		where customer_id=#{customerId} and hospital=#{hospital}
+  		and product_id=#{productId}
+  		<if test="protocolId!=null">
+  		and protocol_id!=#{protocolId}
+  		</if>
+  </select>
+  
+  <insert id="insertProtocol" parameterType="com.blueair.bean.ProtocolBase">
+  		insert into cy_customer_protocol_table
+  		<set>
+  			customer_id=#{customerId},
+  			area_id=#{zoneId},
+  			city_id=#{cityId},
+  			upper_merchan=#{upperMerchan},
+  			lower_merchan=#{lowerMerchan},
+  			hospital=#{hospital},
+  			product_id=#{productId},
+  			promotion_expense=#{promotionExpense},
+  			<if test="bail!=null">
+  			bail=#{bail},
+  			</if>
+  			<if test="bailDesc!=null">
+  			bail_desc=#{bailDesc},
+  			</if>
+  			<if test="switchExpense!=null and switchAmount!=null">
+  			switch_expense=#{switchExpense},
+  			switch_standard=#{switchStandard},
+  			switch_amount=#{switchAmount},
+  			</if>
+  			back_period=#{backPeriod},
+  			back_payer=#{backPayer},
+  			<if test="rebate">
+  			rebate=#{rebate},
+  			</if>
+  			is_honour=#{isHonour},
+  			protocol_start=#{startTime},
+  			protocol_end=#{endTime},
+  			type=#{type},
+  			is_valid=#{isValid},
+  			create_by=#{createBy},
+  			create_time=#{createTime}
+  		</set>
+  </insert>
+  
+  <update id="updateProtocol" parameterType="com.blueair.bean.ProtocolBase">
+  		update cy_customer_protocol_table
+  		<set>
+  			customer_id=#{customerId},
+  			area_id=#{zoneId},
+  			city_id=#{cityId},
+  			upper_merchan=#{upperMerchan},
+  			lower_merchan=#{lowerMerchan},
+  			hospital=#{hospital},
+  			product_id=#{productId},
+  			promotion_expense=#{promotionExpense},
+  			<if test="bail!=null">
+  			bail=#{bail},
+  			</if>
+  			<if test="bailDesc!=null">
+  			bail_desc=#{bailDesc},
+  			</if>
+  			<if test="switchExpense!=null and switchAmount!=null">
+  			switch_expense=#{switchExpense},
+  			switch_standard=#{switchStandard},
+  			switch_amount=#{switchAmount},
+  			</if>
+  			back_period=#{backPeriod},
+  			back_payer=#{backPayer},
+  			<if test="rebate">
+  			rebate=#{rebate},
+  			</if>
+  			is_honour=#{isHonour},
+  			protocol_start=#{startTime},
+  			protocol_end=#{endTime},
+  			type=#{type},
+  			is_valid=#{isValid},
+  			update_by=#{updateBy},
+  			update_time=#{updateTime}
+  		</set>
+  		where protocol_id=#{protocolId}
+  </update>
+  
+  <select id="queryProtocolById" resultMap="DetailResultMap">
+  		select * from cy_customer_protocol_table where protocol_id=#{protocolId}
+  </select>
+  
+  <select id="queryProtocolsByCustomerAndHospitalName" resultMap="KeyResultMap">
+		select protocol_id,customer_name,hospital,product_name,promotion_expense,bail,switch_expense,
+		switch_amount,back_period,rebate_payer,rebate,protocol_start,protocol_end
+		from cy_customer_protocol_table cp LEFT JOIN cy_customer_table c ON 	cp.customer_id=c.customer_id 
+		LEFT JOIN cy_product_table p ON cp.product_id=p.product_id
+		WHERE customer_name LIKE CONCAT('%',#{customerName,jdbcType=VARCHAR},'%')
+		AND hospital LIKE CONCAT('%',#{hospital,jdbcType=VARCHAR},'%') AND
+		product_name LIKE	CONCAT('%',#{productName,jdbcType=VARCHAR},'%') AND cp.is_valid=1  
+		ORDER BY cp.create_time DESC limit #{firstItem},#{pageSize}
+  </select>
+  
+  <select id="queryProtocolCountByCustomerAndHospitalName" resultType="Integer">
+  		select count(0)
+		from cy_customer_protocol_table cp LEFT JOIN cy_customer_table c ON 	cp.customer_id=c.customer_id 
+		LEFT JOIN cy_product_table p ON cp.product_id=p.product_id
+		WHERE customer_name LIKE CONCAT('%',#{customerName,jdbcType=VARCHAR},'%')
+		AND hospital LIKE CONCAT('%',#{hospital,jdbcType=VARCHAR},'%') AND
+		product_name LIKE	CONCAT('%',#{productName,jdbcType=VARCHAR},'%') AND cp.is_valid=1
+  </select>
+  
+  <select id="queryProtocolKeyInfo" resultMap="KeyQueryMap">
+  		select customer_id,product_id,hospital from cy_customer_protocol_table
+		WHERE protocol_id=#{id}
+  </select>
+  
+  <select id="queryRelatedInvalidProtocols" resultMap="KeyResultMap">
+		select protocol_id,customer_name,hospital,product_name,promotion_expense,bail,switch_expense,
+		switch_amount,back_period,rebate_payer,rebate,protocol_start,protocol_end
+		from cy_customer_protocol_table cp LEFT JOIN cy_customer_table c ON 	cp.customer_id=c.customer_id 
+		LEFT JOIN cy_product_table p ON cp.product_id=p.product_id
+		WHERE cp.customer_id=#{customerId} AND cp.product_id=#{productId} AND hospital=#{hospital} AND cp.is_valid=0
+		ORDER BY cp.create_time DESC
+  </select>
+  
+  <select id="queryRelatedInvalidProtocolCount" resultType="Integer">
+  		select count(0)
+		from cy_customer_protocol_table cp LEFT JOIN cy_customer_table c ON 	cp.customer_id=c.customer_id 
+		LEFT JOIN cy_product_table p ON cp.product_id=p.product_id
+		WHERE cp.customer_id=#{customerId} AND cp.product_id=#{productId} AND hospital=#{hospital} AND cp.is_valid=0
+  </select>
+</mapper>

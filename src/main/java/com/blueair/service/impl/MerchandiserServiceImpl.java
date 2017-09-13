@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.blueair.bean.Merchandiser;
+import com.blueair.bean.MerchandiserKey;
 import com.blueair.service.IMerchandiserService;
 import com.blueair.shiro.util.Generator;
 import com.blueair.util.ConvertUtil;
@@ -68,5 +69,15 @@ public class MerchandiserServiceImpl extends BaseServiceImpl implements IMerchan
 	@Override
 	public Map<String, Object> queryForMerchanMap(){
 		return getBaseDao().queryForMap("MerchanMapper.queryForMerchanMap", null, "name", "merchanId");
+	}
+
+	@Override
+	public List<MerchandiserKey> queryUpperMerchandisers() {
+		return getBaseDao().queryForList("MerchanMapper.queryUpperMerchandisers", null, MerchandiserKey.class);
+	}
+
+	@Override
+	public List<MerchandiserKey> queryLowerMerchandisers(Integer id) {
+		return getBaseDao().queryForList("MerchanMapper.queryLowerMerchandisers", id, MerchandiserKey.class);
 	}
 }

@@ -3,11 +3,13 @@ package com.blueair.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.blueair.bean.Customer;
 import com.blueair.service.ICustomerService;
 import com.blueair.util.ConvertUtil;
 import com.blueair.util.OperateUtil;
-
+@Service
 public class CustomerServiceImpl extends BaseServiceImpl implements ICustomerService {
 
 	@Override

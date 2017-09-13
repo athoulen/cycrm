@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -210,7 +211,7 @@ public class CustomerContoller extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("/query/one/{id:\\d+}")
-	public ModelMap queryCustomerById(HttpServletRequest request,Integer id){
+	public ModelMap queryCustomerById(HttpServletRequest request,@PathVariable("id") Integer id){
 		return rightObjectResult(null, "查询成功！", "customer", customerService.queryCustomerById(id));
 	}
 	

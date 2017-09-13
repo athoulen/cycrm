@@ -1,8 +1,10 @@
 package com.blueair.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.blueair.bean.Merchandiser;
+import com.blueair.bean.MerchandiserKey;
 
 public interface IMerchandiserService {
 
@@ -51,4 +53,17 @@ public interface IMerchandiserService {
 	 * @return
 	 */
 	public Map<String, Object> queryForMerchanMap();
+
+	/**
+	 * 查询一级商业公司列表
+	 * @return
+	 */
+	public List<MerchandiserKey> queryUpperMerchandisers();
+
+	/**
+	 * 查询二级商业公司列表
+	 * @param id
+	 * @return
+	 */
+	public List<MerchandiserKey> queryLowerMerchandisers(Integer id);
 }

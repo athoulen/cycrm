@@ -89,6 +89,19 @@
 		from   cy_merchandiser_table
 		where merch_id=#{id}
   </select>
+  
+  <select id="queryMerchandiserCas" parameterType="Integer" resultMap="KeyResultMap">
+  		select 
+  		<include refid="KEY_Column_List"/>
+		from   cy_merchandiser_table
+		<if test="upperMerchan!=null">
+		where merch_id=#{upperMerchan}
+		</if>
+		<if test="lowerMerchan!=null">
+		where merch_id=#{lowerMerchan}
+		</if>
+  </select>
+  
   <select id="queryMerchanKey" resultMap="KeyResultMap">
   		select 
   		<include refid="KEY_Column_List"/>
@@ -100,5 +113,17 @@
 		select   
 		<include refid="KEY_Column_List"/>
 		from cy_merchandiser_table
+  </select>
+  
+  <select id="queryUpperMerchandisers" resultMap="KeyResultMap">
+  		select 
+  		<include refid="KEY_Column_List"/>
+  		from cy_merchandiser_table
+  </select>
+  
+  <select id="queryLowerMerchandisers" resultMap="KeyResultMap">
+  		select 
+  		<include refid="KEY_Column_List"/>
+  		from cy_merchandiser_table where parent_id=#{id}
   </select>
 </mapper>
