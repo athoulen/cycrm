@@ -1,7 +1,5 @@
 package com.blueair.controller;
 
-import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blueair.bean.ProtocolBase;
-import com.blueair.bean.ProtocolKey;
 import com.blueair.bean.ProtocolQuery;
-import com.blueair.service.IProductService;
 import com.blueair.service.IProtocolService;
 import com.blueair.util.DataCheckUtil;
 import com.blueair.util.JsonUtil;
