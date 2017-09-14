@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.blueair.bean.MerchanProtocol;
 import com.blueair.bean.MerchanProtocolDetail;
-import com.blueair.controller.bean.MerchanProtocolQuery;
+import com.blueair.bean.MerchanProtocolQuery;
 
 public interface IMerchanProtocolService {
 

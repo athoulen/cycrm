@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blueair.bean.MerchanProtocol;
 import com.blueair.bean.MerchanProtocolDetail;
-import com.blueair.controller.bean.MerchanProtocolQuery;
+import com.blueair.bean.MerchanProtocolQuery;
 import com.blueair.service.IMerchanProtocolService;
 import com.blueair.util.DataCheckUtil;
 import com.blueair.util.JsonUtil;

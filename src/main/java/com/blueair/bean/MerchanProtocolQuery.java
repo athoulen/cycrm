@@ -1,4 +1,4 @@
-package com.blueair.controller.bean;
+package com.blueair.bean;
 
 public class MerchanProtocolQuery {
 

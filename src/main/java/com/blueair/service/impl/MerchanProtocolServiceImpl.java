@@ -6,10 +6,8 @@ import java.util.Map;
 import com.blueair.bean.MerchanProtocol;
 import com.blueair.bean.MerchanProtocolDetail;
 import com.blueair.bean.MerchanProtocolKey;
-import com.blueair.bean.MerchanProtocolL;
-import com.blueair.controller.bean.MerchanProtocolQuery;
+import com.blueair.bean.MerchanProtocolQuery;
 import com.blueair.service.IMerchanProtocolService;
-import com.blueair.shiro.util.Generator;
 import com.blueair.util.ConvertUtil;
 import com.blueair.util.OperateUtil;
 

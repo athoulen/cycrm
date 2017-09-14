@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2017-09-14 17:58:31
+Date: 2017-09-14 22:14:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -167,7 +167,7 @@ INSERT INTO `cy_customer_table` VALUES ('1', 'Y-001', '阿兰', '131222', '招�
 -- ----------------------------
 DROP TABLE IF EXISTS `cy_hospital_table`;
 CREATE TABLE `cy_hospital_table` (
-  `hospital_id` int(11) NOT NULL COMMENT '医院id',
+  `hospital_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '医院id',
   `hospital_name` varchar(255) NOT NULL COMMENT '医院名称',
   `type` tinyint(255) NOT NULL COMMENT '医院类型   1、县级以上医院   2、县级卫生院',
   `create_by` varchar(255) NOT NULL COMMENT '创建人',
@@ -175,11 +175,12 @@ CREATE TABLE `cy_hospital_table` (
   `update_by` varchar(255) DEFAULT NULL COMMENT '修改人',
   `update_time` varchar(255) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`hospital_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of cy_hospital_table
 -- ----------------------------
+INSERT INTO `cy_hospital_table` VALUES ('1', '商丘市人民医院', '1', 'admin', '121346789754', null, null);
 
 -- ----------------------------
 -- Table structure for cy_merchandiser_protocol_table
