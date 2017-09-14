@@ -16,7 +16,7 @@
     <result column="switch_expense" property="switchExpense" jdbcType="DOUBLE" />
     <result column="switch_standard" property="switchStandard" jdbcType="TINYINT" />
     <result column="switch_amount" property="switchAmount" jdbcType="BIGINT" />
-    <result column="back_period" property="backPeriod" jdbcType="INTEGER" />
+    <result column="rebate_period" property="rebatePeriod" jdbcType="INTEGER" />
     <result column="rebate_payer" property="rebatePayer" jdbcType="TINYINT" />
     <result column="rebate" property="rebate" jdbcType="DOUBLE" />
     <result column="is_honour" property="isHonour" jdbcType="TINYINT" />
@@ -48,7 +48,7 @@
     <result column="bail" property="bail" jdbcType="DOUBLE" />
     <result column="switch_expense" property="switchExpense" jdbcType="DOUBLE" />
     <result column="switch_amount" property="switchAmount" jdbcType="BIGINT" />
-    <result column="back_period" property="backPeriod" jdbcType="INTEGER" />
+    <result column="rebate_period" property="rebatePeriod" jdbcType="INTEGER" />
     <result column="rebate_payer" property="rebatePayer" jdbcType="TINYINT" />
     <result column="rebate" property="rebate" jdbcType="DOUBLE" />
     <result column="protocol_start" property="startTime" jdbcType="VARCHAR" />

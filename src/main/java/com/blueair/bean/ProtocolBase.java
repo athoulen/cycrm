@@ -20,7 +20,7 @@ public class ProtocolBase {
 	private Double switchExpense;		//推广费变更价
 	private boolean switchStandard;	//推广费变更标准    true：高于考核数量；false：低于考核数量
 	private Long switchAmount;			//考核数量
-	private Integer backPeriod;				//返款（佣金）周期	 1、月结 2、压批压月 3、60天 4、90天 5、120天
+	private Integer rebatePeriod;				//返款（佣金）周期	 1、月结 2、压批压月 3、60天 4、90天 5、120天
 	private boolean rebatePayer;			//二级返利支付人		true：公司支付；false：客户支付
 	private Double rebate;						//二级返利金额
 	private boolean isHonour;				//是否承兑
@@ -116,11 +116,11 @@ public class ProtocolBase {
 	public void setSwitchAmount(Long switchAmount) {
 		this.switchAmount = switchAmount;
 	}
-	public Integer getBackPeriod() {
-		return backPeriod;
+	public Integer getRebatePeriod() {
+		return rebatePeriod;
 	}
-	public void setBackPeriod(Integer backPeriod) {
-		this.backPeriod = backPeriod;
+	public void setRebatePeriod(Integer rebatePeriod) {
+		this.rebatePeriod = rebatePeriod;
 	}
 	public boolean isRebatePayer() {
 		return rebatePayer;
