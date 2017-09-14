@@ -8,6 +8,7 @@ import java.util.Random;
 
 /**
  * 字符串工具类
+ * @author admin
  */
 public final class StringUtil {
 	/** Private Constructor **/
