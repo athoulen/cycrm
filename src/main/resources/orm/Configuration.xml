@@ -6,10 +6,12 @@
         <setting name="logImpl" value="LOG4J"/>  
     </settings>  
 	<mappers>
-		<mapper resource="orm/UserMapper.xml"/>
-		<mapper resource="orm/ZoneMapper.xml"/>
+		<mapper resource="orm/CustomerMapper.xml"/>
 		<mapper resource="orm/MerchanMapper.xml"/>
 		<mapper resource="orm/ProductMapper.xml"/>
+		<mapper resource="orm/ProtocolMapper.xml"/>
+		<mapper resource="orm/UserMapper.xml"/>
+		<mapper resource="orm/ZoneMapper.xml"/>
 	</mappers>
 </configuration>
 
