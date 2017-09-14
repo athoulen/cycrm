@@ -5,6 +5,7 @@ import java.util.Map;
 public class Protocol extends ProtocolBase {
 
 	private CustomerKey customer;
+	private HospitalKey hospital;
 	private Map<String, Object> zone;
 	private Map<String, Object> city;
 	private MerchandiserKey upperMerchanInfo;
@@ -15,6 +16,12 @@ public class Protocol extends ProtocolBase {
 	}
 	public void setCustomer(CustomerKey customer) {
 		this.customer = customer;
+	}
+	public HospitalKey getHospital() {
+		return hospital;
+	}
+	public void setHospital(HospitalKey hospital) {
+		this.hospital = hospital;
 	}
 	public Map<String, Object> getZone() {
 		return zone;

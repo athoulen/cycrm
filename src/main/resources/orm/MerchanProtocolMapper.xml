@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="MerchanProtocolMapper" >
+  <resultMap id="BaseResultMap" type="com.blueair.bean.MerchanProtocol" >
+    <id column="protocol_id" property="protocolId" jdbcType="INTEGER" />
+    <id column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="protocol_code" property="protocolCode" jdbcType="VARCHAR" />
+    <result column="area_id" property="zoneId" jdbcType="Integer"/>
+    <result column="city_id" property="cityId" jdbcType="Integer"/>
+    <result column="bid_price" property="bidPrice" jdbcType="DOUBLE" />
+    <result column="up_merchan" property="upMerchan" jdbcType="INTEGER" />
+    <result column="lo_merchan" property="loMerchan" jdbcType="INTEGER" />
+    <result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
+    <result column="up_back" property="upBack" jdbcType="DOUBLE" />
+    <result column="lo_back" property="loBack" jdbcType="DOUBLE" />
+    <result column="back_period" property="backPeriod" jdbcType="INTEGER" />
+    <result column="back_style" property="backStyle" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+    <result column="contactor" property="contactor" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="qq" property="qq" jdbcType="VARCHAR" />
+    <result column="is_valid" property="isValid" jdbcType="TINYINT" />
+  </resultMap>
+  
+  <resultMap id="KeyResultMap" type="com.blueair.bean.MerchanProtocolKey" >
+    <id column="protocol_id" property="protocolId" jdbcType="INTEGER" />
+    <id column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="protocol_code" property="protocolCode" jdbcType="VARCHAR" />
+    <result column="bid_price" property="bidPrice" jdbcType="DOUBLE" />
+    <result column="up_merchan" property="upMerchan" jdbcType="INTEGER" />
+    <result column="lo_merchan" property="loMerchan" jdbcType="INTEGER" />
+    <result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
+    <result column="up_back" property="upBack" jdbcType="DOUBLE" />
+    <result column="lo_back" property="loBack" jdbcType="DOUBLE" />
+    <result column="back_period" property="backPeriod" jdbcType="INTEGER" />
+    <result column="back_style" property="backStyle" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+    <association property="hospital" column="hospital_id" select="ZoneMapper.queryHospitalBasic"/>
+    <association property="upMerchanInfo" column="up_merchan" select="MerchanMapper.queryMerchandiserCas"/>
+    <association property="loMerchanInfo" column="lo_merchan" select="MerchanMapper.queryMerchandiserCas"/>
+    <association property="product" column="product_id" select="ProductMapper.queryProductById2"/>
+  </resultMap>
+  
+  <resultMap id="FullResultMap" type="com.blueair.bean.MerchanProtocolL"  extends="BaseResultMap">
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="DetailResultMap" type="com.blueair.bean.MerchanProtocolDetail"  extends="FullResultMap">
+    <association property="zone" column="area_id" select="ZoneMapper.queryAreaById"/>
+    <association property="city" column="city_id" select="ZoneMapper.queryCityById"/>
+    <association property="hospital" column="hospital_id" select="ZoneMapper.queryHospitalBasic"/>
+    <association property="upMerchanInfo" column="up_merchan" select="MerchanMapper.queryMerchandiserCas"/>
+    <association property="loMerchanInfo" column="lo_merchan" select="MerchanMapper.queryMerchandiserCas"/>
+    <association property="product" column="product_id" select="ProductMapper.queryProductById2"/>
+  </resultMap>
+  
+  <select id="queryDuplicatedProtocol" resultType="Integer">
+  	SELECT COUNT(0) from cy_merchandiser_protocol_table 
+  	WHERE product_id=#{productlId} AND hospital_id=#{hospitalId} AND up_merchan=#{upMerchan} and is_Valid=1
+  	<if test="protocolId!=null">
+  	and protocol_id!=#{protocolId}
+  	</if>
+  </select>
+  
+  <insert id="insertMerchanProtocol">
+	  	insert into cy_merchandiser_protocol_table
+	  	<set>
+	  		product_id=#{productId},
+	  		protocol_code=#{protocolCode},
+	  		bid_price=#{bidPrice},
+	  		up_merchan=#{upMerchan},
+	  		lo_merchan=#{loMerchan},
+	  		hospital_id=#{hospitalId},
+	  		up_back=#{upBack},
+	  		lo_back=#{loBack},
+	  		back_period=#{backPeriod},
+	  		back_style=#{backStyle},
+	  		start_time=#{startTime},
+	  		end_time=#{endTime},
+	  		contactor=#{contactor},
+	  		phone=#{phone},
+	  		qq=#{qq},
+	  		is_valid=#{isValid}，
+	  		create_by=#{createBy},
+	  		create_time=#{createTime}
+	  	</set>
+  </insert>
+  
+  <update id="updateMerchanProtocol">
+  		update cy_merchandiser_protocol_table
+  		<set>
+  				<if test="productId!=null">
+		  		product_id=#{productId},
+		  		</if>
+		  		<if test="protocolCode!=null">
+		  		protocol_code=#{protocolCode},
+		  		</if>
+		  		<if test="bidPrice!=null">
+		  		bid_price=#{bidPrice},
+		  		</if>
+		  		<if test="upMerchan!=null">
+		  		up_merchan=#{upMerchan},
+		  		</if>
+		  		<if test="loMerchan!=null">
+		  		lo_merchan=#{loMerchan},
+		  		</if>
+		  		<if test="hospitalId!=null">
+		  		hospital_id=#{hospitalId},
+		  		</if>
+		  		<if test="upBack!=null">
+		  		up_back=#{upBack},
+		  		</if>
+		  		<if test="loBack!=null">
+		  		lo_back=#{loBack},
+		  		</if>
+		  		<if test="backPeriod!=null">
+		  		back_period=#{backPeriod},
+		  		</if>
+		  		<if test="backStyle!=null">
+		  		back_style=#{backStyle},
+		  		</if>
+		  		<if test="startTime!=null">
+		  		start_time=#{startTime},
+		  		</if>
+		  		<if test="endTime!=null">
+		  		end_time=#{endTime},
+		  		</if>
+		  		<if test="contactor!=null">
+		  		contactor=#{contactor},
+		  		</if>
+		  		<if test="phone!=null">
+		  		phone=#{phone},
+		  		</if>
+		  		<if test="qq!=null">
+		  		qq=#{qq},
+		  		</if>
+		  		is_valid=#{isValid}，
+		  		update_by=#{updateBy},
+		  		update_time=#{updateTime}
+	  	</set>
+	  	where product_id=#{productId}
+  </update>
+  
+  <select id="queryMerchanProtocol" resultMap="DetailResultMap">
+  		SELECT * FROM cy_merchandiser_protocol_table
+  </select>
+  
+  <select id="queryMerchanProtocols" resultMap="KeyResultMap">
+  		SELECT * FROM cy_merchandiser_protocol_table mp LEFT JOIN cy_product_table p ON mp.product_id=p.product_id
+		LEFT JOIN cy_hospital_table h ON mp.hospital_id=h.hospital_id
+		 WHERE p.product_name LIKE CONCAT('%',#{productName,jdbcType=VARCHAR},'%')
+		 AND h.hospital_name LIKE CONCAT('%',#{hospital,jdbcType=VARCHAR},'%')
+		AND p.product_norms LIKE CONCAT('%',#{productNorms,jdbcType=VARCHAR},'%') 
+		and mp.protocol_code LIKE CONCAT('%',#{protocolCode,jdbcType=VARCHAR},'%')
+		order by mp.create_time DESC
+		<if test="flag==1">
+		limit #{firstItem},#{pageSize}
+		</if>
+  </select>
+  
+  <select id="queryMerchanProtocols" resultType="Integer">
+  		SELECT count(0) FROM cy_merchandiser_protocol_table mp LEFT JOIN cy_product_table p ON mp.product_id=p.product_id
+		LEFT JOIN cy_hospital_table h ON mp.hospital_id=h.hospital_id
+		 WHERE p.product_name LIKE CONCAT('%',#{productName,jdbcType=VARCHAR},'%')
+		 AND h.hospital_name LIKE CONCAT('%',#{hospital,jdbcType=VARCHAR},'%')
+		AND p.product_norms LIKE CONCAT('%',#{productNorms,jdbcType=VARCHAR},'%') 
+		and mp.protocol_code LIKE CONCAT('%',#{protocolCode,jdbcType=VARCHAR},'%') 
+  </select>
+</mapper>

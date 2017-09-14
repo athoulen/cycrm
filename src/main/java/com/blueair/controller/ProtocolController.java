@@ -144,7 +144,7 @@ public class ProtocolController extends BaseController {
 		if(DataCheckUtil.isIntegerEmpty(protocol.getUpperMerchan())){
 			return errorResult("一级商业ID不能为空");
 		}
-		if(DataCheckUtil.isStringEmpty(protocol.getHospital())){
+		if(DataCheckUtil.isIntegerEmpty(protocol.getHospitalId())){
 			return errorResult("医院不能为空");
 		}
 		if(DataCheckUtil.isIntegerEmpty(protocol.getProductId())){
@@ -153,7 +153,7 @@ public class ProtocolController extends BaseController {
 		if(DataCheckUtil.isDoubleEmpty(protocol.getPromotionExpense())){
 			return errorResult("推广费不能为空");
 		}
-		if(DataCheckUtil.isIntegerEmpty(protocol.getBackPeriod())){
+		if(DataCheckUtil.isIntegerEmpty(protocol.getRebatePeriod())){
 			return errorResult("返款周期不能为空");
 		}
 		if(DataCheckUtil.isStringEmpty(protocol.getStartTime())){

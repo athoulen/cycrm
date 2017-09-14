@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="HospitalMapper" >
+  <resultMap id="KeyResultMap" type="com.blueair.bean.HospitalKey" >
+    <id column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
+    <result column="hospital_name" property="hospitalName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="queryHospitalBasic" resultMap="KeyResultMap">
+  		select hospital_id,hospital_name from cy_hospital_table where hospital_id=#{hospitalId}
+  </select>
+</mapper>

@@ -12,7 +12,7 @@ public class ProtocolBase {
 	private Integer cityId;						//地市ID
 	private Integer upperMerchan;		//一级商业ID
 	private Integer lowerMerchan;		//二级商业ID
-	private String hospital;					//医院名称
+	private Integer hospitalId;					//医院ID
 	private Integer productId;				//产品ID
 	private Double promotionExpense;//推广费（佣金）
 	private Double bail;							//保证金
@@ -68,11 +68,11 @@ public class ProtocolBase {
 	public void setLowerMerchan(Integer lowerMerchan) {
 		this.lowerMerchan = lowerMerchan;
 	}
-	public String getHospital() {
-		return hospital;
+	public Integer getHospitalId() {
+		return hospitalId;
 	}
-	public void setHospital(String hospital) {
-		this.hospital = hospital;
+	public void setHospitalId(Integer hospitalId) {
+		this.hospitalId = hospitalId;
 	}
 	public Integer getProductId() {
 		return productId;

@@ -8,7 +8,7 @@
     <result column="city_id" property="cityId" jdbcType="INTEGER" />
     <result column="upper_merchan" property="upperMerchan" jdbcType="INTEGER" />
     <result column="lower_merchan" property="lowerMerchan" jdbcType="INTEGER" />
-    <result column="hospital" property="hospital" jdbcType="VARCHAR" />
+    <result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
     <result column="product_id" property="productId" jdbcType="INTEGER" />
     <result column="promotion_expense" property="promotionExpense" jdbcType="DOUBLE" />
     <result column="bail" property="bail" jdbcType="DOUBLE" />
@@ -32,6 +32,7 @@
   
   <resultMap id="DetailResultMap" type="com.blueair.bean.Protocol" extends="BaseResultMap">
   	<association property="customer" column="customer_id" select="CustomerMapper.queryCustomerKeyInfo"/>
+  	<association property="hospital" column="hospital_id" select="HospitalMapper.queryHospitalBasic"/>
     <association property="zone" column="area_id" select="ZoneMapper.queryAreaById"/>
     <association property="city" column="city_id" select="ZoneMapper.queryCityById"/>
     <association property="upperMerchanInfo" column="upper_merchan" select="MerchanMapper.queryMerchandiserCas"/>
@@ -42,7 +43,7 @@
   <resultMap id="KeyResultMap" type="com.blueair.bean.ProtocolKey" >
     <id column="protocol_id" property="protocolId" jdbcType="INTEGER" />
     <result column="customer_name" property="customerName" jdbcType="INTEGER" />
-    <result column="hospital" property="hospital" jdbcType="VARCHAR" />
+    <result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
     <result column="product_name" property="productName" jdbcType="INTEGER" />
     <result column="promotion_expense" property="promotionExpense" jdbcType="DOUBLE" />
     <result column="bail" property="bail" jdbcType="DOUBLE" />
@@ -57,14 +58,14 @@
   
   <resultMap type="com.blueair.bean.ProtocolQueryKey" id="KeyQueryMap">
   	<result column="customer_id" property="customerId" jdbcType="INTEGER"/>
-    <result column="hospital" property="hospital" jdbcType="VARCHAR" />
+    <result column="hospital_id" property="hospitalId" jdbcType="VARCHAR" />
     <result column="product_id" property="productId" jdbcType="INTEGER" />
   </resultMap>
   
   
   <select id="queryProtocolByCondition" parameterType="com.blueair.bean.ProtocolBase" resultType="Integer">
   		select count(0) from cy_customer_protocol_table
-  		where customer_id=#{customerId} and hospital=#{hospital}
+  		where customer_id=#{customerId} and hospital_id=#{hospitalId}
   		and product_id=#{productId}
   		<if test="protocolId!=null">
   		and protocol_id!=#{protocolId}
@@ -79,7 +80,7 @@
   			city_id=#{cityId},
   			upper_merchan=#{upperMerchan},
   			lower_merchan=#{lowerMerchan},
-  			hospital=#{hospital},
+  			hospital_id=#{hospitalId},
   			product_id=#{productId},
   			promotion_expense=#{promotionExpense},
   			<if test="bail!=null">
@@ -116,7 +117,7 @@
   			city_id=#{cityId},
   			upper_merchan=#{upperMerchan},
   			lower_merchan=#{lowerMerchan},
-  			hospital=#{hospital},
+  			hospital_id=#{hospitalId},
   			product_id=#{productId},
   			promotion_expense=#{promotionExpense},
   			<if test="bail!=null">
@@ -151,27 +152,29 @@
   </select>
   
   <select id="queryProtocolsByCustomerAndHospitalName" resultMap="KeyResultMap">
-		select protocol_id,customer_name,hospital,product_name,promotion_expense,bail,switch_expense,
-		switch_amount,back_period,rebate_payer,rebate,protocol_start,protocol_end
+		select protocol_id,customer_name,cp.hospital_id,product_name,promotion_expense,bail,switch_expense,
+		switch_amount,rebate_period,rebate_payer,rebate,protocol_start,protocol_end
 		from cy_customer_protocol_table cp LEFT JOIN cy_customer_table c ON 	cp.customer_id=c.customer_id 
-		LEFT JOIN cy_product_table p ON cp.product_id=p.product_id
+		LEFT JOIN cy_product_table p ON cp.product_id=p.product_id LEFT JOIN cy_hospital_table h ON
+		cp.hospital_id=h.hospital_id
 		WHERE customer_name LIKE CONCAT('%',#{customerName,jdbcType=VARCHAR},'%')
-		AND hospital LIKE CONCAT('%',#{hospital,jdbcType=VARCHAR},'%') AND
+		AND h.hospital_name  LIKE CONCAT('%',#{hospital,jdbcType=VARCHAR},'%') AND
 		product_name LIKE	CONCAT('%',#{productName,jdbcType=VARCHAR},'%') AND cp.is_valid=1  
 		ORDER BY cp.create_time DESC limit #{firstItem},#{pageSize}
   </select>
   
   <select id="queryProtocolCountByCustomerAndHospitalName" resultType="Integer">
-  		select count(0)
+  		select COUNT(0)
 		from cy_customer_protocol_table cp LEFT JOIN cy_customer_table c ON 	cp.customer_id=c.customer_id 
-		LEFT JOIN cy_product_table p ON cp.product_id=p.product_id
+		LEFT JOIN cy_product_table p ON cp.product_id=p.product_id LEFT JOIN cy_hospital_table h ON
+		cp.hospital_id=h.hospital_id
 		WHERE customer_name LIKE CONCAT('%',#{customerName,jdbcType=VARCHAR},'%')
-		AND hospital LIKE CONCAT('%',#{hospital,jdbcType=VARCHAR},'%') AND
+		AND h.hospital_name LIKE CONCAT('%',#{hospital,jdbcType=VARCHAR},'%') AND
 		product_name LIKE	CONCAT('%',#{productName,jdbcType=VARCHAR},'%') AND cp.is_valid=1
   </select>
   
   <select id="queryProtocolKeyInfo" resultMap="KeyQueryMap">
-  		select customer_id,product_id,hospital from cy_customer_protocol_table
+  		select customer_id,product_id,hospital_id from cy_customer_protocol_table
 		WHERE protocol_id=#{id}
   </select>
   
@@ -180,7 +183,7 @@
 		switch_amount,back_period,rebate_payer,rebate,protocol_start,protocol_end
 		from cy_customer_protocol_table cp LEFT JOIN cy_customer_table c ON 	cp.customer_id=c.customer_id 
 		LEFT JOIN cy_product_table p ON cp.product_id=p.product_id
-		WHERE cp.customer_id=#{customerId} AND cp.product_id=#{productId} AND hospital=#{hospital} AND cp.is_valid=0
+		WHERE cp.customer_id=#{customerId} AND cp.product_id=#{productId} AND hospital_id=#{hospitalId} AND cp.is_valid=0
 		ORDER BY cp.create_time DESC
   </select>
   
@@ -188,6 +191,6 @@
   		select count(0)
 		from cy_customer_protocol_table cp LEFT JOIN cy_customer_table c ON 	cp.customer_id=c.customer_id 
 		LEFT JOIN cy_product_table p ON cp.product_id=p.product_id
-		WHERE cp.customer_id=#{customerId} AND cp.product_id=#{productId} AND hospital=#{hospital} AND cp.is_valid=0
+		WHERE cp.customer_id=#{customerId} AND cp.product_id=#{productId} AND hospital=#{hospitalId} AND cp.is_valid=0
   </select>
 </mapper>

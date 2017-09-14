@@ -4,7 +4,7 @@ public class ProtocolQueryKey {
 
 	private Integer customerId;
 	private Integer productId;
-	private String hospital;
+	private Integer hospitalId;
 	
 	public Integer getCustomerId() {
 		return customerId;
@@ -18,11 +18,10 @@ public class ProtocolQueryKey {
 	public void setProductId(Integer productId) {
 		this.productId = productId;
 	}
-	public String getHospital() {
-		return hospital;
+	public Integer getHospitalId() {
+		return hospitalId;
 	}
-	public void setHospital(String hospital) {
-		this.hospital = hospital;
+	public void setHospitalId(Integer hospitalId) {
+		this.hospitalId = hospitalId;
 	}
-	
 }
