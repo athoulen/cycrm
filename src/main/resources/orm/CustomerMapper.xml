@@ -81,7 +81,7 @@
   		</if>
   </select>
   
-  <select id="queryCustomersCount"  resultType="Integer"">
+  <select id="queryCustomersCount"  resultType="Integer">
   		select count(0) from cy_customer_table 
   		where 	customer_name like CONCAT('%',#{customerName,jdbcType=VARCHAR},'%')
   		and phone like CONCAT('%',#{phone,jdbcType=VARCHAR},'%')
