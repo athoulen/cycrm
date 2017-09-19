@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : cycrm
+Source Server         : crm
 Source Server Version : 50716
 Source Host           : localhost:3306
 Source Database       : cycrm
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2017-09-14 22:14:22
+Date: 2017-09-19 17:13:18
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,31 +36,54 @@ INSERT INTO `cy_area_info_table` VALUES ('4', '豫北大区', null);
 INSERT INTO `cy_area_info_table` VALUES ('5', '郑州大区', null);
 
 -- ----------------------------
--- Table structure for cy_back_period_table
+-- Table structure for cy_back_info_table
 -- ----------------------------
-DROP TABLE IF EXISTS `cy_back_period_table`;
-CREATE TABLE `cy_back_period_table` (
-  `back_period_id` int(11) NOT NULL COMMENT '二级返利周期id',
+DROP TABLE IF EXISTS `cy_back_info_table`;
+CREATE TABLE `cy_back_info_table` (
+  `back_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '二级返利方法ID',
   `back_period_name` varchar(255) NOT NULL COMMENT '二级返利周期名称',
-  PRIMARY KEY (`back_period_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of cy_back_period_table
--- ----------------------------
-
--- ----------------------------
--- Table structure for cy_back_style_table
--- ----------------------------
-DROP TABLE IF EXISTS `cy_back_style_table`;
-CREATE TABLE `cy_back_style_table` (
-  `back_style_id` int(11) NOT NULL COMMENT '二级返利方式id',
   `back_style_name` varchar(255) NOT NULL COMMENT '二级返利形式名称',
-  PRIMARY KEY (`back_style_id`)
+  PRIMARY KEY (`back_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of cy_back_info_table
+-- ----------------------------
+INSERT INTO `cy_back_info_table` VALUES ('1', '季度', '现金');
+INSERT INTO `cy_back_info_table` VALUES ('2', '季度', '票折');
+INSERT INTO `cy_back_info_table` VALUES ('3', '月结', '现金');
+INSERT INTO `cy_back_info_table` VALUES ('4', '月结', '电汇');
+INSERT INTO `cy_back_info_table` VALUES ('5', '季度', '电汇');
+
+-- ----------------------------
+-- Table structure for cy_business_flow_table
+-- ----------------------------
+DROP TABLE IF EXISTS `cy_business_flow_table`;
+CREATE TABLE `cy_business_flow_table` (
+  `flow_id` varchar(32) NOT NULL COMMENT '商业流向id',
+  `sold_unit_id` varchar(32) DEFAULT NULL COMMENT '销售单位id',
+  `accept_unit_id` varchar(32) DEFAULT NULL COMMENT '接收单位id',
+  `company_city_id` varchar(32) DEFAULT NULL COMMENT '公司城市ID',
+  `customer_id` varchar(32) DEFAULT NULL COMMENT '客户ID',
+  `product_id` varchar(32) DEFAULT NULL COMMENT '产品id',
+  `sold_date` varchar(30) DEFAULT NULL COMMENT '出售日期',
+  `sold_month` varchar(10) DEFAULT NULL COMMENT '出售月份',
+  `allocate_goods_num` int(11) DEFAULT NULL COMMENT '调货数量',
+  `sold_goods_num` int(11) DEFAULT NULL COMMENT '销售数量',
+  `sold_price` decimal(10,2) DEFAULT NULL COMMENT '销售价格',
+  `allocate_price` decimal(10,2) DEFAULT NULL COMMENT '调拨价格',
+  `sold_money` decimal(10,2) DEFAULT NULL COMMENT '销售金额',
+  `flag` char(2) DEFAULT NULL COMMENT '记录流向标志,即一级到二级,二级到三级...',
+  `department` varchar(255) DEFAULT NULL COMMENT '部门',
+  `hospital` varchar(255) DEFAULT NULL COMMENT '医院',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_time` varchar(255) DEFAULT NULL COMMENT '创建时间',
+  `update_time` varchar(255) DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`flow_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of cy_back_style_table
+-- Records of cy_business_flow_table
 -- ----------------------------
 
 -- ----------------------------
@@ -96,6 +119,24 @@ INSERT INTO `cy_city_info_table` VALUES ('15', '4', '济源', null);
 INSERT INTO `cy_city_info_table` VALUES ('16', '4', '安阳', null);
 INSERT INTO `cy_city_info_table` VALUES ('17', '4', '濮阳', null);
 INSERT INTO `cy_city_info_table` VALUES ('18', '5', '郑州', null);
+
+-- ----------------------------
+-- Table structure for cy_company_city_table
+-- ----------------------------
+DROP TABLE IF EXISTS `cy_company_city_table`;
+CREATE TABLE `cy_company_city_table` (
+  `company_city_id` varchar(32) NOT NULL COMMENT '公司城市ID',
+  `company_id` varchar(32) DEFAULT NULL COMMENT '公司id',
+  `city_id` varchar(255) DEFAULT NULL COMMENT '城市id',
+  `area_name` varchar(255) DEFAULT NULL COMMENT '区域名称',
+  `create_time` varchar(30) DEFAULT NULL COMMENT '创建时间',
+  `update_time` varchar(30) DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`company_city_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of cy_company_city_table
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for cy_customer_protocol_table
@@ -169,7 +210,9 @@ DROP TABLE IF EXISTS `cy_hospital_table`;
 CREATE TABLE `cy_hospital_table` (
   `hospital_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '医院id',
   `hospital_name` varchar(255) NOT NULL COMMENT '医院名称',
-  `type` tinyint(255) NOT NULL COMMENT '医院类型   1、县级以上医院   2、县级卫生院',
+  `type` tinyint(255) NOT NULL COMMENT '医院类型   1、县级以上医院   2、县级卫生院 3、其它',
+  `area_id` int(11) DEFAULT NULL COMMENT '区域ID',
+  `city_id` int(11) DEFAULT NULL COMMENT '地市ID',
   `create_by` varchar(255) NOT NULL COMMENT '创建人',
   `create_time` varchar(255) NOT NULL COMMENT '创建时间',
   `update_by` varchar(255) DEFAULT NULL COMMENT '修改人',
@@ -180,7 +223,7 @@ CREATE TABLE `cy_hospital_table` (
 -- ----------------------------
 -- Records of cy_hospital_table
 -- ----------------------------
-INSERT INTO `cy_hospital_table` VALUES ('1', '商丘市人民医院', '1', 'admin', '121346789754', null, null);
+INSERT INTO `cy_hospital_table` VALUES ('1', '商丘市人民医院', '1', null, null, 'admin', '121346789754', null, null);
 
 -- ----------------------------
 -- Table structure for cy_merchandiser_protocol_table
@@ -224,7 +267,7 @@ DROP TABLE IF EXISTS `cy_merchandiser_table`;
 CREATE TABLE `cy_merchandiser_table` (
   `merch_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '商业公司id',
   `name` varchar(255) NOT NULL COMMENT '名称',
-  `class_type` int(255) NOT NULL COMMENT '级别  1、一级商业  2、二级商业',
+  `class_type` int(255) NOT NULL COMMENT '级别  1、一级商业  2、国有二级商业  3、非国有二级商业',
   `parent_id` int(11) DEFAULT '0' COMMENT '上一级商业ID',
   `desc` varchar(255) DEFAULT NULL COMMENT '描述',
   `create_by` varchar(255) NOT NULL COMMENT '创建人',
@@ -300,49 +343,3 @@ CREATE TABLE `cy_user_info_table` (
 -- Records of cy_user_info_table
 -- ----------------------------
 INSERT INTO `cy_user_info_table` VALUES ('1', 'athoulen', '1113114', '0', '2', null, '0');
-
-
--- ----------------------------
--- Table structure for cy_business_flow_table
--- ----------------------------
-DROP TABLE IF EXISTS `cy_business_flow_table`;
-CREATE TABLE `cy_business_flow_table` (
-  `flow_id` varchar(32) NOT NULL COMMENT '商业流向id',
-  `sold_unit_id` varchar(32) DEFAULT NULL COMMENT '销售单位id',
-  `accept_unit_id` varchar(32) DEFAULT NULL COMMENT '接收单位id',
-  `company_city_id` varchar(32) DEFAULT NULL COMMENT '公司城市ID',
-  `customer_id` varchar(32) DEFAULT NULL COMMENT '客户ID',
-  `product_id` varchar(32) DEFAULT NULL COMMENT '产品id',
-  `sold_date` varchar(30) DEFAULT NULL COMMENT '出售日期',
-  `sold_month` varchar(10) DEFAULT NULL COMMENT '出售月份',
-  `allocate_goods_num` int(11) DEFAULT NULL COMMENT '调货数量',
-  `sold_goods_num` int(11) DEFAULT NULL COMMENT '销售数量',
-  `sold_price` decimal(10,2) DEFAULT NULL COMMENT '销售价格',
-  `allocate_price` decimal(10,2) DEFAULT NULL COMMENT '调拨价格',
-  `sold_money` decimal(10,2) DEFAULT NULL COMMENT '销售金额',
-  `flag` char(2) DEFAULT NULL COMMENT '记录流向标志,即一级到二级,二级到三级...',
-  `department` varchar(255) DEFAULT NULL COMMENT '部门',
-  `hospital` varchar(255) DEFAULT NULL COMMENT '医院',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `create_time` varchar(255) DEFAULT NULL COMMENT '创建时间',
-  `update_time` varchar(255) DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`flow_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
--- ----------------------------
--- Table structure for cy_company_city_table
--- ----------------------------
-DROP TABLE IF EXISTS `cy_company_city_table`;
-CREATE TABLE `cy_company_city_table` (
-  `company_city_id` varchar(32) NOT NULL COMMENT '公司城市ID',
-  `company_id` varchar(32) DEFAULT NULL COMMENT '公司id',
-  `city_id` varchar(255) DEFAULT NULL COMMENT '城市id',
-  `area_name` varchar(255) DEFAULT NULL COMMENT '区域名称',
-  `create_time` varchar(30) DEFAULT NULL COMMENT '创建时间',
-  `update_time` varchar(30) DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`company_city_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-

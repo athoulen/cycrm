@@ -9,4 +9,30 @@
   <select id="queryHospitalBasic" resultMap="KeyResultMap">
   		select hospital_id,hospital_name from cy_hospital_table where hospital_id=#{hospitalId}
   </select>
+  <select id="queryDuplicatedHospCount" resultType="Integer">
+  		SELECT COUNT(0) from cy_hospital_table WHERE hospital_name=#{hospitalName}
+  		<if test="hospitalId!=null">
+  		and hospital_id!=#{hospitalId}
+  		</if>
+  </select>
+  <insert id="insertHospital">
+  		insert into cy_hospital_table
+  		<set>
+  			hospital_name=#{hospitalName},
+  			type=#{type},
+  			create_by=#{createBy},
+  			create_time=#{createTime}
+  		</set>
+  </insert>
+  
+  <update id="updateHospital">
+  		update cy_hospital_table
+  		<set>
+  			hospital_name=#{hospitalName},
+  			type=#{type},
+  			update_by=#{createBy},
+  			update_time=#{createTime}
+  		</set>
+  		where hospital_id=#{hospitalId}
+  </update>
 </mapper>
