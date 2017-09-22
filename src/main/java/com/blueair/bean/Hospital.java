@@ -1,26 +1,15 @@
 package com.blueair.bean;
 
-public class Hospital {
+public class Hospital extends HospitalKey{
 
-	private Integer hospitalId;
-	private String hospitalName;
 	private Integer type;
+	private Integer zoneId;
+	private Integer cityId;
 	private String createBy;
 	private String createTime;
 	private String updateBy;
 	private String updateTime;
-	public Integer getHospitalId() {
-		return hospitalId;
-	}
-	public void setHospitalId(Integer hospitalId) {
-		this.hospitalId = hospitalId;
-	}
-	public String getHospitalName() {
-		return hospitalName;
-	}
-	public void setHospitalName(String hospitalName) {
-		this.hospitalName = hospitalName;
-	}
+	
 	public Integer getType() {
 		return type;
 	}
@@ -51,5 +40,16 @@ public class Hospital {
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
-	
+	public Integer getZoneId() {
+		return zoneId;
+	}
+	public void setZoneId(Integer zoneId) {
+		this.zoneId = zoneId;
+	}
+	public Integer getCityId() {
+		return cityId;
+	}
+	public void setCityId(Integer cityId) {
+		this.cityId = cityId;
+	}
 }

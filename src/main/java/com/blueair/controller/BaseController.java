@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.blueair.bean.PageListBean;
 import com.blueair.constant.HandleCode;
 import com.blueair.web.exception.ServiceException;
 
@@ -85,6 +86,18 @@ public class BaseController {
 		output.put("message", message);
 		output.put(objectName, bean.get("list"));
 		output.put("totalCount", bean.get("totalCount"));
+		return output;
+	}
+	
+	public ModelMap rightPageListBeanResult(ModelMap map,String message,String objectName,PageListBean bean) {
+		ModelMap output = map;
+		if (output == null) {
+			output = new ModelMap();
+		}
+		output.put("code", HandleCode.SUCCESS);
+		output.put("message", message);
+		output.put(objectName, bean.getList());
+		output.put("totalCount", bean.getTotalCount());
 		return output;
 	}
 	

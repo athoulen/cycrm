@@ -6,6 +6,17 @@
     <result column="hospital_name" property="hospitalName" jdbcType="VARCHAR" />
   </resultMap>
   
+  <resultMap type="com.blueair.bean.Hospital" id="BaseResultMap" extends="KeyResultMap">
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="area_id" property="zoneId" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap type="com.blueair.bean.HospitalDetail" id="DetailResultMap" extends="BaseResultMap">
+    <association property="zone" column="area_id" select="ZoneMapper.queryAreaById" />
+    <association property="city" column="city_id" select="ZoneMapper.queryCityById" />
+  </resultMap>
+  
   <select id="queryHospitalBasic" resultMap="KeyResultMap">
   		select hospital_id,hospital_name from cy_hospital_table where hospital_id=#{hospitalId}
   </select>
@@ -14,6 +25,10 @@
   		<if test="hospitalId!=null">
   		and hospital_id!=#{hospitalId}
   		</if>
+  </select>
+  <select id="queryHospital" resultMap="DetailResultMap">
+  		select hospital_id,hospital_name,type,area_id,city_id from cy_hospital_table
+  		where hospital_id=#{hospitalId}
   </select>
   <insert id="insertHospital">
   		insert into cy_hospital_table
@@ -35,4 +50,17 @@
   		</set>
   		where hospital_id=#{hospitalId}
   </update>
+  
+  <select id="queryHospitals" resultMap="BaseResultMap">
+		select hospital_id,hospital_name from cy_hospital_table 
+		where hospital_name like CONCAT('%',#{hospitalName,jdbcType=VARCHAR},'%') 
+		<if test="flag==1">
+		limit #{firstItem},#{pageSize}
+		</if>
+  </select>
+  
+  <select id="queryHospitalsCount" resultType="Integer">
+  		select count(0)
+		where hospital_name like CONCAT('%',#{hospitalName,jdbcType=VARCHAR},'%') 
+  </select>
 </mapper>

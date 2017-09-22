@@ -1,12 +1,18 @@
 package com.blueair.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.blueair.bean.Hospital;
+import com.blueair.bean.HospitalDetail;
+import com.blueair.bean.PageListBean;
 import com.blueair.service.IHospitalService;
 import com.blueair.shiro.util.Generator;
 import com.blueair.util.ConvertUtil;
-
+@Service
 public class HospitalServiceImpl extends BaseServiceImpl implements IHospitalService {
 
 	@Override
@@ -39,6 +45,24 @@ public class HospitalServiceImpl extends BaseServiceImpl implements IHospitalSer
 			return 1;
 		}
 		return 0;
+	}
+
+	@Override
+	public HospitalDetail queryHospital(Integer id) {
+		return getBaseDao().queryForObject("HospitalMapper.queryHospital", id, HospitalDetail.class);
+	}
+
+	@Override
+	public PageListBean queryHospitals(String hospitalName, int page, int pageSize, int flag) {
+		Map<String, Object> params=new HashMap<>();
+		params.put("hospitalName", hospitalName);
+		params.put("firstItem", (page-1)*pageSize);
+		params.put("pageSize", pageSize);
+		params.put("flag", flag);
+		List<Hospital> list = getBaseDao().queryForList("HospitalMapper.queryHospitals", params, Hospital.class);
+		Long totalCount=getBaseDao().queryForObject("HospitalMapper.queryHospitalsCount", params, Long.class);
+		PageListBean bean=new PageListBean(list, totalCount);
+		return bean;
 	}
 
 }
