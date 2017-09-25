@@ -3,6 +3,8 @@ package com.blueair.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.blueair.bean.MerchanProtocol;
 import com.blueair.bean.MerchanProtocolDetail;
 import com.blueair.bean.MerchanProtocolKey;
@@ -10,7 +12,7 @@ import com.blueair.bean.MerchanProtocolQuery;
 import com.blueair.service.IMerchanProtocolService;
 import com.blueair.util.ConvertUtil;
 import com.blueair.util.OperateUtil;
-
+@Service
 public class MerchanProtocolServiceImpl extends BaseServiceImpl implements IMerchanProtocolService {
 
 	@Override

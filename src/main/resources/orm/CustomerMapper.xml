@@ -10,6 +10,7 @@
     <result column="account_name" property="accountName" jdbcType="VARCHAR" />
     <result column="account_code" property="accountCode" jdbcType="VARCHAR" />
     <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <result column="is_corp" property="isCorp" jdbcType="TINYINT" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
@@ -43,8 +44,9 @@
   			account_name=#{accountName},
   			account_code=#{accountCode},
   			<if test="desc!=null">
-  			desc=#{desc},
+  			`desc`=#{desc},
   			</if>
+  			is_corp=#{isCorp},
   			create_by=#{operator},
   			create_time=#{createTime}
   		</set>
@@ -60,7 +62,7 @@
   			account_name=#{accountName},
   			account_code=#{accountCode},
   			<if test="desc!=null">
-  			desc=#{desc},
+  			`desc`=#{desc},
   			</if>
   			update_by=#{operator},
   			update_time=#{updateTime}
@@ -73,7 +75,7 @@
   </select>
   
   <select id="queryCustomersBlur"  resultMap="BaseResultMap">
-  		select customer_id,serial_code,customer_name,phone,desc from cy_customer_table 
+  		select customer_id,serial_code,customer_name,phone,`desc`,is_corp from cy_customer_table 
   		where 	customer_name like CONCAT('%',#{customerName,jdbcType=VARCHAR},'%')
   		and phone like CONCAT('%',#{phone,jdbcType=VARCHAR},'%')
   		<if test="flag==1">

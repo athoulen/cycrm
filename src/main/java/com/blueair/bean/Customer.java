@@ -14,6 +14,7 @@ public class Customer {
 	private String createTime;
 	private String updateBy;
 	private String updateTime;
+	private Integer isCorp;
 	public Integer getCustomerId() {
 		return customerId;
 	}
@@ -86,5 +87,10 @@ public class Customer {
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
-	
+	public Integer getIsCorp() {
+		return isCorp;
+	}
+	public void setIsCorp(Integer isCorp) {
+		this.isCorp = isCorp;
+	}
 }

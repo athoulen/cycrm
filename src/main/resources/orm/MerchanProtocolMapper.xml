@@ -5,8 +5,8 @@
     <id column="protocol_id" property="protocolId" jdbcType="INTEGER" />
     <id column="product_id" property="productId" jdbcType="INTEGER" />
     <result column="protocol_code" property="protocolCode" jdbcType="VARCHAR" />
-    <result column="area_id" property="zoneId" jdbcType="Integer"/>
-    <result column="city_id" property="cityId" jdbcType="Integer"/>
+    <result column="area_id" property="zoneId" jdbcType="INTEGER"/>
+    <result column="city_id" property="cityId" jdbcType="INTEGER"/>
     <result column="bid_price" property="bidPrice" jdbcType="DOUBLE" />
     <result column="up_merchan" property="upMerchan" jdbcType="INTEGER" />
     <result column="lo_merchan" property="loMerchan" jdbcType="INTEGER" />
@@ -163,7 +163,7 @@
 		</if>
   </select>
   
-  <select id="queryMerchanProtocols" resultType="Integer">
+  <select id="queryMerchanProtocolCount" resultType="Integer">
   		SELECT count(0) FROM cy_merchandiser_protocol_table mp LEFT JOIN cy_product_table p ON mp.product_id=p.product_id
 		LEFT JOIN cy_hospital_table h ON mp.hospital_id=h.hospital_id
 		 WHERE p.product_name LIKE CONCAT('%',#{productName,jdbcType=VARCHAR},'%')

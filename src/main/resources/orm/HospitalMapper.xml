@@ -35,6 +35,8 @@
   		<set>
   			hospital_name=#{hospitalName},
   			type=#{type},
+  			area_id=#{zoneId},
+  			city_id=#{cityId},
   			create_by=#{createBy},
   			create_time=#{createTime}
   		</set>
@@ -45,6 +47,8 @@
   		<set>
   			hospital_name=#{hospitalName},
   			type=#{type},
+  			area_id=#{zoneId},
+  			city_id=#{cityId},
   			update_by=#{createBy},
   			update_time=#{createTime}
   		</set>
@@ -59,8 +63,8 @@
 		</if>
   </select>
   
-  <select id="queryHospitalsCount" resultType="Integer">
-  		select count(0)
+  <select id="queryHospitalsCount" resultType="Long">
+  		select count(0) from cy_hospital_table 
 		where hospital_name like CONCAT('%',#{hospitalName,jdbcType=VARCHAR},'%') 
   </select>
 </mapper>

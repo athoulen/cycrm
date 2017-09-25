@@ -7,7 +7,9 @@
     </settings>  
 	<mappers>
 		<mapper resource="orm/CustomerMapper.xml"/>
+		<mapper resource="orm/HospitalMapper.xml"/>
 		<mapper resource="orm/MerchanMapper.xml"/>
+		<mapper resource="orm/MerchanProtocolMapper.xml"/>
 		<mapper resource="orm/ProductMapper.xml"/>
 		<mapper resource="orm/ProtocolMapper.xml"/>
 		<mapper resource="orm/UserMapper.xml"/>

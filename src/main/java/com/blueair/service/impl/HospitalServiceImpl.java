@@ -22,7 +22,8 @@ public class HospitalServiceImpl extends BaseServiceImpl implements IHospitalSer
 		if(count>0){
 			return -1;
 		}
-		params.put("createBy", Generator.getUsername());
+//		params.put("createBy", Generator.getUsername());
+		params.put("createBy", "admin");
 		params.put("createTime", System.currentTimeMillis());
 		int result = getBaseDao().insert("HospitalMapper.insertHospital", params);
 		if(result>0){
