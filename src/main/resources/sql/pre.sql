@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2017-09-19 17:13:18
+Date: 2017-09-25 15:07:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -44,7 +44,7 @@ CREATE TABLE `cy_back_info_table` (
   `back_period_name` varchar(255) NOT NULL COMMENT '二级返利周期名称',
   `back_style_name` varchar(255) NOT NULL COMMENT '二级返利形式名称',
   PRIMARY KEY (`back_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of cy_back_info_table
@@ -144,6 +144,7 @@ CREATE TABLE `cy_company_city_table` (
 DROP TABLE IF EXISTS `cy_customer_protocol_table`;
 CREATE TABLE `cy_customer_protocol_table` (
   `protocol_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '协议id',
+  `protocol_code` varchar(255) DEFAULT NULL,
   `customer_id` int(11) NOT NULL COMMENT '客户ID',
   `area_id` int(11) NOT NULL COMMENT '大区ID',
   `city_id` int(11) NOT NULL COMMENT '地市ID',
@@ -175,7 +176,7 @@ CREATE TABLE `cy_customer_protocol_table` (
 -- ----------------------------
 -- Records of cy_customer_protocol_table
 -- ----------------------------
-INSERT INTO `cy_customer_protocol_table` VALUES ('1', '1', '1', '5', '1', '5', '1', '1', '18.60', '5000.00', null, '19.60', '1', '2000', '2', '1', '3.60', '1', '2313465464', '12312464644', '1', '1', 'admin', '135646461651', null, null);
+INSERT INTO `cy_customer_protocol_table` VALUES ('1', null, '1', '1', '5', '1', '5', '1', '1', '18.60', '5000.00', null, '19.60', '1', '2000', '2', '1', '3.60', '1', '2313465464', '12312464644', '1', '1', 'admin', '135646461651', null, null);
 
 -- ----------------------------
 -- Table structure for cy_customer_table
@@ -196,12 +197,13 @@ CREATE TABLE `cy_customer_table` (
   `update_by` varchar(255) DEFAULT NULL COMMENT '修改人',
   `update_time` varchar(255) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of cy_customer_table
 -- ----------------------------
 INSERT INTO `cy_customer_table` VALUES ('1', 'Y-001', '阿兰', '131222', '招商银行', '阿兰', '1234564', null, '1', 'admin', '2132142414', null, null);
+INSERT INTO `cy_customer_table` VALUES ('2', 'Y-002', '德龙A', '18661828126', '工商银行', '李德龙', '123456467162', 'vip商户', '1', 'admin', '1506176500932', 'admin', null);
 
 -- ----------------------------
 -- Table structure for cy_hospital_table
@@ -218,12 +220,14 @@ CREATE TABLE `cy_hospital_table` (
   `update_by` varchar(255) DEFAULT NULL COMMENT '修改人',
   `update_time` varchar(255) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`hospital_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of cy_hospital_table
 -- ----------------------------
 INSERT INTO `cy_hospital_table` VALUES ('1', '商丘市人民医院', '1', null, null, 'admin', '121346789754', null, null);
+INSERT INTO `cy_hospital_table` VALUES ('2', '郑州市人民医院', '1', '5', '18', 'admin', '1506157205758', null, null);
+INSERT INTO `cy_hospital_table` VALUES ('3', '大大区人民医院', '1', '5', '18', 'admin', '1506157952168', null, null);
 
 -- ----------------------------
 -- Table structure for cy_merchandiser_protocol_table
@@ -236,13 +240,12 @@ CREATE TABLE `cy_merchandiser_protocol_table` (
   `area_id` int(11) NOT NULL COMMENT '区域id',
   `city_id` int(11) NOT NULL COMMENT '地市id',
   `bid_price` double(10,2) NOT NULL COMMENT '中标价',
-  `up_merchan` int(11) NOT NULL COMMENT '一级商业ID',
-  `lo_merchan` int(255) NOT NULL COMMENT '二级商业ID',
+  `up_merchan` int(11) DEFAULT NULL COMMENT '一级商业ID',
+  `lo_merchan` int(255) DEFAULT NULL COMMENT '二级商业ID',
   `hospital_id` int(11) NOT NULL COMMENT '终端医院id',
   `up_back` double(255,0) NOT NULL COMMENT '一级返利',
   `lo_back` double(255,0) NOT NULL COMMENT '二级返利',
-  `back_period` int(255) NOT NULL COMMENT '返利周期  从cy_back_period_table中获取',
-  `back_style` int(255) NOT NULL COMMENT '返利类型  从cy_back_style_table中获取',
+  `back_period_style` int(255) NOT NULL COMMENT '返利周期  从cy_back_info_table中获取',
   `start_time` varchar(255) NOT NULL COMMENT '协议生效时间',
   `end_time` varchar(255) NOT NULL COMMENT '协议终止时间',
   `contactor` varchar(255) DEFAULT NULL COMMENT '返利联系人',
