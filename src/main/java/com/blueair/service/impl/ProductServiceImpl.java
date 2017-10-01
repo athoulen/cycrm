@@ -21,8 +21,8 @@ public class ProductServiceImpl extends BaseServiceImpl implements IProductServi
 	@Override
 	public int insertProduct(Product product) {
 		Map<String, Object> params=ConvertUtil.convertBean2Map(product);
-		Integer id=getBaseDao().queryForObject("ProductMapper.getProductCountByNameAndId", params,Integer.class);
-			if(id==null){
+		Integer count=getBaseDao().queryForObject("ProductMapper.getProductCountByNameAndId", params,Integer.class);
+			if(count<=0){
 				int result=getBaseDao().insert("ProductMapper.insertProduct", params);
 				if(result>0){
 					return 1;
@@ -51,8 +51,8 @@ public class ProductServiceImpl extends BaseServiceImpl implements IProductServi
 	@Override
 	public int updateProduct(Product product) {
 		Map<String, Object> params=ConvertUtil.convertBean2Map(product);
-		Integer id=getBaseDao().queryForObject("ProductMapper.getProductIdByName", params,Integer.class);
-			if(id==null){
+		Integer count=getBaseDao().queryForObject("ProductMapper.getProductCountByNameAndId", params,Integer.class);
+		if(count<=0){
 				int result=getBaseDao().insert("ProductMapper.updateProduct", params);
 				if(result>0){
 					return 1;

@@ -24,7 +24,7 @@ public class ProtocolServiceImpl extends BaseServiceImpl implements IProtocolSer
 		if(count>0){
 			return -1;
 		}
-		protocol.setCreateBy(Generator.getUsername().toString());
+		protocol.setCreateBy(Generator.getUsername()+"");
 		protocol.setCreateTime(String.valueOf(System.currentTimeMillis()));
 		int result = getBaseDao().insert("ProtocolMapper.insertProtocol", protocol);
 		if(result>0){

@@ -11,8 +11,7 @@ public class MerchanProtocolKey {
 	private Integer hospitalId;
 	private Double upBack;
 	private Double loBack;
-	private Integer backPeriod;
-	private Integer backStyle;
+	private Integer backPeriodStyle;
 	private String startTime;
 	private String endTime;
 	private Product product;
@@ -74,17 +73,11 @@ public class MerchanProtocolKey {
 	public void setLoBack(Double loBack) {
 		this.loBack = loBack;
 	}
-	public Integer getBackPeriod() {
-		return backPeriod;
+	public Integer getBackPeriodStyle() {
+		return backPeriodStyle;
 	}
-	public void setBackPeriod(Integer backPeriod) {
-		this.backPeriod = backPeriod;
-	}
-	public Integer getBackStyle() {
-		return backStyle;
-	}
-	public void setBackStyle(Integer backStyle) {
-		this.backStyle = backStyle;
+	public void setBackPeriodStyle(Integer backPeriodStyle) {
+		this.backPeriodStyle = backPeriodStyle;
 	}
 	public String getStartTime() {
 		return startTime;

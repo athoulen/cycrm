@@ -13,8 +13,7 @@
     <result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
     <result column="up_back" property="upBack" jdbcType="DOUBLE" />
     <result column="lo_back" property="loBack" jdbcType="DOUBLE" />
-    <result column="back_period" property="backPeriod" jdbcType="INTEGER" />
-    <result column="back_style" property="backStyle" jdbcType="INTEGER" />
+    <result column="back_period_style" property="backPeriodStyle" jdbcType="INTEGER" />
     <result column="start_time" property="startTime" jdbcType="VARCHAR" />
     <result column="end_time" property="endTime" jdbcType="VARCHAR" />
     <result column="contactor" property="contactor" jdbcType="VARCHAR" />
@@ -33,13 +32,12 @@
     <result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
     <result column="up_back" property="upBack" jdbcType="DOUBLE" />
     <result column="lo_back" property="loBack" jdbcType="DOUBLE" />
-    <result column="back_period" property="backPeriod" jdbcType="INTEGER" />
-    <result column="back_style" property="backStyle" jdbcType="INTEGER" />
+    <result column="back_period_style" property="backPeriodStyle" jdbcType="INTEGER" />
     <result column="start_time" property="startTime" jdbcType="VARCHAR" />
     <result column="end_time" property="endTime" jdbcType="VARCHAR" />
-    <association property="hospital" column="hospital_id" select="ZoneMapper.queryHospitalBasic"/>
-    <association property="upMerchanInfo" column="up_merchan" select="MerchanMapper.queryMerchandiserCas"/>
-    <association property="loMerchanInfo" column="lo_merchan" select="MerchanMapper.queryMerchandiserCas"/>
+    <association property="hospital" column="hospital_id" select="HospitalMapper.queryHospitalBasic"/>
+    <association property="upMerchanInfo" column="{merchanId=up_merchan}" select="MerchanMapper.queryMerchandiserCas"/>
+    <association property="loMerchanInfo" column="{merchanId=lo_merchan}" select="MerchanMapper.queryMerchandiserCas"/>
     <association property="product" column="product_id" select="ProductMapper.queryProductById2"/>
   </resultMap>
   
@@ -53,15 +51,16 @@
   <resultMap id="DetailResultMap" type="com.blueair.bean.MerchanProtocolDetail"  extends="FullResultMap">
     <association property="zone" column="area_id" select="ZoneMapper.queryAreaById"/>
     <association property="city" column="city_id" select="ZoneMapper.queryCityById"/>
-    <association property="hospital" column="hospital_id" select="ZoneMapper.queryHospitalBasic"/>
-    <association property="upMerchanInfo" column="up_merchan" select="MerchanMapper.queryMerchandiserCas"/>
-    <association property="loMerchanInfo" column="lo_merchan" select="MerchanMapper.queryMerchandiserCas"/>
+    <association property="hospital" column="hospital_id" select="HospitalMapper.queryHospitalBasic"/>
+    <association property="upMerchanInfo" column="{merchanId=up_merchan}" select="MerchanMapper.queryMerchandiserCas"/>
+    <association property="loMerchanInfo" column="{merchanId=lo_merchan}" select="MerchanMapper.queryMerchandiserCas"/>
     <association property="product" column="product_id" select="ProductMapper.queryProductById2"/>
+    <association property="backPeriodStyleMap" column="back_period_style" select="MerchanProtocolMapper.queryBackPeriodStyle"/>
   </resultMap>
   
   <select id="queryDuplicatedProtocol" resultType="Integer">
   	SELECT COUNT(0) from cy_merchandiser_protocol_table 
-  	WHERE product_id=#{productlId} AND hospital_id=#{hospitalId} AND up_merchan=#{upMerchan} and is_Valid=1
+  	WHERE product_id=#{productId} AND hospital_id=#{hospitalId} AND up_merchan=#{upMerchan} and is_Valid=1
   	<if test="protocolId!=null">
   	and protocol_id!=#{protocolId}
   	</if>
@@ -71,6 +70,8 @@
 	  	insert into cy_merchandiser_protocol_table
 	  	<set>
 	  		product_id=#{productId},
+	  		area_id=#{zoneId},
+	  		city_id=#{cityId},
 	  		protocol_code=#{protocolCode},
 	  		bid_price=#{bidPrice},
 	  		up_merchan=#{upMerchan},
@@ -78,14 +79,13 @@
 	  		hospital_id=#{hospitalId},
 	  		up_back=#{upBack},
 	  		lo_back=#{loBack},
-	  		back_period=#{backPeriod},
-	  		back_style=#{backStyle},
+	  		back_period_style=#{backPeriodStyle},
 	  		start_time=#{startTime},
 	  		end_time=#{endTime},
 	  		contactor=#{contactor},
 	  		phone=#{phone},
 	  		qq=#{qq},
-	  		is_valid=#{isValid}，
+	  		is_valid=#{isValid},
 	  		create_by=#{createBy},
 	  		create_time=#{createTime}
 	  	</set>
@@ -118,11 +118,8 @@
 		  		<if test="loBack!=null">
 		  		lo_back=#{loBack},
 		  		</if>
-		  		<if test="backPeriod!=null">
-		  		back_period=#{backPeriod},
-		  		</if>
-		  		<if test="backStyle!=null">
-		  		back_style=#{backStyle},
+		  		<if test="backPeriodStyle!=null">
+		  		back_period_style=#{backPeriodStyle},
 		  		</if>
 		  		<if test="startTime!=null">
 		  		start_time=#{startTime},
@@ -139,7 +136,7 @@
 		  		<if test="qq!=null">
 		  		qq=#{qq},
 		  		</if>
-		  		is_valid=#{isValid}，
+		  		is_valid=#{isValid},
 		  		update_by=#{updateBy},
 		  		update_time=#{updateTime}
 	  	</set>
@@ -147,7 +144,7 @@
   </update>
   
   <select id="queryMerchanProtocol" resultMap="DetailResultMap">
-  		SELECT * FROM cy_merchandiser_protocol_table
+  		SELECT * FROM cy_merchandiser_protocol_table where protocol_id=#{id}
   </select>
   
   <select id="queryMerchanProtocols" resultMap="KeyResultMap">
@@ -170,5 +167,8 @@
 		 AND h.hospital_name LIKE CONCAT('%',#{hospital,jdbcType=VARCHAR},'%')
 		AND p.product_norms LIKE CONCAT('%',#{productNorms,jdbcType=VARCHAR},'%') 
 		and mp.protocol_code LIKE CONCAT('%',#{protocolCode,jdbcType=VARCHAR},'%') 
+  </select>
+  <select id="queryBackPeriodStyle" resultType="java.util.Map">
+  		SELECT * FROM cy_back_info_table WHERE back_id=#{backPeriodStyle}
   </select>
 </mapper>

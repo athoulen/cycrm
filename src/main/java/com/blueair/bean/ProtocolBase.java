@@ -18,16 +18,16 @@ public class ProtocolBase {
 	private Double bail;							//保证金
 	private String bailDesc;					//保证金描述
 	private Double switchExpense;		//推广费变更价
-	private boolean switchStandard;	//推广费变更标准    true：高于考核数量；false：低于考核数量
+	private Byte switchStandard;	//推广费变更标准    true：高于考核数量；false：低于考核数量
 	private Long switchAmount;			//考核数量
 	private Integer rebatePeriod;				//返款（佣金）周期	 1、月结 2、压批压月 3、60天 4、90天 5、120天
-	private boolean rebatePayer;			//二级返利支付人		true：公司支付；false：客户支付
+	private Byte rebatePayer;			//二级返利支付人		true：公司支付；false：客户支付
 	private Double rebate;						//二级返利金额
-	private boolean isHonour;				//是否承兑
+	private Byte isHonour;				//是否承兑
 	private String startTime;					//合约开始时间
 	private String endTime;					//合约结束时间
 	private Integer type;						//合约类型			1、县级以上（医院）；2、县级以下（卫生院）
-	private boolean isValid;					//是否执行			true、执行；false：作废
+	private Byte isValid;					//是否执行			true、执行；false：作废
 	private String createBy;
 	private String createTime;
 	private String updateBy;
@@ -104,12 +104,6 @@ public class ProtocolBase {
 	public void setSwitchExpense(Double switchExpense) {
 		this.switchExpense = switchExpense;
 	}
-	public boolean isSwitchStandard() {
-		return switchStandard;
-	}
-	public void setSwitchStandard(boolean switchStandard) {
-		this.switchStandard = switchStandard;
-	}
 	public Long getSwitchAmount() {
 		return switchAmount;
 	}
@@ -122,24 +116,14 @@ public class ProtocolBase {
 	public void setRebatePeriod(Integer rebatePeriod) {
 		this.rebatePeriod = rebatePeriod;
 	}
-	public boolean isRebatePayer() {
-		return rebatePayer;
-	}
-	public void setRebatePayer(boolean rebatePayer) {
-		this.rebatePayer = rebatePayer;
-	}
+
 	public Double getRebate() {
 		return rebate;
 	}
 	public void setRebate(Double rebate) {
 		this.rebate = rebate;
 	}
-	public boolean isHonour() {
-		return isHonour;
-	}
-	public void setHonour(boolean isHonour) {
-		this.isHonour = isHonour;
-	}
+
 	public String getStartTime() {
 		return startTime;
 	}
@@ -158,12 +142,7 @@ public class ProtocolBase {
 	public void setType(Integer type) {
 		this.type = type;
 	}
-	public boolean isValid() {
-		return isValid;
-	}
-	public void setValid(boolean isValid) {
-		this.isValid = isValid;
-	}
+	
 	public String getCreateBy() {
 		return createBy;
 	}
@@ -187,5 +166,29 @@ public class ProtocolBase {
 	}
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
+	}
+	public Byte getSwitchStandard() {
+		return switchStandard;
+	}
+	public void setSwitchStandard(Byte switchStandard) {
+		this.switchStandard = switchStandard;
+	}
+	public Byte getRebatePayer() {
+		return rebatePayer;
+	}
+	public void setRebatePayer(Byte rebatePayer) {
+		this.rebatePayer = rebatePayer;
+	}
+	public Byte getIsHonour() {
+		return isHonour;
+	}
+	public void setIsHonour(Byte isHonour) {
+		this.isHonour = isHonour;
+	}
+	public Byte getIsValid() {
+		return isValid;
+	}
+	public void setIsValid(Byte isValid) {
+		this.isValid = isValid;
 	}
 }

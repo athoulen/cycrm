@@ -87,15 +87,15 @@
   			bail=#{bail},
   			</if>
   			<if test="bailDesc!=null">
-  			bail_desc=#{bailDesc},
+  			`desc`=#{bailDesc},
   			</if>
   			<if test="switchExpense!=null and switchAmount!=null">
   			switch_expense=#{switchExpense},
   			switch_standard=#{switchStandard},
   			switch_amount=#{switchAmount},
   			</if>
-  			back_period=#{backPeriod},
-  			back_payer=#{backPayer},
+  			rebate_period=#{rebatePeriod},
+  			rebate_payer=#{rebatePayer},
   			<if test="rebate">
   			rebate=#{rebate},
   			</if>
@@ -124,15 +124,15 @@
   			bail=#{bail},
   			</if>
   			<if test="bailDesc!=null">
-  			bail_desc=#{bailDesc},
+  			`desc`=#{bailDesc},
   			</if>
   			<if test="switchExpense!=null and switchAmount!=null">
   			switch_expense=#{switchExpense},
   			switch_standard=#{switchStandard},
   			switch_amount=#{switchAmount},
   			</if>
-  			back_period=#{backPeriod},
-  			back_payer=#{backPayer},
+  			rebate_period=#{rebatePeriod},
+  			rebate_payer=#{rebatePayer},
   			<if test="rebate">
   			rebate=#{rebate},
   			</if>

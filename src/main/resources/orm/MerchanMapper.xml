@@ -5,7 +5,6 @@
     <id column="merch_id" property="merchId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="class_type" property="classType" jdbcType="INTEGER" />
-    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="desc" property="desc" jdbcType="VARCHAR" />
   </resultMap>
   
@@ -18,12 +17,8 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
   
-  <resultMap type="com.blueair.bean.MerchandiserDetail" id="DetailResultMap" extends="BaseResultMap">
-  	<association property="parent" column="{parentId=parent_id}" select="MerchanMapper.queryMerchanKey"/>
-  </resultMap>
-  
   <sql id="BASIC_Column_List" >
-  		merch_id,name,class_type,parent_id,desc
+  		merch_id,name,class_type,`desc`
   </sql>
   <sql id="KEY_Column_List" >
   		merch_id,name
@@ -39,11 +34,8 @@
   		<set>
   			name=#{name},
   			class_type=#{classType},
-  			<if test="parentId!=null">
-  			parent_id=#{parentId},
-  			</if>
   			<if test="desc!=null">
-  			desc=#{desc},
+  			`desc`=#{desc},
   			</if>
   			create_by=#{operator},
   			create_time=#{createTime}
@@ -55,11 +47,8 @@
   		<set>
   			name=#{name},
   			class_type=#{classType},
-  			<if test="parentId!=null">
-  			parent_id=#{parentId},
-  			</if>
   			<if test="desc!=null">
-  			desc=#{desc},
+  			`desc`=#{desc},
   			</if>
   		</set>
   		where merch_id=#{merchId}
@@ -74,23 +63,25 @@
   		<include refid="BASIC_Column_List"/>
 		from   cy_merchandiser_table
 		where name like CONCAT('%',#{name,jdbcType=VARCHAR},'%') 
-		and desc like CONCAT('%',#{desc,jdbcType=VARCHAR},'%')
+		and `desc` like CONCAT('%',#{desc,jdbcType=VARCHAR},'%')
+		<if test="flag==1">
 		limit #{firstItem},#{pageSize}
+		</if>
   </select>
   <select id="queryMerchandisersCount" resultType="Integer">
   		select count(0)
 		from   cy_merchandiser_table
 		where name like CONCAT('%',#{name,jdbcType=VARCHAR},'%') 
-		and desc like CONCAT('%',#{desc,jdbcType=VARCHAR},'%')
+		and `desc` like CONCAT('%',#{desc,jdbcType=VARCHAR},'%')
   </select>
-  <select id="queryMerchandiser" parameterType="Integer" resultMap="DetailResultMap">
+  <select id="queryMerchandiser" parameterType="Integer" resultMap="BaseResultMap">
   		select 
   		<include refid="BASIC_Column_List"/>
 		from   cy_merchandiser_table
 		where merch_id=#{id}
   </select>
   
-  <select id="queryMerchandiserCas" parameterType="Integer" resultMap="KeyResultMap">
+  <select id="queryMerchandiserCas"  resultMap="KeyResultMap">
   		select 
   		<include refid="KEY_Column_List"/>
 		from   cy_merchandiser_table
@@ -100,11 +91,8 @@
 		<if test="lowerMerchan!=null">
 		where merch_id=#{lowerMerchan}
 		</if>
-		<if test="upMerchan!=null">
-		where merch_id=#{upMerchan}
-		</if>
-		<if test="loMerchan!=null">
-		where merch_id=#{loMerchan}
+		<if test="merchanId!=null">
+		where merch_id=#{merchanId}
 		</if>
   </select>
   
@@ -127,9 +115,9 @@
   		from cy_merchandiser_table
   </select>
   
-  <select id="queryLowerMerchandisers" resultMap="KeyResultMap">
+  <!-- <select id="queryLowerMerchandisers" resultMap="KeyResultMap">
   		select 
   		<include refid="KEY_Column_List"/>
   		from cy_merchandiser_table where parent_id=#{id}
-  </select>
+  </select> -->
 </mapper>

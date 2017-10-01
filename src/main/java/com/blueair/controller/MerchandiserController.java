@@ -109,7 +109,7 @@ public class MerchandiserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("/merchan/list")
-	public ModelMap queryMerchandisers(HttpServletRequest request,String name,String desc,int page,int pageSize){
+	public ModelMap queryMerchandisers(HttpServletRequest request,String name,String desc,int page,int pageSize,int flag){
 		if(AdminConstants.USER_TYPE.equals(Generator.OPERATOR_TYPE)){
 			return errorResult("用户级别不足");
 		}
@@ -117,7 +117,7 @@ public class MerchandiserController extends BaseController {
 		desc=DataCheckUtil.ifNullToEmpty(desc);
 		int firstItem=(page-1)*pageSize;
 		try {
-			Map<String, Object> bean = merchanService.queryMerchandisers(name,desc,firstItem,pageSize);
+			Map<String, Object> bean = merchanService.queryMerchandisers(name,desc,firstItem,pageSize,flag);
 			return rightPageListResult(null, "查询成功！", "result", bean);
 		} catch (Exception e) {
 			logger.debug("Merchans查询失败",e);

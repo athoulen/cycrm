@@ -49,10 +49,11 @@ public class MerchandiserServiceImpl extends BaseServiceImpl implements IMerchan
 	}
 
 	@Override
-	public  Map<String, Object>  queryMerchandisers(String name, String desc,int firstItem,int pageSize) throws Exception {
+	public  Map<String, Object>  queryMerchandisers(String name, String desc,int firstItem,int pageSize,int flag) throws Exception {
 		Map<String, Object> params=new HashMap<>();
 		params.put("name", name);
 		params.put("desc", desc);
+		params.put("flag", flag);
 		params.put("firstItem", firstItem);
 		params.put("pageSize", pageSize);
 		List<Merchandiser> merchans = getBaseDao().queryForList("MerchanMapper.queryMerchandisers", params, Merchandiser.class);

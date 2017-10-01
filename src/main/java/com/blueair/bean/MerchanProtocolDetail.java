@@ -10,6 +10,7 @@ public class MerchanProtocolDetail extends MerchanProtocolL {
 	private Map<String, Object> city;
 	private MerchandiserKey upMerchanInfo;
 	private MerchandiserKey loMerchanInfo;
+	private Map<String, Object> backPeriodStyleMap;
 	public Product getProduct() {
 		return product;
 	}
@@ -46,5 +47,10 @@ public class MerchanProtocolDetail extends MerchanProtocolL {
 	public void setLoMerchanInfo(MerchandiserKey loMerchanInfo) {
 		this.loMerchanInfo = loMerchanInfo;
 	}
-	
+	public Map<String, Object> getBackPeriodStyleMap() {
+		return backPeriodStyleMap;
+	}
+	public void setBackPeriodStyleMap(Map<String, Object> backPeriodStyleMap) {
+		this.backPeriodStyleMap = backPeriodStyleMap;
+	}
 }
