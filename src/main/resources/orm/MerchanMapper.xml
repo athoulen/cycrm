@@ -85,12 +85,6 @@
   		select 
   		<include refid="KEY_Column_List"/>
 		from   cy_merchandiser_table
-		<if test="upperMerchan!=null">
-		where merch_id=#{upperMerchan}
-		</if>
-		<if test="lowerMerchan!=null">
-		where merch_id=#{lowerMerchan}
-		</if>
 		<if test="merchanId!=null">
 		where merch_id=#{merchanId}
 		</if>

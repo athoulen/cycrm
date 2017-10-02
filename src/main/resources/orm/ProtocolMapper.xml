@@ -35,8 +35,8 @@
   	<association property="hospital" column="hospital_id" select="HospitalMapper.queryHospitalBasic"/>
     <association property="zone" column="area_id" select="ZoneMapper.queryAreaById"/>
     <association property="city" column="city_id" select="ZoneMapper.queryCityById"/>
-    <association property="upperMerchanInfo" column="upper_merchan" select="MerchanMapper.queryMerchandiserCas"/>
-    <association property="lowerMerchanInfo" column="lower_merchan" select="MerchanMapper.queryMerchandiserCas"/>
+    <association property="upperMerchanInfo" column="{merchanId=upper_merchan}" select="MerchanMapper.queryMerchandiserCas"/>
+    <association property="lowerMerchanInfo" column="{merchanId=lower_merchan}" select="MerchanMapper.queryMerchandiserCas"/>
     <association property="product" column="product_id" select="ProductMapper.queryProductById2"/>
   </resultMap>
   
@@ -66,7 +66,7 @@
   <select id="queryProtocolByCondition" parameterType="com.blueair.bean.ProtocolBase" resultType="Integer">
   		select count(0) from cy_customer_protocol_table
   		where customer_id=#{customerId} and hospital_id=#{hospitalId}
-  		and product_id=#{productId}
+  		and product_id=#{productId} and is_valid=1
   		<if test="protocolId!=null">
   		and protocol_id!=#{protocolId}
   		</if>
@@ -179,8 +179,8 @@
   </select>
   
   <select id="queryRelatedInvalidProtocols" resultMap="KeyResultMap">
-		select protocol_id,customer_name,hospital,product_name,promotion_expense,bail,switch_expense,
-		switch_amount,back_period,rebate_payer,rebate,protocol_start,protocol_end
+		select protocol_id,customer_name,hospital_id,product_name,promotion_expense,bail,switch_expense,
+		switch_amount,rebate_period,rebate_payer,rebate,protocol_start,protocol_end
 		from cy_customer_protocol_table cp LEFT JOIN cy_customer_table c ON 	cp.customer_id=c.customer_id 
 		LEFT JOIN cy_product_table p ON cp.product_id=p.product_id
 		WHERE cp.customer_id=#{customerId} AND cp.product_id=#{productId} AND hospital_id=#{hospitalId} AND cp.is_valid=0
@@ -191,6 +191,6 @@
   		select count(0)
 		from cy_customer_protocol_table cp LEFT JOIN cy_customer_table c ON 	cp.customer_id=c.customer_id 
 		LEFT JOIN cy_product_table p ON cp.product_id=p.product_id
-		WHERE cp.customer_id=#{customerId} AND cp.product_id=#{productId} AND hospital=#{hospitalId} AND cp.is_valid=0
+		WHERE cp.customer_id=#{customerId} AND cp.product_id=#{productId} AND hospital_id=#{hospitalId} AND cp.is_valid=0
   </select>
 </mapper>

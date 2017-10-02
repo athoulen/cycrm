@@ -40,7 +40,7 @@ public class ProtocolServiceImpl extends BaseServiceImpl implements IProtocolSer
 		if(count>0){
 			return -1;
 		}
-		protocol.setUpdateBy(Generator.getUsername().toString());
+		protocol.setUpdateBy(Generator.getUsername()+"");
 		protocol.setUpdateTime(String.valueOf(System.currentTimeMillis()));
 		int result = getBaseDao().insert("ProtocolMapper.updateProtocol", protocol);
 		if(result>0){
