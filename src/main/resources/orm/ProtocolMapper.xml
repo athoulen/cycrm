@@ -38,6 +38,7 @@
     <association property="upperMerchanInfo" column="{merchanId=upper_merchan}" select="MerchanMapper.queryMerchandiserCas"/>
     <association property="lowerMerchanInfo" column="{merchanId=lower_merchan}" select="MerchanMapper.queryMerchandiserCas"/>
     <association property="product" column="product_id" select="ProductMapper.queryProductById2"/>
+    <association property="rebatePeriodMap" column="rebate_period" select="ProtocolMapper.queryRebatePeriod"/>
   </resultMap>
   
   <resultMap id="KeyResultMap" type="com.blueair.bean.ProtocolKey" >
@@ -192,5 +193,9 @@
 		from cy_customer_protocol_table cp LEFT JOIN cy_customer_table c ON 	cp.customer_id=c.customer_id 
 		LEFT JOIN cy_product_table p ON cp.product_id=p.product_id
 		WHERE cp.customer_id=#{customerId} AND cp.product_id=#{productId} AND hospital_id=#{hospitalId} AND cp.is_valid=0
+  </select>
+  <select id="queryRebatePeriod" resultType="java.util.Map">
+  		select rebate_period_id as periodId,rebate_period_name as periodName from cy_rebate_period_table 
+  		where rebate_period_id=#{rebatePeriod}
   </select>
 </mapper>

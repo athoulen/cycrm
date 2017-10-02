@@ -8,6 +8,7 @@ public class Protocol extends ProtocolBase {
 	private HospitalKey hospital;
 	private Map<String, Object> zone;
 	private Map<String, Object> city;
+	private Map<String, Object> rebatePeriodMap;
 	private MerchandiserKey upperMerchanInfo;
 	private MerchandiserKey lowerMerchanInfo;
 	private Product product;
@@ -53,5 +54,10 @@ public class Protocol extends ProtocolBase {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	
+	public Map<String, Object> getRebatePeriodMap() {
+		return rebatePeriodMap;
+	}
+	public void setRebatePeriodMap(Map<String, Object> rebatePeriodMap) {
+		this.rebatePeriodMap = rebatePeriodMap;
+	}
 }
