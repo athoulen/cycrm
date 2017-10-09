@@ -65,4 +65,6 @@ public interface IProductService {
 	 * @return
 	 */
 	public List<Map<String, Object>> queryProductsByNameAndMaf(String maf, String productName);
+	
+	public List<Product> queryProductList();
 }

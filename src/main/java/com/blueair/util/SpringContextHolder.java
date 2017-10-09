@@ -1,9 +1,12 @@
 package com.blueair.util;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+@Resource
 public class SpringContextHolder implements ApplicationContextAware {
 
 	private static ApplicationContext applicationContext = null;

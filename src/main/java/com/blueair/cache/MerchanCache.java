@@ -1,15 +1,24 @@
 package com.blueair.cache;
 
-import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
+import com.blueair.service.IHospitalService;
 import com.blueair.service.IMerchandiserService;
 import com.blueair.util.SpringContextHolder;
 
-public class MerchanCache {
+public class MerchanCache{
 
-	private static Map<String, Object> merchanMap=new HashMap<>();
-	private static IMerchandiserService merchanService=(IMerchandiserService) SpringContextHolder.getApplicationContext().getBean("merchanService");
+	private static Map<String, Object> merchanMap;
+	
+	private static IMerchandiserService merchanService =(IMerchandiserService) SpringContextHolder.getApplicationContext().getBean("merchanService");
+	
+	private static Map<String, Object> hospitalMap;
+	
+	private static IHospitalService hospitalService =(IHospitalService) SpringContextHolder.getApplicationContext().getBean("hospitalService");
 
 	public static Map<String, Object> getMerchanMap() {
 		if(merchanMap==null){
@@ -22,5 +31,15 @@ public class MerchanCache {
 		merchanMap=merchanService.queryForMerchanMap();
 	}
 	
-	
+	public static Map<String, Object> getHospitalMap() {
+		if(hospitalMap==null){
+			setHospitalMap();
+		}
+		return hospitalMap;
+	}
+
+	public static void setHospitalMap() {
+		hospitalMap=hospitalService.queryHospitalMap();
+	}
+
 }

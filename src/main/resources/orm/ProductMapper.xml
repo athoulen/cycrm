@@ -5,6 +5,7 @@
     <id column="product_id" property="id" jdbcType="INTEGER" />
     <result column="product_name" property="productName" jdbcType="VARCHAR" />
     <result column="product_norms" property="productNorms" jdbcType="VARCHAR" />
+    <result column="product_price" property="productPrice" jdbcType="DECIMAL" />
     <result column="manufacture" property="manufacture" jdbcType="VARCHAR" />
   </resultMap>
   
@@ -52,6 +53,11 @@
   		select * from cy_product_table
   		where product_id=#{id}
   </select>
+  
+  <select id="queryProductList" resultMap="BaseResultMap">
+  		select * from cy_product_table
+  </select>
+  
   <select id="queryProductById2" resultMap="BaseResultMap">
   		select * from cy_product_table
   		where product_id=#{productId}

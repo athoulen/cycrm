@@ -13,7 +13,7 @@ import com.blueair.constant.HandleCode;
 import com.blueair.service.IProductService;
 import com.blueair.util.ConvertUtil;
 import com.blueair.web.exception.ServiceException;
-@Service
+@Service("productService")
 public class ProductServiceImpl extends BaseServiceImpl implements IProductService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ProductServiceImpl.class);
@@ -116,6 +116,10 @@ public class ProductServiceImpl extends BaseServiceImpl implements IProductServi
 		return getBaseDao().queryForList("ProductMapper.loadProductsCas", null);
 	}
 
+	@Override
+	public List<Product> queryProductList() {
+		return getBaseDao().queryForList("ProductMapper.queryProductList", null,Product.class);
+	}
 	
 	
 	

@@ -53,7 +53,7 @@ public class ReadExcel extends ExcelProcessor {
 
 		Long st = System.currentTimeMillis();
 		System.out.println("------------>>>>>>" + st + "---------------");
-		ReadExcel reader = new ReadExcel("C:/Users/lenovo/Desktop/国控海王一级.xls");
+		ReadExcel reader = new ReadExcel("C:/Users/lenovo/Desktop/国控海王一级 - 副本.xls");
 		reader.processByRow(1);
 		System.out.println(tempList.size());
 		for (HashMap<String, String> cell : tempList) {

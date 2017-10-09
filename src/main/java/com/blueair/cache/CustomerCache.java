@@ -1,17 +1,21 @@
 package com.blueair.cache;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.blueair.bean.CustomerProtocol;
 import com.blueair.service.IAreaService;
+import com.blueair.service.IFlowImpService;
 import com.blueair.util.SpringContextHolder;
 
 public class CustomerCache {
-	
-	private static IAreaService areaService=(IAreaService) SpringContextHolder.getApplicationContext().getBean("areaService");
+	private static IAreaService areaService	=(IAreaService) SpringContextHolder.getApplicationContext().getBean("areaService");
+	private static IFlowImpService flowImpService =(IFlowImpService) SpringContextHolder.getApplicationContext().getBean("flowImpService");
 
-	private static Map<String, Object> cityMap=new HashMap<>();
-	private static Map<String, Object> areaMap=new HashMap<>();
+	private static Map<String, Object> cityMap = null ;
+	private static Map<String, Object> areaMap = null ;
+	private static Map<String, Object> customerPtlMap = null ;
 	
 	public static Map<String, Object> getCityMap() {
 		if(cityMap==null){
@@ -30,5 +34,19 @@ public class CustomerCache {
 	}
 	public static void setAreaMap() {
 		cityMap=areaService.loadCityInfo();
+	}
+	
+	public static Map<String, Object> getCustomerPtlMap() {
+		if(customerPtlMap==null){
+			setCustomerPtlMap();
+		}
+		return customerPtlMap;
+	}
+	public static void setCustomerPtlMap() {
+		List<CustomerProtocol> customerPtlList =flowImpService.selectCustomerId();
+		customerPtlMap = new HashMap<String, Object>();
+		for (CustomerProtocol customerProtocol : customerPtlList) {
+			customerPtlMap.put(customerProtocol.getHospitalId()+""+ customerProtocol.getProductId()+"", customerProtocol);
+		}
 	}
 }

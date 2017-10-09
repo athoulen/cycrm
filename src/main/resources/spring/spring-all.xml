@@ -13,4 +13,5 @@
     <import resource="config/spring-shiro.xml"/>
     <import resource="config/spring-factory.xml"/>
     <import resource="config/spring-aop.xml"/>
+    <import resource="config/spring-services.xml"/>
 </beans>

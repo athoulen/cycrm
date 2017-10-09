@@ -17,6 +17,11 @@
     <association property="city" column="city_id" select="ZoneMapper.queryCityById" />
   </resultMap>
   
+  <resultMap id="HospitalMap" type="java.util.Map" >
+    <id column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
+    <result column="hospital_name" property="hospitalName" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <select id="queryHospitalBasic" resultMap="KeyResultMap">
   		select hospital_id,hospital_name from cy_hospital_table where hospital_id=#{hospitalId}
   </select>
@@ -30,6 +35,11 @@
   		select hospital_id,hospital_name,type,area_id,city_id from cy_hospital_table
   		where hospital_id=#{hospitalId}
   </select>
+  
+  <select id="queryHospitalMap" resultMap="HospitalMap">
+  		select hospital_id,hospital_name from cy_hospital_table
+  </select>
+  
   <insert id="insertHospital">
   		insert into cy_hospital_table
   		<set>

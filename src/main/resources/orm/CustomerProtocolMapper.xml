@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="CustomerProtocolMapper" >
+  <resultMap id="BaseResultMap" type="com.blueair.bean.CustomerProtocol" >
+    <id column="protocol_id" property="protocolId" jdbcType="INTEGER" />
+    <result column="protocol_code" property="protocolCode" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="area_id" property="areaId" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="upper_merchan" property="upperMerchan" jdbcType="INTEGER" />
+    <result column="lower_merchan" property="lowerMerchan" jdbcType="INTEGER" />
+    <result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="sale_price" property="salePrice" jdbcType="DECIMAL" />
+    <result column="promotion_expense" property="promotionExpense" jdbcType="DOUBLE" />
+    <result column="bail" property="bail" jdbcType="DOUBLE" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <result column="switch_expense" property="switchExpense" jdbcType="DOUBLE" />
+    <result column="switch_standard" property="switchStandard" jdbcType="TINYINT" />
+    <result column="switch_amount" property="switchAmount" jdbcType="BIGINT" />
+    <result column="rebate_period" property="rebatePeriod" jdbcType="INTEGER" />
+    <result column="rebate_payer" property="rebatePayer" jdbcType="TINYINT" />
+    <result column="rebate" property="rebate" jdbcType="DOUBLE" />
+    <result column="is_honour" property="isHonour" jdbcType="TINYINT" />
+    <result column="protocol_start" property="protocolStart" jdbcType="VARCHAR" />
+    <result column="protocol_end" property="protocolEnd" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="is_valid" property="isValid" jdbcType="TINYINT" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    protocol_id, protocol_code, customer_id, area_id, city_id, upper_merchan, lower_merchan, 
+    hospital_id, product_id, sale_price, promotion_expense, bail, `desc`, switch_expense, 
+    switch_standard, switch_amount, rebate_period, rebate_payer, rebate, is_honour, protocol_start, 
+    protocol_end, `type`, is_valid, create_by, create_time, update_by, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cy_customer_protocol_table
+    where protocol_id = #{protocolId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cy_customer_protocol_table
+    where protocol_id = #{protocolId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.blueair.bean.CustomerProtocol" >
+    insert into cy_customer_protocol_table (protocol_id, protocol_code, customer_id, 
+      area_id, city_id, upper_merchan, 
+      lower_merchan, hospital_id, product_id, 
+      sale_price, promotion_expense, bail, 
+      desc, switch_expense, switch_standard, 
+      switch_amount, rebate_period, rebate_payer, 
+      rebate, is_honour, protocol_start, 
+      protocol_end, type, is_valid, 
+      create_by, create_time, update_by, 
+      update_time)
+    values (#{protocolId,jdbcType=INTEGER}, #{protocolCode,jdbcType=VARCHAR}, #{customerId,jdbcType=INTEGER}, 
+      #{areaId,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, #{upperMerchan,jdbcType=INTEGER}, 
+      #{lowerMerchan,jdbcType=INTEGER}, #{hospitalId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, 
+      #{salePrice,jdbcType=DECIMAL}, #{promotionExpense,jdbcType=DOUBLE}, #{bail,jdbcType=DOUBLE}, 
+      #{desc,jdbcType=VARCHAR}, #{switchExpense,jdbcType=DOUBLE}, #{switchStandard,jdbcType=TINYINT}, 
+      #{switchAmount,jdbcType=BIGINT}, #{rebatePeriod,jdbcType=INTEGER}, #{rebatePayer,jdbcType=TINYINT}, 
+      #{rebate,jdbcType=DOUBLE}, #{isHonour,jdbcType=TINYINT}, #{protocolStart,jdbcType=VARCHAR}, 
+      #{protocolEnd,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{isValid,jdbcType=TINYINT}, 
+      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.blueair.bean.CustomerProtocol" >
+    insert into cy_customer_protocol_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="protocolId != null" >
+        protocol_id,
+      </if>
+      <if test="protocolCode != null" >
+        protocol_code,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="upperMerchan != null" >
+        upper_merchan,
+      </if>
+      <if test="lowerMerchan != null" >
+        lower_merchan,
+      </if>
+      <if test="hospitalId != null" >
+        hospital_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="salePrice != null" >
+        sale_price,
+      </if>
+      <if test="promotionExpense != null" >
+        promotion_expense,
+      </if>
+      <if test="bail != null" >
+        bail,
+      </if>
+      <if test="desc != null" >
+        desc,
+      </if>
+      <if test="switchExpense != null" >
+        switch_expense,
+      </if>
+      <if test="switchStandard != null" >
+        switch_standard,
+      </if>
+      <if test="switchAmount != null" >
+        switch_amount,
+      </if>
+      <if test="rebatePeriod != null" >
+        rebate_period,
+      </if>
+      <if test="rebatePayer != null" >
+        rebate_payer,
+      </if>
+      <if test="rebate != null" >
+        rebate,
+      </if>
+      <if test="isHonour != null" >
+        is_honour,
+      </if>
+      <if test="protocolStart != null" >
+        protocol_start,
+      </if>
+      <if test="protocolEnd != null" >
+        protocol_end,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="isValid != null" >
+        is_valid,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="protocolId != null" >
+        #{protocolId,jdbcType=INTEGER},
+      </if>
+      <if test="protocolCode != null" >
+        #{protocolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="upperMerchan != null" >
+        #{upperMerchan,jdbcType=INTEGER},
+      </if>
+      <if test="lowerMerchan != null" >
+        #{lowerMerchan,jdbcType=INTEGER},
+      </if>
+      <if test="hospitalId != null" >
+        #{hospitalId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="salePrice != null" >
+        #{salePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="promotionExpense != null" >
+        #{promotionExpense,jdbcType=DOUBLE},
+      </if>
+      <if test="bail != null" >
+        #{bail,jdbcType=DOUBLE},
+      </if>
+      <if test="desc != null" >
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="switchExpense != null" >
+        #{switchExpense,jdbcType=DOUBLE},
+      </if>
+      <if test="switchStandard != null" >
+        #{switchStandard,jdbcType=TINYINT},
+      </if>
+      <if test="switchAmount != null" >
+        #{switchAmount,jdbcType=BIGINT},
+      </if>
+      <if test="rebatePeriod != null" >
+        #{rebatePeriod,jdbcType=INTEGER},
+      </if>
+      <if test="rebatePayer != null" >
+        #{rebatePayer,jdbcType=TINYINT},
+      </if>
+      <if test="rebate != null" >
+        #{rebate,jdbcType=DOUBLE},
+      </if>
+      <if test="isHonour != null" >
+        #{isHonour,jdbcType=TINYINT},
+      </if>
+      <if test="protocolStart != null" >
+        #{protocolStart,jdbcType=VARCHAR},
+      </if>
+      <if test="protocolEnd != null" >
+        #{protocolEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blueair.bean.CustomerProtocol" >
+    update cy_customer_protocol_table
+    <set >
+      <if test="protocolCode != null" >
+        protocol_code = #{protocolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="upperMerchan != null" >
+        upper_merchan = #{upperMerchan,jdbcType=INTEGER},
+      </if>
+      <if test="lowerMerchan != null" >
+        lower_merchan = #{lowerMerchan,jdbcType=INTEGER},
+      </if>
+      <if test="hospitalId != null" >
+        hospital_id = #{hospitalId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="salePrice != null" >
+        sale_price = #{salePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="promotionExpense != null" >
+        promotion_expense = #{promotionExpense,jdbcType=DOUBLE},
+      </if>
+      <if test="bail != null" >
+        bail = #{bail,jdbcType=DOUBLE},
+      </if>
+      <if test="desc != null" >
+        desc = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="switchExpense != null" >
+        switch_expense = #{switchExpense,jdbcType=DOUBLE},
+      </if>
+      <if test="switchStandard != null" >
+        switch_standard = #{switchStandard,jdbcType=TINYINT},
+      </if>
+      <if test="switchAmount != null" >
+        switch_amount = #{switchAmount,jdbcType=BIGINT},
+      </if>
+      <if test="rebatePeriod != null" >
+        rebate_period = #{rebatePeriod,jdbcType=INTEGER},
+      </if>
+      <if test="rebatePayer != null" >
+        rebate_payer = #{rebatePayer,jdbcType=TINYINT},
+      </if>
+      <if test="rebate != null" >
+        rebate = #{rebate,jdbcType=DOUBLE},
+      </if>
+      <if test="isHonour != null" >
+        is_honour = #{isHonour,jdbcType=TINYINT},
+      </if>
+      <if test="protocolStart != null" >
+        protocol_start = #{protocolStart,jdbcType=VARCHAR},
+      </if>
+      <if test="protocolEnd != null" >
+        protocol_end = #{protocolEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="isValid != null" >
+        is_valid = #{isValid,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where protocol_id = #{protocolId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blueair.bean.CustomerProtocol" >
+    update cy_customer_protocol_table
+    set protocol_code = #{protocolCode,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=INTEGER},
+      area_id = #{areaId,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      upper_merchan = #{upperMerchan,jdbcType=INTEGER},
+      lower_merchan = #{lowerMerchan,jdbcType=INTEGER},
+      hospital_id = #{hospitalId,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      sale_price = #{salePrice,jdbcType=DECIMAL},
+      promotion_expense = #{promotionExpense,jdbcType=DOUBLE},
+      bail = #{bail,jdbcType=DOUBLE},
+      desc = #{desc,jdbcType=VARCHAR},
+      switch_expense = #{switchExpense,jdbcType=DOUBLE},
+      switch_standard = #{switchStandard,jdbcType=TINYINT},
+      switch_amount = #{switchAmount,jdbcType=BIGINT},
+      rebate_period = #{rebatePeriod,jdbcType=INTEGER},
+      rebate_payer = #{rebatePayer,jdbcType=TINYINT},
+      rebate = #{rebate,jdbcType=DOUBLE},
+      is_honour = #{isHonour,jdbcType=TINYINT},
+      protocol_start = #{protocolStart,jdbcType=VARCHAR},
+      protocol_end = #{protocolEnd,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      is_valid = #{isValid,jdbcType=TINYINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where protocol_id = #{protocolId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectCustomerProtocol" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from cy_customer_protocol_table
+    where is_valid = 1
+  </select>
+</mapper>

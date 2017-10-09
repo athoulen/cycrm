@@ -69,7 +69,7 @@ public class MerchandiserServiceImpl extends BaseServiceImpl implements IMerchan
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> queryForMerchanMap(){
-		return getBaseDao().queryForMap("MerchanMapper.queryForMerchanMap", null, "name", "merchanId");
+		return getBaseDao().queryForMap("MerchanMapper.queryForMerchanMap", null, "name", "merchId");
 	}
 
 	@Override

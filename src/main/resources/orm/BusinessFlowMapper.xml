@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="BusinessFlowMapper">
+	<resultMap id="BaseResultMap" type="com.blueair.bean.BusinessFlow">
+		<id column="flow_id" property="flowId" jdbcType="VARCHAR" />
+		<result column="sold_unit_id" property="soldUnitId" jdbcType="VARCHAR" />
+		<result column="accept_unit_id" property="acceptUnitId"
+			jdbcType="VARCHAR" />
+		<result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+		<result column="product_id" property="productId" jdbcType="VARCHAR" />
+		<result column="batch_no" property="batchNo" jdbcType="VARCHAR" />
+		<result column="sold_date" property="soldDate" jdbcType="VARCHAR" />
+		<result column="sold_month" property="soldMonth" jdbcType="VARCHAR" />
+		<result column="allocate_goods_num" property="allocateGoodsNum"
+			jdbcType="INTEGER" />
+		<result column="sold_goods_num" property="soldGoodsNum"
+			jdbcType="INTEGER" />
+		<result column="sold_price" property="soldPrice" jdbcType="DECIMAL" />
+		<result column="allocate_price" property="allocatePrice"
+			jdbcType="DECIMAL" />
+		<result column="sold_money" property="soldMoney" jdbcType="DECIMAL" />
+		<result column="flow_flag" property="flowFlag" jdbcType="CHAR" />
+		<result column="is_terminal" property="isTerminal" jdbcType="CHAR" />
+		<result column="department" property="department" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap type="java.util.Map" id="CustomerIdMap">
+		<result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+		<result column="hospital_id" property="hospitalId" jdbcType="VARCHAR" />
+		<result column="product_id" property="productId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		flow_id, sold_unit_id, accept_unit_id, customer_id,
+		product_id, batch_no,
+		sold_date,
+		sold_month, allocate_goods_num,
+		sold_goods_num, sold_price, allocate_price,
+		sold_money,
+		flow_flag,
+		is_terminal, department, remark, create_time, update_time
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from cy_business_flow_table
+		where flow_id = #{flowId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		cy_business_flow_table
+		where flow_id = #{flowId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.blueair.bean.BusinessFlow">
+		insert into
+		cy_business_flow_table (flow_id, sold_unit_id,
+		accept_unit_id,
+		customer_id, product_id, batch_no,
+		sold_date, sold_month,
+		allocate_goods_num,
+		sold_goods_num, sold_price, allocate_price,
+		sold_money, flow_flag, is_terminal,
+		department, remark, create_time,
+		update_time)
+		values (#{flowId,jdbcType=VARCHAR},
+		#{soldUnitId,jdbcType=VARCHAR},
+		#{acceptUnitId,jdbcType=VARCHAR},
+		#{customerId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR},
+		#{batchNo,jdbcType=VARCHAR},
+		#{soldDate,jdbcType=VARCHAR},
+		#{soldMonth,jdbcType=VARCHAR},
+		#{allocateGoodsNum,jdbcType=INTEGER},
+		#{soldGoodsNum,jdbcType=INTEGER}, #{soldPrice,jdbcType=DECIMAL},
+		#{allocatePrice,jdbcType=DECIMAL},
+		#{soldMoney,jdbcType=DECIMAL},
+		#{flowFlag,jdbcType=CHAR}, #{isTerminal,jdbcType=CHAR},
+		#{department,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+		#{createTime,jdbcType=VARCHAR},
+		#{updateTime,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into
+		cy_business_flow_table (sold_unit_id,
+		accept_unit_id,
+		customer_id, product_id, batch_no,
+		sold_date, sold_month,
+		allocate_goods_num,
+		sold_goods_num, sold_price, allocate_price,
+		sold_money, flow_flag, is_terminal,
+		department, remark, create_time,
+		update_time)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			#{item.soldUnitId,jdbcType=VARCHAR},
+			#{item.acceptUnitId,jdbcType=VARCHAR},
+			#{item.customerId,jdbcType=VARCHAR}, 
+			#{item.productId,jdbcType=VARCHAR},
+			#{item.batchNo,jdbcType=VARCHAR},
+			#{item.soldDate,jdbcType=VARCHAR},
+			#{item.soldMonth,jdbcType=VARCHAR},
+			#{item.allocateGoodsNum,jdbcType=INTEGER},
+			#{item.soldGoodsNum,jdbcType=INTEGER}, 
+			#{item.soldPrice,jdbcType=DECIMAL},
+			#{item.allocatePrice,jdbcType=DECIMAL},
+			#{item.soldMoney,jdbcType=DECIMAL},
+			#{item.flowFlag,jdbcType=CHAR}, 
+			#{item.isTerminal,jdbcType=CHAR},
+			#{item.department,jdbcType=VARCHAR}, 
+			#{item.remark,jdbcType=VARCHAR},
+			CURRENT_TIMESTAMP(),
+			CURRENT_TIMESTAMP()
+		</foreach>
+
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.blueair.bean.BusinessFlow">
+		insert into cy_business_flow_table
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="flowId != null">
+				flow_id,
+			</if>
+			<if test="soldUnitId != null">
+				sold_unit_id,
+			</if>
+			<if test="acceptUnitId != null">
+				accept_unit_id,
+			</if>
+			<if test="customerId != null">
+				customer_id,
+			</if>
+			<if test="productId != null">
+				product_id,
+			</if>
+			<if test="batchNo != null">
+				batch_no,
+			</if>
+			<if test="soldDate != null">
+				sold_date,
+			</if>
+			<if test="soldMonth != null">
+				sold_month,
+			</if>
+			<if test="allocateGoodsNum != null">
+				allocate_goods_num,
+			</if>
+			<if test="soldGoodsNum != null">
+				sold_goods_num,
+			</if>
+			<if test="soldPrice != null">
+				sold_price,
+			</if>
+			<if test="allocatePrice != null">
+				allocate_price,
+			</if>
+			<if test="soldMoney != null">
+				sold_money,
+			</if>
+			<if test="flowFlag != null">
+				flow_flag,
+			</if>
+			<if test="isTerminal != null">
+				is_terminal,
+			</if>
+			<if test="department != null">
+				department,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="flowId != null">
+				#{flowId,jdbcType=VARCHAR},
+			</if>
+			<if test="soldUnitId != null">
+				#{soldUnitId,jdbcType=VARCHAR},
+			</if>
+			<if test="acceptUnitId != null">
+				#{acceptUnitId,jdbcType=VARCHAR},
+			</if>
+			<if test="customerId != null">
+				#{customerId,jdbcType=VARCHAR},
+			</if>
+			<if test="productId != null">
+				#{productId,jdbcType=VARCHAR},
+			</if>
+			<if test="batchNo != null">
+				#{batchNo,jdbcType=VARCHAR},
+			</if>
+			<if test="soldDate != null">
+				#{soldDate,jdbcType=VARCHAR},
+			</if>
+			<if test="soldMonth != null">
+				#{soldMonth,jdbcType=VARCHAR},
+			</if>
+			<if test="allocateGoodsNum != null">
+				#{allocateGoodsNum,jdbcType=INTEGER},
+			</if>
+			<if test="soldGoodsNum != null">
+				#{soldGoodsNum,jdbcType=INTEGER},
+			</if>
+			<if test="soldPrice != null">
+				#{soldPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="allocatePrice != null">
+				#{allocatePrice,jdbcType=DECIMAL},
+			</if>
+			<if test="soldMoney != null">
+				#{soldMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="flowFlag != null">
+				#{flowFlag,jdbcType=CHAR},
+			</if>
+			<if test="isTerminal != null">
+				#{isTerminal,jdbcType=CHAR},
+			</if>
+			<if test="department != null">
+				#{department,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.blueair.bean.BusinessFlow">
+		update cy_business_flow_table
+		<set>
+			<if test="soldUnitId != null">
+				sold_unit_id = #{soldUnitId,jdbcType=VARCHAR},
+			</if>
+			<if test="acceptUnitId != null">
+				accept_unit_id = #{acceptUnitId,jdbcType=VARCHAR},
+			</if>
+			<if test="customerId != null">
+				customer_id = #{customerId,jdbcType=VARCHAR},
+			</if>
+			<if test="productId != null">
+				product_id = #{productId,jdbcType=VARCHAR},
+			</if>
+			<if test="batchNo != null">
+				batch_no = #{batchNo,jdbcType=VARCHAR},
+			</if>
+			<if test="soldDate != null">
+				sold_date = #{soldDate,jdbcType=VARCHAR},
+			</if>
+			<if test="soldMonth != null">
+				sold_month = #{soldMonth,jdbcType=VARCHAR},
+			</if>
+			<if test="allocateGoodsNum != null">
+				allocate_goods_num =
+				#{allocateGoodsNum,jdbcType=INTEGER},
+			</if>
+			<if test="soldGoodsNum != null">
+				sold_goods_num = #{soldGoodsNum,jdbcType=INTEGER},
+			</if>
+			<if test="soldPrice != null">
+				sold_price = #{soldPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="allocatePrice != null">
+				allocate_price = #{allocatePrice,jdbcType=DECIMAL},
+			</if>
+			<if test="soldMoney != null">
+				sold_money = #{soldMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="flowFlag != null">
+				flow_flag = #{flowFlag,jdbcType=CHAR},
+			</if>
+			<if test="isTerminal != null">
+				is_terminal = #{isTerminal,jdbcType=CHAR},
+			</if>
+			<if test="department != null">
+				department = #{department,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where flow_id = #{flowId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.blueair.bean.BusinessFlow">
+		update
+		cy_business_flow_table
+		set sold_unit_id =
+		#{soldUnitId,jdbcType=VARCHAR},
+		accept_unit_id =
+		#{acceptUnitId,jdbcType=VARCHAR},
+		customer_id =
+		#{customerId,jdbcType=VARCHAR},
+		product_id =
+		#{productId,jdbcType=VARCHAR},
+		batch_no = #{batchNo,jdbcType=VARCHAR},
+		sold_date = #{soldDate,jdbcType=VARCHAR},
+		sold_month =
+		#{soldMonth,jdbcType=VARCHAR},
+		allocate_goods_num =
+		#{allocateGoodsNum,jdbcType=INTEGER},
+		sold_goods_num =
+		#{soldGoodsNum,jdbcType=INTEGER},
+		sold_price =
+		#{soldPrice,jdbcType=DECIMAL},
+		allocate_price =
+		#{allocatePrice,jdbcType=DECIMAL},
+		sold_money =
+		#{soldMoney,jdbcType=DECIMAL},
+		flow_flag = #{flowFlag,jdbcType=CHAR},
+		is_terminal = #{isTerminal,jdbcType=CHAR},
+		department =
+		#{department,jdbcType=VARCHAR},
+		remark = #{remark,jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=VARCHAR},
+		update_time =
+		#{updateTime,jdbcType=VARCHAR}
+		where flow_id =
+		#{flowId,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

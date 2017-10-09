@@ -28,6 +28,7 @@ public class UploadController extends BaseController {
 	 * @throws IOException
 	 * @throws IllegalStateException
 	 */
+	@SuppressWarnings("rawtypes")
 	@RequestMapping("/file")
 	public ModelMap uploadFile(HttpServletRequest request) throws IllegalStateException, IOException {
 		// 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）

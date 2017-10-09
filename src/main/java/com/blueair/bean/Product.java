@@ -5,6 +5,7 @@ public class Product {
 	private Integer id;
 	private String productName;
 	private String productNorms;
+	private String productPrice;
 	private String manufacture;
 	public Integer getId() {
 		return id;
@@ -23,6 +24,12 @@ public class Product {
 	}
 	public void setProductNorms(String productNorms) {
 		this.productNorms = productNorms;
+	}
+	public String getProductPrice() {
+		return productPrice;
+	}
+	public void setProductPrice(String productPrice) {
+		this.productPrice = productPrice;
 	}
 	public String getManufacture() {
 		return manufacture;

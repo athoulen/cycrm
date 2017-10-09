@@ -12,7 +12,7 @@ import com.blueair.bean.PageListBean;
 import com.blueair.service.IHospitalService;
 import com.blueair.shiro.util.Generator;
 import com.blueair.util.ConvertUtil;
-@Service
+@Service("hospitalService")
 public class HospitalServiceImpl extends BaseServiceImpl implements IHospitalService {
 
 	@Override
@@ -51,6 +51,12 @@ public class HospitalServiceImpl extends BaseServiceImpl implements IHospitalSer
 	@Override
 	public HospitalDetail queryHospital(Integer id) {
 		return getBaseDao().queryForObject("HospitalMapper.queryHospital", id, HospitalDetail.class);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<String, Object> queryHospitalMap() {
+		return getBaseDao().queryForMap("HospitalMapper.queryHospitalMap", null, "hospitalName", "hospitalId");
 	}
 
 	@Override
