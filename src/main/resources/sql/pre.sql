@@ -119,20 +119,6 @@ INSERT INTO `cy_city_info_table` VALUES (17, 4, '濮阳', NULL);
 INSERT INTO `cy_city_info_table` VALUES (18, 5, '郑州', NULL);
 
 -- ----------------------------
--- Table structure for cy_company_city_table
--- ----------------------------
-DROP TABLE IF EXISTS `cy_company_city_table`;
-CREATE TABLE `cy_company_city_table`  (
-  `company_city_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '公司城市ID',
-  `company_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '公司id',
-  `city_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '城市id',
-  `area_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '区域名称',
-  `create_time` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建时间',
-  `update_time` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`company_city_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
 -- Table structure for cy_customer_protocol_table
 -- ----------------------------
 DROP TABLE IF EXISTS `cy_customer_protocol_table`;
@@ -328,6 +314,32 @@ INSERT INTO `cy_rebate_period_table` VALUES (2, '压批压月');
 INSERT INTO `cy_rebate_period_table` VALUES (3, '60天');
 INSERT INTO `cy_rebate_period_table` VALUES (4, '90天');
 INSERT INTO `cy_rebate_period_table` VALUES (5, '120天');
+
+DROP TABLE IF EXISTS `cy_business_flow_table`;
+CREATE TABLE `cy_business_flow_table` (
+  `flow_id` varchar(32) NOT NULL COMMENT '商业流向id',
+  `sold_unit_id` varchar(32) NOT NULL COMMENT '销售单位id',
+  `accept_unit_id` varchar(32) NOT NULL COMMENT '接收单位id',
+  `customer_id` varchar(32) DEFAULT NULL COMMENT '客户ID',
+  `product_id` varchar(32) NOT NULL COMMENT '产品id',
+  `batch_no` varchar(32) NOT NULL COMMENT '批号',
+  `sold_date` varchar(30) DEFAULT NULL COMMENT '出售日期',
+  `sold_month` varchar(10) DEFAULT NULL COMMENT '出售月份',
+  `allocate_goods_num` int(11) DEFAULT NULL COMMENT '调货数量',
+  `sold_goods_num` int(11) DEFAULT NULL COMMENT '销售数量',
+  `sold_price` decimal(10,2) DEFAULT NULL COMMENT '销售价格',
+  `allocate_price` decimal(10,2) DEFAULT NULL COMMENT '调拨价格',
+  `sold_money` decimal(10,2) DEFAULT NULL COMMENT '销售金额',
+  `flow_flag` char(2) DEFAULT NULL COMMENT '流向标志,01-一级流向, 02-二级流向',
+  `is_terminal` char(1) DEFAULT NULL COMMENT '是否终端(0-否 1-是)',
+  `department` varchar(255) DEFAULT NULL COMMENT '部门',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_time` varchar(255) DEFAULT NULL COMMENT '创建时间',
+  `update_time` varchar(255) DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`flow_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 
 -- ----------------------------
 -- Table structure for cy_user_info_table
