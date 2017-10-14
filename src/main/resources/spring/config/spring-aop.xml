@@ -55,4 +55,18 @@
 			expression="execution(* com.blueair.service..*.*(..)) " />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="allManagerMethod" />
 	</aop:config>
+	
+	<bean id="cacheRefresher" class="com.blueair.aop.CacheRefresher"/>
+	<aop:config>
+       <aop:pointcut expression="execution(public * com.blueair.service.impl.*.update*(..))" id="updatePointcut"/>
+       <aop:pointcut expression="execution(public * com.blueair.service.impl.*.add*(..))" id="addPointcut"/>
+       <aop:pointcut expression="execution(public * com.blueair.service.impl.*.insert*(..))" id="insertPointcut"/>
+       <aop:pointcut expression="execution(public * com.blueair.service.impl.*.del*(..))" id="delPointcut"/>
+       <aop:aspect id="cacheAspect" ref="cacheRefresher">
+			<aop:after-returning pointcut-ref="updatePointcut" method="refreshCacheMap" />
+			<aop:after-returning pointcut-ref="addPointcut" method="refreshCacheMap" />
+			<aop:after-returning pointcut-ref="insertPointcut" method="refreshCacheMap" />
+			<aop:after-returning pointcut-ref="delPointcut" method="refreshCacheMap" />
+       </aop:aspect>
+ 	</aop:config>
 </beans>

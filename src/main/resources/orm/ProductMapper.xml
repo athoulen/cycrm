@@ -36,6 +36,7 @@
   		<set>
   			product_name=#{productName},
   			product_norms=#{productNorms},
+  			product_price=#{productPrice},
   			manufacture=#{manufacture}
   		</set>
   </insert>
@@ -44,6 +45,7 @@
   		<set>
   			product_name=#{productName},
   			product_norms=#{productNorms},
+  			product_price=#{productPrice},
   			manufacture=#{manufacture}
   		</set>
   		where product_id=#{id}
@@ -100,7 +102,7 @@
   
   <select id="queryProductsNameByMaf" resultType="java.util.Map">
   		select distinct product_name,manufacture from cy_product_table
-  		where manufacture="昆明中药"
+  		where manufacture=#{manufacture}
   </select>
   
   <select id="queryProductsByNameAndMaf" resultType="java.util.Map">
