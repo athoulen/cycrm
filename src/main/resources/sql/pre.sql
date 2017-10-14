@@ -88,14 +88,16 @@ CREATE TABLE `cy_back_style_table` (
 -- ----------------------------
 DROP TABLE IF EXISTS `cy_business_flow_table`;
 CREATE TABLE `cy_business_flow_table` (
-  `flow_id` varchar(32) NOT NULL COMMENT '商业流向id',
+  `flow_id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '商业流向id',
   `sold_unit_id` varchar(32) NOT NULL COMMENT '销售单位id',
   `accept_unit_id` varchar(32) NOT NULL COMMENT '接收单位id',
   `customer_id` varchar(32) DEFAULT NULL COMMENT '客户ID',
   `product_id` varchar(32) NOT NULL COMMENT '产品id',
   `batch_no` varchar(32) NOT NULL COMMENT '批号',
   `sold_date` varchar(30) DEFAULT NULL COMMENT '出售日期',
+  `sold_year` varchar(10) DEFAULT NULL COMMENT '出售年份',
   `sold_month` varchar(10) DEFAULT NULL COMMENT '出售月份',
+  `file_type` varchar(10) DEFAULT NULL COMMENT '文件类型(1-国控 2-华润 3-九州通)',
   `allocate_goods_num` int(11) DEFAULT NULL COMMENT '调货数量',
   `sold_goods_num` int(11) DEFAULT NULL COMMENT '销售数量',
   `sold_price` decimal(10,2) DEFAULT NULL COMMENT '销售价格',
@@ -108,11 +110,40 @@ CREATE TABLE `cy_business_flow_table` (
   `create_time` varchar(255) DEFAULT NULL COMMENT '创建时间',
   `update_time` varchar(255) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`flow_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of cy_business_flow_table
 -- ----------------------------
+INSERT INTO `cy_business_flow_table` VALUES ('49', '5', '4', '3', '10', '170131/3', '2017-07-01 09:40:53', '2017', '7', '1', null, '30', '54.00', '54.00', '84.00', '01', '1', '商务部', null, '2017-10-14 15:19:19', '2017-10-14 15:19:19');
+INSERT INTO `cy_business_flow_table` VALUES ('50', '5', '4', '3', '10', '170131/3', '2017-07-05 10:06:13', '2017', '7', '1', null, '50', '54.00', '54.00', '104.00', '01', '1', '商务部', null, '2017-10-14 15:19:19', '2017-10-14 15:19:19');
+INSERT INTO `cy_business_flow_table` VALUES ('51', '5', '4', '4', '11', 'L17E021', '2017-07-10 08:56:37', '2017', '7', '1', null, '30', '24.86', '24.86', '54.86', '01', '1', '商务部', null, '2017-10-14 15:19:19', '2017-10-14 15:19:19');
+INSERT INTO `cy_business_flow_table` VALUES ('52', '5', '4', '4', '11', 'L17E281', '2017-07-13 14:46:07', '2017', '7', '1', null, '20', '24.86', '24.86', '44.86', '01', '1', '商务部', null, '2017-10-14 15:19:19', '2017-10-14 15:19:19');
+INSERT INTO `cy_business_flow_table` VALUES ('53', '5', '4', '4', '11', 'L17E281', '2017-07-25 08:50:02', '2017', '7', '1', null, '30', '24.86', '24.86', '54.86', '01', '1', '商务部', null, '2017-10-14 15:19:19', '2017-10-14 15:19:19');
+INSERT INTO `cy_business_flow_table` VALUES ('54', '5', '4', '3', '10', '170131/3', '2017-07-25 09:01:20', '2017', '7', '1', null, '50', '54.00', '54.00', '104.00', '01', '1', '商务部', null, '2017-10-14 15:19:19', '2017-10-14 15:19:19');
+INSERT INTO `cy_business_flow_table` VALUES ('55', '5', '4', '4', '11', 'L17E281', '2017-07-26 16:36:28', '2017', '7', '1', null, '30', '24.86', '24.86', '54.86', '01', '1', '商务部', null, '2017-10-14 15:19:19', '2017-10-14 15:19:19');
+INSERT INTO `cy_business_flow_table` VALUES ('56', '4', '5', null, '10', '170131/3', '2017-07-03 08:47:50', '2017', '7', '1', '100', null, '54.00', '50.18', '54.00', '01', '0', '商务部', null, '2017-10-14 15:19:19', '2017-10-14 15:19:19');
+INSERT INTO `cy_business_flow_table` VALUES ('57', '4', '5', null, '11', 'L17E281', '2017-07-12 17:05:58', '2017', '7', '1', '350', null, '24.86', '23.40', '24.86', '01', '0', '商务部', null, '2017-10-14 15:19:19', '2017-10-14 15:19:19');
+INSERT INTO `cy_business_flow_table` VALUES ('58', '4', '5', null, '11', 'L17E281', '2017-07-25 08:43:30', '2017', '7', '1', '50', null, '24.86', '23.40', '24.86', '01', '0', '商务部', null, '2017-10-14 15:19:19', '2017-10-14 15:19:19');
+INSERT INTO `cy_business_flow_table` VALUES ('59', '4', '5', null, '11', 'L17E281', '2017-07-27 17:01:00', '2017', '7', '1', '300', null, '24.86', '23.40', '24.86', '01', '0', '商务部', null, '2017-10-14 15:19:19', '2017-10-14 15:19:19');
+
+
+-- ----------------------------
+-- Table structure for cy_impfile_record_table
+-- ----------------------------
+DROP TABLE IF EXISTS `cy_impfile_record_table`;
+CREATE TABLE `cy_impfile_record_table` (
+  `imp_year` varchar(4) NOT NULL COMMENT '导入年度',
+  `imp_month` varchar(2) NOT NULL COMMENT '导入月份',
+  `file_type` varchar(32) NOT NULL COMMENT '文件类型(1-国控 2-华润 3-九州通)',
+  `file_name` varchar(255) DEFAULT NULL COMMENT '文件名',
+  PRIMARY KEY (`imp_year`,`imp_month`,`file_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of cy_impfile_record_table
+-- ----------------------------
+INSERT INTO `cy_impfile_record_table` VALUES ('2017', '7', '1', '国控海王一级 - copy.xls');
 
 -- ----------------------------
 -- Table structure for cy_city_info_table
