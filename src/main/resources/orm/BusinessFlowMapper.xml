@@ -10,7 +10,9 @@
 		<result column="product_id" property="productId" jdbcType="VARCHAR" />
 		<result column="batch_no" property="batchNo" jdbcType="VARCHAR" />
 		<result column="sold_date" property="soldDate" jdbcType="VARCHAR" />
+		<result column="sold_year" property="soldYear" jdbcType="VARCHAR" />
 		<result column="sold_month" property="soldMonth" jdbcType="VARCHAR" />
+		<result column="file_type" property="fileType" jdbcType="VARCHAR" />
 		<result column="allocate_goods_num" property="allocateGoodsNum"
 			jdbcType="INTEGER" />
 		<result column="sold_goods_num" property="soldGoodsNum"
@@ -36,8 +38,8 @@
 	<sql id="Base_Column_List">
 		flow_id, sold_unit_id, accept_unit_id, customer_id,
 		product_id, batch_no,
-		sold_date,
-		sold_month, allocate_goods_num,
+		sold_date,sold_year,
+		sold_month, file_type,allocate_goods_num,
 		sold_goods_num, sold_price, allocate_price,
 		sold_money,
 		flow_flag,
@@ -55,13 +57,20 @@
 		cy_business_flow_table
 		where flow_id = #{flowId,jdbcType=VARCHAR}
 	</delete>
+	<delete id="deleteFlowData" parameterType="java.util.Map">
+		delete from
+		cy_business_flow_table
+		where sold_year = #{soldYear,jdbcType=VARCHAR} 
+		and sold_month = #{soldMonth,jdbcType=VARCHAR} 
+		and file_type = #{fileType,jdbcType=VARCHAR}
+	</delete>
 	<insert id="insert" parameterType="com.blueair.bean.BusinessFlow">
 		insert into
 		cy_business_flow_table (flow_id, sold_unit_id,
 		accept_unit_id,
 		customer_id, product_id, batch_no,
-		sold_date, sold_month,
-		allocate_goods_num,
+		sold_date,sold_year, sold_month,
+		file_type,allocate_goods_num,
 		sold_goods_num, sold_price, allocate_price,
 		sold_money, flow_flag, is_terminal,
 		department, remark, create_time,
@@ -72,7 +81,9 @@
 		#{customerId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR},
 		#{batchNo,jdbcType=VARCHAR},
 		#{soldDate,jdbcType=VARCHAR},
+		#{soldYear,jdbcType=VARCHAR},
 		#{soldMonth,jdbcType=VARCHAR},
+		#{fileType,jdbcType=VARCHAR},
 		#{allocateGoodsNum,jdbcType=INTEGER},
 		#{soldGoodsNum,jdbcType=INTEGER}, #{soldPrice,jdbcType=DECIMAL},
 		#{allocatePrice,jdbcType=DECIMAL},
@@ -88,22 +99,23 @@
 		cy_business_flow_table (sold_unit_id,
 		accept_unit_id,
 		customer_id, product_id, batch_no,
-		sold_date, sold_month,
-		allocate_goods_num,
+		sold_date,sold_year, sold_month,
+		file_type,allocate_goods_num,
 		sold_goods_num, sold_price, allocate_price,
 		sold_money, flow_flag, is_terminal,
 		department, remark, create_time,
 		update_time)
 		values
-		<foreach collection="list" item="item" index="index"
-			separator=",">
-			#{item.soldUnitId,jdbcType=VARCHAR},
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.soldUnitId,jdbcType=VARCHAR},
 			#{item.acceptUnitId,jdbcType=VARCHAR},
 			#{item.customerId,jdbcType=VARCHAR}, 
 			#{item.productId,jdbcType=VARCHAR},
 			#{item.batchNo,jdbcType=VARCHAR},
 			#{item.soldDate,jdbcType=VARCHAR},
+			#{item.soldYear,jdbcType=VARCHAR},
 			#{item.soldMonth,jdbcType=VARCHAR},
+			#{item.fileType,jdbcType=VARCHAR},
 			#{item.allocateGoodsNum,jdbcType=INTEGER},
 			#{item.soldGoodsNum,jdbcType=INTEGER}, 
 			#{item.soldPrice,jdbcType=DECIMAL},
@@ -114,7 +126,7 @@
 			#{item.department,jdbcType=VARCHAR}, 
 			#{item.remark,jdbcType=VARCHAR},
 			CURRENT_TIMESTAMP(),
-			CURRENT_TIMESTAMP()
+			CURRENT_TIMESTAMP())
 		</foreach>
 
 	</insert>
@@ -143,8 +155,14 @@
 			<if test="soldDate != null">
 				sold_date,
 			</if>
+			<if test="soldYear != null">
+				sold_year,
+			</if>
 			<if test="soldMonth != null">
 				sold_month,
+			</if>
+			<if test="fileType != null">
+				file_type,
 			</if>
 			<if test="allocateGoodsNum != null">
 				allocate_goods_num,
@@ -202,8 +220,14 @@
 			<if test="soldDate != null">
 				#{soldDate,jdbcType=VARCHAR},
 			</if>
+			<if test="soldYear != null">
+				#{soldYear,jdbcType=VARCHAR},
+			</if>
 			<if test="soldMonth != null">
 				#{soldMonth,jdbcType=VARCHAR},
+			</if>
+			<if test="fileType != null">
+				#{fileType,jdbcType=VARCHAR},
 			</if>
 			<if test="allocateGoodsNum != null">
 				#{allocateGoodsNum,jdbcType=INTEGER},
@@ -261,8 +285,14 @@
 			<if test="soldDate != null">
 				sold_date = #{soldDate,jdbcType=VARCHAR},
 			</if>
+			<if test="soldYear != null">
+				sold_year = #{soldYear,jdbcType=VARCHAR},
+			</if>
 			<if test="soldMonth != null">
 				sold_month = #{soldMonth,jdbcType=VARCHAR},
+			</if>
+			<if test="fileType != null">
+				file_type = #{fileType,jdbcType=VARCHAR},
 			</if>
 			<if test="allocateGoodsNum != null">
 				allocate_goods_num =
@@ -314,8 +344,12 @@
 		#{productId,jdbcType=VARCHAR},
 		batch_no = #{batchNo,jdbcType=VARCHAR},
 		sold_date = #{soldDate,jdbcType=VARCHAR},
+		sold_year =
+		#{soldYear,jdbcType=VARCHAR},
 		sold_month =
 		#{soldMonth,jdbcType=VARCHAR},
+		file_type =
+		#{fileType,jdbcType=VARCHAR},
 		allocate_goods_num =
 		#{allocateGoodsNum,jdbcType=INTEGER},
 		sold_goods_num =

@@ -15,11 +15,11 @@ public interface IFlowImpService {
 	/**
 	 * 导入流向数据
 	 * @param param 
-	 * @return map
+	 * @return boolean
 	 * @throws SQLException 
 	 * @throws Exception 
 	 */
-	public Map<String, Object> importFlowData(Map<String, Object> param) throws SQLException, Exception;
+	public boolean importFlowData(Map<String, Object> param) throws SQLException, Exception;
 	
 	/**
 	 * 查询客户ID列表

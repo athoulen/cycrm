@@ -16,8 +16,12 @@ public class BusinessFlow {
     private String batchNo;
 
     private String soldDate;
+    
+    private String soldYear;
 
     private String soldMonth;
+    
+    private String fileType;
 
     private Integer allocateGoodsNum;
 
@@ -101,7 +105,15 @@ public class BusinessFlow {
         return soldMonth;
     }
 
-    public void setSoldMonth(String soldMonth) {
+    public String getSoldYear() {
+		return soldYear;
+	}
+
+	public void setSoldYear(String soldYear) {
+		this.soldYear = soldYear;
+	}
+
+	public void setSoldMonth(String soldMonth) {
         this.soldMonth = soldMonth == null ? null : soldMonth.trim();
     }
 
@@ -109,7 +121,15 @@ public class BusinessFlow {
         return allocateGoodsNum;
     }
 
-    public void setAllocateGoodsNum(Integer allocateGoodsNum) {
+    public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
+
+	public void setAllocateGoodsNum(Integer allocateGoodsNum) {
         this.allocateGoodsNum = allocateGoodsNum;
     }
 

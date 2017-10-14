@@ -1,14 +1,10 @@
 package com.blueair.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.executor.result.DefaultResultContext;
-import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import com.blueair.dao.IBaseDao;
 import com.blueair.util.ConvertUtil;
 import com.blueair.util.MapResultHandler;
-import com.blueair.util.SqlHelper;
  
 
 /**
@@ -274,28 +269,4 @@ public class BaseDaoImpl implements IBaseDao {
         return sqlSession.selectList(sqlId, object);
     }
     
-    
-    
-	/**
-	 * 批量插入
-	 * @param mapperId
-	 * @param obj
-	 * @param sqlsession
-	 * @return
-	 * @throws SQLException
-	 */
-	public int[] insertBatch(String mapperId, Object params) throws SQLException {
-		// MyBatis的Configuration配置
-		Configuration configuration = sqlSession.getConfiguration();
-		//获取执行SQL
-		String sql = SqlHelper.getExecuteSql(mapperId, SqlHelper.wrapCollection(params), configuration);
-		// 获取数据库连接
-		Connection conn = sqlSession.getConnection();
-		// 准备批量执行SQL语句
-		PreparedStatement pst = conn.prepareStatement("");
-		pst.addBatch(sql);
-		pst.close();
-		// 批量执行
-		return pst.executeBatch();
-	}
 }

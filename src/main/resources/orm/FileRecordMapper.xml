@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="FileRecordMapper">
+	<resultMap id="BaseResultMap" type="com.blueair.bean.FileRecord">
+		<id column="imp_year" property="impYear" jdbcType="VARCHAR" />
+		<id column="imp_month" property="impMonth" jdbcType="VARCHAR" />
+		<id column="file_type" property="fileType" jdbcType="VARCHAR" />
+		<result column="file_name" property="fileName" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		imp_year, imp_month, file_type, file_name
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from cy_impfile_record_table
+		where imp_year = #{impYear,jdbcType=VARCHAR}
+		and imp_month = #{impMonth,jdbcType=VARCHAR}
+		and file_type = #{fileType,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="com.blueair.bean.FileRecordKey">
+		delete from cy_impfile_record_table
+		where imp_year = #{impYear,jdbcType=VARCHAR}
+		and imp_month = #{impMonth,jdbcType=VARCHAR}
+		and file_type = #{fileType,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.blueair.bean.FileRecord">
+		insert into cy_impfile_record_table (imp_year, imp_month, file_type,
+		file_name)
+		values (#{impYear,jdbcType=VARCHAR}, #{impMonth,jdbcType=VARCHAR},
+		#{fileType,jdbcType=VARCHAR},
+		#{fileName,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.blueair.bean.FileRecord">
+		insert into cy_impfile_record_table
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="impYear != null">
+				imp_year,
+			</if>
+			<if test="impMonth != null">
+				imp_month,
+			</if>
+			<if test="fileType != null">
+				file_type,
+			</if>
+			<if test="fileName != null">
+				file_name,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="impYear != null">
+				#{impYear,jdbcType=VARCHAR},
+			</if>
+			<if test="impMonth != null">
+				#{impMonth,jdbcType=VARCHAR},
+			</if>
+			<if test="fileType != null">
+				#{fileType,jdbcType=VARCHAR},
+			</if>
+			<if test="fileName != null">
+				#{fileName,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.blueair.bean.FileRecord">
+		update cy_impfile_record_table
+		<set>
+			<if test="fileName != null">
+				file_name = #{fileName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where imp_year = #{impYear,jdbcType=VARCHAR}
+		and imp_month = #{impMonth,jdbcType=VARCHAR}
+		and file_type = #{fileType,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.blueair.bean.FileRecord">
+		update cy_impfile_record_table
+		set file_name = #{fileName,jdbcType=VARCHAR}
+		where imp_year = #{impYear,jdbcType=VARCHAR}
+		and imp_month = #{impMonth,jdbcType=VARCHAR}
+		and file_type = #{fileType,jdbcType=VARCHAR}
+	</update>
+</mapper>

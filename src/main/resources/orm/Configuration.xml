@@ -16,6 +16,7 @@
 		<mapper resource="orm/ZoneMapper.xml"/>
 		<mapper resource="orm/BusinessFlowMapper.xml"/>
 		<mapper resource="orm/CustomerProtocolMapper.xml"/>
+		<mapper resource="orm/FileRecordMapper.xml"/>
 	</mappers>
 </configuration>
 
