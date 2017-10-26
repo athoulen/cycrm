@@ -177,7 +177,7 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			//销售单价
 			flow.setSoldPrice(salePrice);
 			//销售金额
-			flow.setSoldMoney(salePrice.add(new BigDecimal(soldGoodsNum)));
+			flow.setSoldMoney(salePrice.multiply(new BigDecimal(soldGoodsNum)));
 			flowList.add(flow);
 		}
 		return flowList;
@@ -204,7 +204,7 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			flow.setSoldMonth(impMonth);
 			//销售日期
 			String soldDate = dataMap.get("A");
-			flow.setSoldDate(soldDate);
+			flow.setSoldDate(soldDate.substring(0, soldDate.indexOf('.')));
 			//销售部门
 			String soldUnitName = dataMap.get("B");
 			//销售部门id
@@ -257,7 +257,7 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			String batchNo = dataMap.get("G");
 			flow.setBatchNo(batchNo);
 			//商业调拨价
-			BigDecimal allocatePrice = new BigDecimal(String.format("%.2f", dataMap.get("S")));
+			BigDecimal allocatePrice = new BigDecimal(String.format("%.2f", Double.valueOf(dataMap.get("S"))));
 			flow.setAllocatePrice(allocatePrice);
 			//一级流向
 			flow.setFlowFlag("01");
@@ -266,7 +266,7 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			//销售单价
 			flow.setSoldPrice(salePrice);
 			//销售金额
-			flow.setSoldMoney(salePrice.add(new BigDecimal(soldGoodsNum)));
+			flow.setSoldMoney(salePrice.multiply(new BigDecimal(soldGoodsNum)));
 			flowList.add(flow);
 		}
 		return flowList;
@@ -341,7 +341,7 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			String batchNo = dataMap.get("K");
 			flow.setBatchNo(batchNo);
 			//商业调拨价
-			BigDecimal allocatePrice = new BigDecimal(String.format("%.2f", dataMap.get("I")));
+			BigDecimal allocatePrice = new BigDecimal(String.format("%.2f", Double.valueOf(dataMap.get("I"))));
 			flow.setAllocatePrice(allocatePrice);
 			//一级流向
 			flow.setFlowFlag("01");
@@ -350,7 +350,7 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			//销售单价
 			flow.setSoldPrice(salePrice);
 			//销售金额
-			flow.setSoldMoney(salePrice.add(new BigDecimal(soldGoodsNum)));
+			flow.setSoldMoney(salePrice.multiply(new BigDecimal(soldGoodsNum)));
 			flowList.add(flow);
 		}
 		return flowList;
