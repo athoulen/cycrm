@@ -22,6 +22,15 @@
     <result column="is_valid" property="isValid" jdbcType="TINYINT" />
   </resultMap>
   
+  <resultMap id="BalanceResultMap" type="com.blueair.bean.MerchanProtocolBalance" >
+    <id column="protocol_id" property="protocolId" jdbcType="INTEGER" />
+    <id column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="bid_price" property="bidPrice" jdbcType="DOUBLE" />
+    <result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
+    <result column="up_back" property="upBack" jdbcType="DOUBLE" />
+    <result column="lo_back" property="loBack" jdbcType="DOUBLE" />
+  </resultMap>
+  
   <resultMap id="KeyResultMap" type="com.blueair.bean.MerchanProtocolKey" >
     <id column="protocol_id" property="protocolId" jdbcType="INTEGER" />
     <id column="product_id" property="productId" jdbcType="INTEGER" />
@@ -170,5 +179,11 @@
   </select>
   <select id="queryBackPeriodStyle" resultType="java.util.Map">
   		SELECT * FROM cy_back_info_table WHERE back_id=#{backPeriodStyle}
+  </select>
+   <select id="getMerchanProtocolForBanlance" resultMap="BalanceResultMap">
+  		SELECT * FROM cy_merchandiser_protocol_table 
+  		WHERE product_id=#{productId} AND hospital_id=#{hospitalId} 
+  		AND (UNIX_TIMESTAMP(#{soldDate})*1000 BETWEEN start_time 
+  		AND end_time)	AND is_valid=1
   </select>
 </mapper>

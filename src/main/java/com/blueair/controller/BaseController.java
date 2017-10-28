@@ -28,7 +28,7 @@ public class BaseController {
 		LOGGER.error("Controller Exception:", ex);
 		// 根据不同错误转向不同页面
 		if (ex instanceof ServiceException) {
-			return errorResult("服务器错误，请稍后重试！");
+			return errorResult(ex.getMessage());
 		} else {
 			return errorResult("系统错误，请稍后重试！");
 		}

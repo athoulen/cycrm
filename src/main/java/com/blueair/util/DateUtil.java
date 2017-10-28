@@ -18,8 +18,8 @@ public final class DateUtil {
 		String HH_MM_SS = "HH:mm:ss";
 		String YYYYMMDD = "yyyyMMdd";
 		String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
-		String YYYY_MM_DD = "yyyy.MM.dd";
-		String YYYYMMDDHH_MM_SS = "yyyy/MM/dd HH:mm:ss";
+		String YYYY_MM_DD = "yyyy-MM-dd";
+		String YYYYMMDDHH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 		String YYYY_MM_DD_HH_MM = "yyyy/MM/dd HH:mm";
 	}
 
@@ -94,7 +94,7 @@ public final class DateUtil {
 	 * @return
 	 */
 	public static long fromDateStringToLong(String time) { //此方法计算时间毫秒
-		SimpleDateFormat inputFormat = new SimpleDateFormat(DATE_PATTERN.YYYY_MM_DD);
+		SimpleDateFormat inputFormat = new SimpleDateFormat(DATE_PATTERN.YYYYMMDDHH_MM_SS);
 		try {
 			return inputFormat.parse(time).getTime(); //将字符型转换成日期型
 		} catch (ParseException e) {
@@ -255,12 +255,25 @@ public final class DateUtil {
 		return date3String(calendar.getTime());
 	}
 	
+	//计算几个月后的第一天
+	public static Long setFirstDayOfMonths(String dateStr,int months){
+		Calendar cal=Calendar.getInstance();
+		cal.setTime(string2Date(dateStr, DATE_PATTERN.YYYY_MM_DD));
+		cal.add(Calendar.MONTH, months+1);
+		cal.set(Calendar.DATE, 1);
+		return cal.getTimeInMillis();
+	}
+	
 	public static void main(String[] args) {
 //		Date date = string2Date("2017-06-01", DATE_PATTERN.YYYY_MM_DD);
 //		int days = -1;
 //		String s = addDay(date, days);
 //		System.out.println(s);
-		long j = DateUtil.diffOfDatetimes(DateUtil.string2Date("2017-06-19 20:12:25", DATE_PATTERN.YYYY_MM_DD),DateUtil.string2Date(DateUtil.date3String(new Date()), DATE_PATTERN.YYYY_MM_DD));
-		System.out.println(j);
+		/*long j = DateUtil.diffOfDatetimes(DateUtil.string2Date("2017-06-19 20:12:25", DATE_PATTERN.YYYY_MM_DD),DateUtil.string2Date(DateUtil.date3String(new Date()), DATE_PATTERN.YYYY_MM_DD));
+		System.out.println(j);*/
+		System.out.println(setFirstDayOfMonths("2017-06-19 20:12:25", 2));
+		Date date=new Date();
+		date.setTime(setFirstDayOfMonths("2017-06-19 20:12:25", 2));
+		System.out.println(date);
 	}
 }

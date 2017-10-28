@@ -108,7 +108,7 @@
   		<include refid="KEY_Column_List"/>
   		from cy_merchandiser_table
   </select>
-  
+ 
   <!-- <select id="queryLowerMerchandisers" resultMap="KeyResultMap">
   		select 
   		<include refid="KEY_Column_List"/>

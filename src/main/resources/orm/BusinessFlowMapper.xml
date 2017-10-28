@@ -371,5 +371,11 @@
 		where flow_id =
 		#{flowId,jdbcType=VARCHAR}
 	</update>
-
+	<update id="setFlowType">
+		update cy_business_flow_table SET type=1,update_time=#{sysTime} WHERE
+		flow_id in
+		<foreach collection="processes" item="item" open="(" close=")" separator=",">
+		#{item}
+		</foreach>
+	</update>
 </mapper>

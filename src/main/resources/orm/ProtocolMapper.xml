@@ -43,9 +43,9 @@
   
   <resultMap id="KeyResultMap" type="com.blueair.bean.ProtocolKey" >
     <id column="protocol_id" property="protocolId" jdbcType="INTEGER" />
-    <result column="customer_name" property="customerName" jdbcType="INTEGER" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
     <result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
-    <result column="product_name" property="productName" jdbcType="INTEGER" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
     <result column="promotion_expense" property="promotionExpense" jdbcType="DOUBLE" />
     <result column="bail" property="bail" jdbcType="DOUBLE" />
     <result column="switch_expense" property="switchExpense" jdbcType="DOUBLE" />
@@ -55,6 +55,19 @@
     <result column="rebate" property="rebate" jdbcType="DOUBLE" />
     <result column="protocol_start" property="startTime" jdbcType="VARCHAR" />
     <result column="protocol_end" property="endTime" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="RelateResultMap" type="com.blueair.bean.rebate.ProtocolForRebate" >
+    <id column="protocol_id" property="protocolId" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="promotion_expense" property="promotionExpense" jdbcType="DOUBLE" />
+    <result column="switch_standard" property="switchStandard" jdbcType="TINYINT" />
+    <result column="switch_expense" property="switchExpense" jdbcType="DOUBLE" />
+    <result column="switch_amount" property="switchAmount" jdbcType="BIGINT" />
+    <result column="rebate_period" property="rebatePeriod" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
   </resultMap>
   
   <resultMap type="com.blueair.bean.ProtocolQueryKey" id="KeyQueryMap">
@@ -197,5 +210,18 @@
   <select id="queryRebatePeriod" resultType="java.util.Map">
   		select rebate_period_id as periodId,rebate_period_name as periodName from cy_rebate_period_table 
   		where rebate_period_id=#{rebatePeriod}
+  </select>
+  
+  <select id="findRelaProtocol" resultMap="RelateResultMap">
+  		select protocol_id,customer_id,hospital_id,promotion_expense,switch_standard
+  		switch_expense,switch_amount,rebate_period,type
+  		from cy_customer_protocol_table WHERE customer_id=#{customerId} AND product_id=#{productId} 
+  		AND hospital_id=#{acceptUnitId} AND #{soldDate} BETWEEN protocol_start AND protocol_end ORDER BY protocol_end desc limit 1
+  </select>
+  <select id="findRelaProtocolAgain" resultMap="RelateResultMap">
+  		select protocol_id,customer_id,hospital_id,promotion_expense,switch_standard
+  		switch_expense,switch_amount,rebate_period,type
+  		from cy_customer_protocol_table WHERE customer_id=#{customerId} AND product_id=#{productId} 
+  		AND hospital_id=#{acceptUnitId} AND #{soldDate}> protocol_end ORDER BY protocol_end desc LIMIT 1
   </select>
 </mapper>

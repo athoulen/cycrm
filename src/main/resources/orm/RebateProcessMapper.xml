@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="RebateProcessMapper">
+
+	<resultMap id="BaseResultMap" type="com.blueair.bean.rebate.RebateProcess">
+		<id column="flow_id" property="flowId" jdbcType="BIGINT" />
+		<result column="sold_unit_id" property="soldUnitId" jdbcType="VARCHAR" />
+		<result column="accept_unit_id" property="acceptUnitId"
+			jdbcType="VARCHAR" />
+		<result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+		<result column="product_id" property="productId" jdbcType="VARCHAR" />
+		<result column="batch_no" property="batchNo" jdbcType="VARCHAR" />
+		<result column="sold_year" property="soldYear" jdbcType="VARCHAR" />
+		<result column="sold_month" property="soldMonth" jdbcType="VARCHAR" />
+		<result column="sold_goods_num" property="soldGoodsNum"
+			jdbcType="INTEGER" />
+		<result column="sold_price" property="soldPrice" jdbcType="DECIMAL" />
+		<result column="sold_money" property="soldMoney" jdbcType="DECIMAL" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="QueryResultMap" type="com.blueair.bean.rebate.RebateMain">
+		<id column="rebate_id" property="rebateId" jdbcType="BIGINT" />
+		<id column="flow_id" property="flowId" jdbcType="BIGINT" />
+		<result column="hospital_name" property="hospitalName"
+			jdbcType="VARCHAR" />
+		<result column="customer_name" property="customerName"
+			jdbcType="VARCHAR" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="product_norms" property="productNorms"
+			jdbcType="VARCHAR" />
+		<result column="batch_no" property="batchNo" jdbcType="VARCHAR" />
+		<result column="sold_date" property="soldDate" jdbcType="VARCHAR" />
+		<result column="sold_price" property="soldPrice" jdbcType="DECIMAL" />
+		<result column="sold_money" property="soldMoney" jdbcType="DECIMAL" />
+		<result column="is_switch" property="isSwitch" jdbcType="TINYINT" />
+		<result column="rebate_expense" property="rebateExpense"
+			jdbcType="DECIMAL" />
+		<result column="amount" property="amount" jdbcType="INTEGER" />
+		<result column="total_expense" property="totalExpense"
+			jdbcType="DECIMAL" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="TINYINT" />
+		<association property="merProtocol"
+			column="{productId=product_id,hospitalId=hospital_id,soldDate=sold_date}"
+			select="MerchanProtocolMapper.getMerchanProtocolForBanlance" />
+	</resultMap>
+
+	<sql id="Flow_Column_List">
+		flow_id,sold_unit_id, accept_unit_id,
+		product_id,batch_no,sold_year,sold_month,
+		sold_date,sold_goods_num,sold_price,sold_money,remark
+	</sql>
+	<select id="queryUnRebateList" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM cy_business_flow_table WHERE type=0 and is_terminal=1
+	</select>
+	<select id="getFlowCount" resultType="Integer">
+		select count(0) FROM
+		cy_business_flow_table WHERE customer_id=#{customerId} AND
+		product_id=#{productId}
+		AND accept_unit_id=#{acceptUnitId} AND sold_date>#{soldDate}
+	</select>
+	<select id="getFlowSum" resultType="Integer">
+		select sum(sold_goods_num)
+		FROM cy_business_flow_table WHERE customer_id=#{customerId} AND
+		product_id=#{productId}
+		AND accept_unit_id=#{acceptUnitId} AND sold_date>#{soldDate}
+	</select>
+	<select id="getForeFlowSum" resultType="Long">
+		SELECT
+		sum(sold_goods_num) FROM cy_business_flow_table
+		WHERE product_id=11 AND customer_id=4 AND accept_unit_id=4 AND
+		sold_date<"2017-07-27 17:01:00" AND is_terminal=1;
+	</select>
+	<insert id="insertRebateInfo">
+		INSERT INTO
+		cy_business_rebate_table(flow_id,is_switch,rebate_expense,amount,total_expense,create_time)
+		values
+		<foreach collection="processes" item="item" index="index"
+			separator=",">
+			(#{item.flowId},#{item.isSwitch},#{item.singleRebate},#{item.soldGoodsNum},#{item.totalRebate},#{sysTime})
+		</foreach>
+	</insert>
+	<select id="getRebateList" resultMap="QueryResultMap">
+		select
+		rebate_id,f.flow_id,(select hospital_name FROM cy_hospital_table WHERE
+		hospital_id=f.accept_unit_id) as hospital_name,
+		(select customer_name FROM cy_customer_table WHERE customer_id=f.customer_id)
+		as customer_name,
+		p.product_name,p.product_norms,f.batch_no,f.sold_date,f.sold_price,f.sold_money,r.is_switch,r.rebate_expense,r.amount,r.total_expense,f.remark,r.state
+		FROM cy_business_rebate_table r LEFT JOIN cy_business_flow_table f ON
+		r.flow_id=f.flow_id LEFT JOIN cy_product_table p ON
+		f.product_id=p.product_id order by r.create_time,r.rebate_id desc limt #{firstItem},#{pageSize}
+	</select>
+	<select id="getRebateListCount" resultType="Long">
+		select count(0) from cy_business_rebate_table
+	</select>
+</mapper>
