@@ -36,7 +36,7 @@ public class FileRecordController extends BaseController {
 	public ModelMap queryFileRecord(HttpServletRequest request,String json) throws Exception {
 		//将前台传输的json 参数进行转换
 		Map<String, Object> paramMap = JsonUtil.convertJson2Object(json, Map.class);
-		//导入类型(下拉框形式呈现 1-国控  2-华润  3-九州通)
+		//导入类型(下拉框形式呈现 1-国控  2-华润  3-九州通 4-二级)
 		String impType = (String) paramMap.get("impType");
 		if(StringUtils.isBlank(impType)){
 			return parameterResult("导入类型不能为空");

@@ -71,8 +71,8 @@
 	<select id="getForeFlowSum" resultType="Long">
 		SELECT
 		sum(sold_goods_num) FROM cy_business_flow_table
-		WHERE product_id=11 AND customer_id=4 AND accept_unit_id=4 AND
-		sold_date<"2017-07-27 17:01:00" AND is_terminal=1;
+		WHERE product_id=#{productId} AND customer_id=#{customerId} AND accept_unit_id=#{acceptUnitId} AND
+		sold_date<#{soldDate} AND is_terminal=1;
 	</select>
 	<insert id="insertRebateInfo">
 		INSERT INTO
@@ -97,4 +97,16 @@
 	<select id="getRebateListCount" resultType="Long">
 		select count(0) from cy_business_rebate_table
 	</select>
+	<update id="payRebate">
+		UPDATE cy_business_rebate_table SET 
+		<choose>
+		<when test="payment==1">
+		state=1
+		</when>
+		<otherwise>
+		state=0
+		</otherwise>
+		</choose>
+		WHERE	rebate_id=#{id}
+	</update>
 </mapper>

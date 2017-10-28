@@ -2,14 +2,14 @@ package com.blueair.bean;
 
 import java.util.List;
 
-public class PageListBean {
+public class PageListBean <T> {
 
-	private List list;
+	private List<T> list;
 	private Long totalCount;
-	public List getList() {
+	public List<T> getList() {
 		return list;
 	}
-	public void setList(List list) {
+	public void setList(List<T> list) {
 		this.list = list;
 	}
 	public Long getTotalCount() {

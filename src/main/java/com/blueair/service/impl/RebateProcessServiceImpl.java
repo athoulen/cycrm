@@ -96,18 +96,17 @@ public class RebateProcessServiceImpl extends BaseServiceImpl implements IRebate
 	}
 
 	@Override
-	public void payRebate(Long id) {
-		// TODO Auto-generated method stub
-
+	public boolean payRebateDeal(Long id,int payment) {
+		Map<String, Object> params=new HashMap<>();
+		params.put("id", id);
+		params.put("payment", payment);
+		int result = getBaseDao().update("RebateProcessMapper.payRebate", params);
+		if(result>0){
+			return true;
+		}
+		return false;
 	}
 
-	@Override
-	public void cancelPayment(Long id) {
-		// TODO Auto-generated method stub
-
-	}
-	
-	
 	//设置应返佣金
 		private void setSwitchRebate(RebateProcess rebateProcess, ProtocolForRebate protocol, boolean flag) {
 			BigDecimal singleRebate;

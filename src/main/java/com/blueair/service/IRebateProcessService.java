@@ -8,8 +8,6 @@ public interface IRebateProcessService {
 	public boolean AsynDealFlow() throws ServiceException;
 	//查询返佣金列表
 	public PageListBean queryRebateList(int firstItem,int pageSize);
-	//结算佣金
-	public void payRebate(Long id);
-	//取消结算
-	public void cancelPayment(Long id);
+	//结算或取消结算佣金
+	public boolean payRebateDeal(Long id,int payment);
 }

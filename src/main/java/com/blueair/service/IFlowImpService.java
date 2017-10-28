@@ -4,7 +4,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import com.blueair.bean.BusinessFlowQuery;
 import com.blueair.bean.CustomerProtocol;
+import com.blueair.bean.PageListBean;
 /**
  * 流向导入 service
  * @author lenovo
@@ -26,5 +28,11 @@ public interface IFlowImpService {
 	 * @return
 	 */
 	public List<CustomerProtocol> selectCustomerId();
+
+	/**
+	 * 查询
+	 * @param queryMap
+	 */
+	public PageListBean<BusinessFlowQuery> queryForFlow(Map<String, Object> queryMap);
 	
 }

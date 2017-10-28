@@ -378,4 +378,5 @@
 		#{item}
 		</foreach>
 	</update>
+	
 </mapper>

@@ -14,6 +14,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blueair.bean.BusinessFlowQuery;
+import com.blueair.bean.PageListBean;
 import com.blueair.common.excel.ReadExcel;
 import com.blueair.service.IFlowImpService;
 import com.blueair.util.JsonUtil;
@@ -37,7 +39,7 @@ public class FlowImpController extends BaseController {
 	public ModelMap importFile(HttpServletRequest request,String json) throws Exception {
 		//将前台传输的json 参数进行转换
 		Map<String, Object> paramMap = JsonUtil.convertJson2Object(json, Map.class);
-		//导入类型(下拉框形式呈现 1-国控  2-华润  3-九州通)
+		//导入类型(下拉框形式呈现 1-国控  2-华润  3-九州通 4-二级)
 		String impType = (String) paramMap.get("impType");
 		if(StringUtils.isBlank(impType)){
 			return parameterResult("导入类型不能为空");
@@ -81,5 +83,25 @@ public class FlowImpController extends BaseController {
 			return rightResult(null, "上传成功！");
 		}
 		return failResult("上传失败！");
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param json  isTerminal ex \ flowFlag  ex \ hospitalName  mi \ customerName  mi \ batchNo ex \ startDate \ endDate
+	 * @param page	页码
+	 * @param pageSize		页面大小
+	 * @param flag		查询哪种类型的流向   1、一级流向   2、二级流向
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/query/list")
+	public ModelMap queryForFlow(HttpServletRequest request,String json,int page,int pageSize) throws Exception {
+		Map<String,Object> queryMap = JsonUtil.convertJson2Object(json, Map.class);
+		queryMap.put("firstItem", (page-1)*pageSize);
+		queryMap.put("pageSize", pageSize);
+		PageListBean<BusinessFlowQuery> bean = flowImpService.queryForFlow(queryMap);
+		return rightPageListBeanResult(null, "查询成功！", "result", bean);
 	}
 }
