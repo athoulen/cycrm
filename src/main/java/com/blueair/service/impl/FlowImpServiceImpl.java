@@ -447,5 +447,4 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 		PageListBean<BusinessFlowQuery> bean=new PageListBean<>(flows, totalCount);
 		return bean;
 	}
-	
 }

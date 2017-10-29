@@ -127,13 +127,16 @@ public class RebateMain {
 	public void setMerProtocol(MerchanProtocolBalance merProtocol) {
 		this.merProtocol = merProtocol;
 	}
-	public BigDecimal getBalance() {
+	
+	public void setBalance() {
 		BigDecimal salePrice=new BigDecimal(merProtocol.getBidPrice().toString());
 		BigDecimal upBack=new BigDecimal(merProtocol.getUpBack().toString());
 		BigDecimal loBack=new BigDecimal(merProtocol.getLoBack().toString());
 		BigDecimal rebate=new BigDecimal(this.rebateExpense);
 		BigDecimal account=new BigDecimal(this.amount);
 		this.balance=(salePrice.subtract(upBack).subtract(loBack).subtract(rebate)).multiply(account);
+	}
+	public BigDecimal getBalance() {
 		return this.balance;
 	}
 }

@@ -15,6 +15,7 @@ public class BusinessFlowQuery {
 	private Integer amount;
 	private BigDecimal soldPrice;
 	private BigDecimal soldMoney;
+	private String flowFlag;
 	private String department;
 	private Integer type;							//一级流向没有
 	private String remark;
@@ -109,5 +110,10 @@ public class BusinessFlowQuery {
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
-	
+	public String getFlowFlag() {
+		return flowFlag;
+	}
+	public void setFlowFlag(String flowFlag) {
+		this.flowFlag = flowFlag;
+	}
 }

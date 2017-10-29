@@ -10,8 +10,7 @@
 		<result column="customer_id" property="customerId" jdbcType="VARCHAR" />
 		<result column="product_id" property="productId" jdbcType="VARCHAR" />
 		<result column="batch_no" property="batchNo" jdbcType="VARCHAR" />
-		<result column="sold_year" property="soldYear" jdbcType="VARCHAR" />
-		<result column="sold_month" property="soldMonth" jdbcType="VARCHAR" />
+		<result column="sold_date" property="soldDate" jdbcType="VARCHAR" />
 		<result column="sold_goods_num" property="soldGoodsNum"
 			jdbcType="INTEGER" />
 		<result column="sold_price" property="soldPrice" jdbcType="DECIMAL" />
@@ -47,13 +46,13 @@
 	</resultMap>
 
 	<sql id="Flow_Column_List">
-		flow_id,sold_unit_id, accept_unit_id,
+		flow_id,sold_unit_id, accept_unit_id,customer_id,
 		product_id,batch_no,sold_year,sold_month,
 		sold_date,sold_goods_num,sold_price,sold_money,remark
 	</sql>
 	<select id="queryUnRebateList" resultMap="BaseResultMap">
 		SELECT
-		<include refid="Base_Column_List" />
+		<include refid="Flow_Column_List" />
 		FROM cy_business_flow_table WHERE type=0 and is_terminal=1
 	</select>
 	<select id="getFlowCount" resultType="Integer">
@@ -72,7 +71,7 @@
 		SELECT
 		sum(sold_goods_num) FROM cy_business_flow_table
 		WHERE product_id=#{productId} AND customer_id=#{customerId} AND accept_unit_id=#{acceptUnitId} AND
-		sold_date<#{soldDate} AND is_terminal=1;
+		sold_date&lt;#{soldDate} AND is_terminal=1
 	</select>
 	<insert id="insertRebateInfo">
 		INSERT INTO

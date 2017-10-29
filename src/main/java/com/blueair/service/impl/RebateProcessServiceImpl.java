@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.blueair.bean.PageListBean;
 import com.blueair.bean.rebate.ProtocolForRebate;
@@ -18,7 +19,7 @@ import com.blueair.service.IRebateProcessService;
 import com.blueair.util.DateUtil;
 import com.blueair.util.LongUtil;
 import com.blueair.web.exception.ServiceException;
-
+@Service("rebateProcessService")
 public class RebateProcessServiceImpl extends BaseServiceImpl implements IRebateProcessService {
 
 	private Logger logger = LoggerFactory.getLogger(RebateProcessServiceImpl.class);
@@ -90,6 +91,9 @@ public class RebateProcessServiceImpl extends BaseServiceImpl implements IRebate
 		params.put("firstItem", firstItem);
 		params.put("pageSize", pageSize);
 		List<RebateMain> rebates = getBaseDao().queryForListForObject("RebateProcessMapper.getRebateList", params, RebateMain.class);
+		for (RebateMain rebateMain : rebates) {
+			rebateMain.setBalance();
+		}
 		Long totalCount=getBaseDao().queryForObject("RebateProcessMapper.getRebateListCount", null, Long.class);
 		PageListBean bean=new PageListBean(rebates, totalCount);
 		return bean;
