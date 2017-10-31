@@ -185,5 +185,8 @@
   		WHERE product_id=#{productId} AND hospital_id=#{hospitalId} 
   		AND (UNIX_TIMESTAMP(#{soldDate})*1000 BETWEEN start_time 
   		AND end_time)	AND is_valid=1
+  		<if test="isTerminal!=null">
+  		and #{isTerminal}=1
+  		</if>
   </select>
 </mapper>

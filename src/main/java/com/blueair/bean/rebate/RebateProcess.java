@@ -36,6 +36,8 @@ public class RebateProcess {
     
     private boolean isSwitch;
     
+    private String secExpense;
+    
     private String singleRebate;
     
     private String totalRebate;
@@ -183,5 +185,15 @@ public class RebateProcess {
 	public void setTotalRebate(String totalRebate) {
 		this.totalRebate = totalRebate;
 	}
+
+	public String getSecExpense() {
+		return secExpense;
+	}
+
+	public void setSecExpense(String secExpense) {
+		this.secExpense = secExpense;
+	}
+
+	
 
 }

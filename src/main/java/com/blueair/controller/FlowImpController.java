@@ -99,6 +99,7 @@ public class FlowImpController extends BaseController {
 	@RequestMapping("/query/list")
 	public ModelMap queryForFlow(HttpServletRequest request,String json,int page,int pageSize) throws Exception {
 		Map<String,Object> queryMap = JsonUtil.convertJson2Object(json, Map.class);
+		queryMap=queryMap==null?new HashMap<String,Object>():queryMap;
 		queryMap.put("firstItem", (page-1)*pageSize);
 		queryMap.put("pageSize", pageSize);
 		PageListBean<BusinessFlowQuery> bean = flowImpService.queryForFlow(queryMap);

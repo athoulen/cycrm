@@ -213,13 +213,13 @@
   </select>
   
   <select id="findRelaProtocol" resultMap="RelateResultMap">
-  		select protocol_id,customer_id,hospital_id,promotion_expense,switch_standard
+  		select protocol_id,customer_id,hospital_id,promotion_expense,switch_standard,product_id,
   		switch_expense,switch_amount,rebate_period,type
   		from cy_customer_protocol_table WHERE customer_id=#{customerId} AND product_id=#{productId} 
   		AND hospital_id=#{acceptUnitId} AND #{soldDate} BETWEEN protocol_start AND protocol_end ORDER BY protocol_end desc limit 1
   </select>
   <select id="findRelaProtocolAgain" resultMap="RelateResultMap">
-  		select protocol_id,customer_id,hospital_id,promotion_expense,switch_standard
+  		select protocol_id,customer_id,hospital_id,promotion_expense,switch_standard,product_id,
   		switch_expense,switch_amount,rebate_period,type
   		from cy_customer_protocol_table WHERE customer_id=#{customerId} AND product_id=#{productId} 
   		AND hospital_id=#{acceptUnitId} AND #{soldDate}> protocol_end ORDER BY protocol_end desc LIMIT 1

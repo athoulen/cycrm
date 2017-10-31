@@ -15,6 +15,7 @@
 			jdbcType="INTEGER" />
 		<result column="sold_price" property="soldPrice" jdbcType="DECIMAL" />
 		<result column="sold_money" property="soldMoney" jdbcType="DECIMAL" />
+		<result column="sec_expense" property="secExpense" jdbcType="DECIMAL"/>
 		<result column="remark" property="remark" jdbcType="VARCHAR" />
 	</resultMap>
 
@@ -35,6 +36,7 @@
 		<result column="is_switch" property="isSwitch" jdbcType="TINYINT" />
 		<result column="rebate_expense" property="rebateExpense"
 			jdbcType="DECIMAL" />
+		<result  column="sec_expense"  property="secExpense" jdbcType="DECIMAL"/>
 		<result column="amount" property="amount" jdbcType="INTEGER" />
 		<result column="total_expense" property="totalExpense"
 			jdbcType="DECIMAL" />
@@ -51,9 +53,10 @@
 		sold_date,sold_goods_num,sold_price,sold_money,remark
 	</sql>
 	<select id="queryUnRebateList" resultMap="BaseResultMap">
-		SELECT
+		SELECT (select rebate FROM cy_customer_protocol_table WHERE customer_id=f.customer_id AND hospital_id=f.accept_unit_id
+		AND product_id=f.product_id) as sec_expense,
 		<include refid="Flow_Column_List" />
-		FROM cy_business_flow_table WHERE type=0 and is_terminal=1
+		FROM cy_business_flow_table f WHERE type=0 and is_terminal=1
 	</select>
 	<select id="getFlowCount" resultType="Integer">
 		select count(0) FROM
@@ -83,18 +86,49 @@
 		</foreach>
 	</insert>
 	<select id="getRebateList" resultMap="QueryResultMap">
-		select
+		select f.product_id,f.accept_unit_id as hospital_id,
 		rebate_id,f.flow_id,(select hospital_name FROM cy_hospital_table WHERE
 		hospital_id=f.accept_unit_id) as hospital_name,
 		(select customer_name FROM cy_customer_table WHERE customer_id=f.customer_id)
 		as customer_name,
-		p.product_name,p.product_norms,f.batch_no,f.sold_date,f.sold_price,f.sold_money,r.is_switch,r.rebate_expense,r.amount,r.total_expense,f.remark,r.state
+		(select rebate FROM cy_customer_protocol_table WHERE customer_id=f.customer_id AND hospital_id=f.accept_unit_id
+		AND product_id=f.product_id) as sec_expense,p.product_name,p.product_norms,f.batch_no,f.sold_date,
+		f.sold_price,f.sold_money,r.is_switch,r.rebate_expense,r.amount,r.total_expense,f.remark,r.state
 		FROM cy_business_rebate_table r LEFT JOIN cy_business_flow_table f ON
 		r.flow_id=f.flow_id LEFT JOIN cy_product_table p ON
-		f.product_id=p.product_id order by r.create_time,r.rebate_id desc limt #{firstItem},#{pageSize}
+		f.product_id=p.product_id 
+		where 1>0 
+		<if test="productName!=null">
+			AND	p.product_name LIKE CONCAT('%',#{productName},'%') 
+		</if>
+		<if test="customerName!=null">
+			AND (select customer_name FROM cy_customer_table WHERE customer_id=f.customer_id) LIKE CONCAT('%',#{customerName},'%')
+		</if>
+		<if test="startDate!=null">
+		AND sold_date>#{startDate}
+		</if>
+		<if test="endDate!=null">
+		AND sold_date&lt;#{endDate}
+		</if>
+		order by f.sold_date ASC,r.rebate_id ASC 
+		 limit #{firstItem},#{pageSize}
 	</select>
 	<select id="getRebateListCount" resultType="Long">
-		select count(0) from cy_business_rebate_table
+		select count(0) from cy_business_rebate_table r LEFT JOIN cy_business_flow_table f ON
+		r.flow_id=f.flow_id LEFT JOIN cy_product_table p ON
+		f.product_id=p.product_id where 1>0 
+		<if test="productName!=null">
+			AND	p.product_name LIKE CONCAT('%',#{productName},'%') 
+		</if>
+		<if test="customerName!=null">
+			AND (select customer_name FROM cy_customer_table WHERE customer_id=f.customer_id) LIKE CONCAT('%',#{customerName},'%')
+		</if>
+		<if test="startDate!=null">
+		AND sold_date>#{startDate}
+		</if>
+		<if test="endDate!=null">
+		AND sold_date&lt;#{endDate}
+		</if>
 	</select>
 	<update id="payRebate">
 		UPDATE cy_business_rebate_table SET 
@@ -107,5 +141,11 @@
 		</otherwise>
 		</choose>
 		WHERE	rebate_id=#{id}
+	</update>
+	<select id="queryForFlowId" resultType="Long">
+		select flow_id from cy_business_rebate_table WHERE rebate_id=#{id}
+	</select>
+	<update id="cancelFlowType">
+		update cy_business_flow_table SET type=0 WHERE flow_id=#{flowId}
 	</update>
 </mapper>

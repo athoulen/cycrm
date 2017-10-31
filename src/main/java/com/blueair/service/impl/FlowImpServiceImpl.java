@@ -441,9 +441,19 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 	}
 
 	@Override
-	public PageListBean<BusinessFlowQuery> queryForFlow(Map<String, Object> queryMap) {
+	public PageListBean<BusinessFlowQuery> queryForFlow(Map<String, Object> queryMap) throws ServiceException {
 		List<BusinessFlowQuery> flows = getBaseDao().queryForListForObject("BusinessFlowMapper.queryForFlow", queryMap, BusinessFlowQuery.class);
 		Long totalCount = getBaseDao().queryForObject("BusinessFlowMapper.queryForFlowCount", queryMap, Long.class);
+		for (BusinessFlowQuery businessFlowQuery : flows) {
+			if(businessFlowQuery.getMerProtocol()==null&&businessFlowQuery.getIsTerminal()==1){
+				throw new ServiceException(HandleCode.FAIL, "客户"+businessFlowQuery.getCustomerName()+
+						businessFlowQuery.getSoldDate()+"销售给"+businessFlowQuery.getAcceptUnit()+"的"+businessFlowQuery.getProductName()+"流向缺少商业协议");
+			}
+			if(businessFlowQuery.getIsTerminal()!=1){
+				continue;
+			}
+			businessFlowQuery.setBalance();
+		}
 		PageListBean<BusinessFlowQuery> bean=new PageListBean<>(flows, totalCount);
 		return bean;
 	}

@@ -7,6 +7,7 @@ import java.util.Map;
 import com.blueair.bean.BusinessFlowQuery;
 import com.blueair.bean.CustomerProtocol;
 import com.blueair.bean.PageListBean;
+import com.blueair.web.exception.ServiceException;
 /**
  * 流向导入 service
  * @author lenovo
@@ -32,7 +33,8 @@ public interface IFlowImpService {
 	/**
 	 * 查询
 	 * @param queryMap
+	 * @throws ServiceException 
 	 */
-	public PageListBean<BusinessFlowQuery> queryForFlow(Map<String, Object> queryMap);
+	public PageListBean<BusinessFlowQuery> queryForFlow(Map<String, Object> queryMap) throws ServiceException;
 	
 }

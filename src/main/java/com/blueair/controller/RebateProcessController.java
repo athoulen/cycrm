@@ -1,5 +1,8 @@
 package com.blueair.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blueair.bean.PageListBean;
 import com.blueair.service.IRebateProcessService;
+import com.blueair.util.JsonUtil;
 import com.blueair.web.exception.ServiceException;
 
 @RestController
@@ -23,17 +27,21 @@ public class RebateProcessController extends BaseController {
 	 */
 	@RequestMapping("deal")
 	public ModelMap AsynDealFlow() throws ServiceException{
+		Long before=System.currentTimeMillis();
 		rebateService.AsynDealFlow();
-		return rightResult(null, "处理成功！");
+		Long after=System.currentTimeMillis();
+		return rightResult(null, "处理成功！用时"+(after-before)/1000+"毫秒");
 	}
 	
 	/**
 	 * 获取佣金结算列表
 	 * @return
+	 * @throws ServiceException 
 	 */
 	@RequestMapping("list")
-	public ModelMap queryRebateList(int page,int pageSize){
-		PageListBean bean = rebateService.queryRebateList((page-1)*pageSize,pageSize);
+	public ModelMap queryRebateList(String json,int page,int pageSize) throws ServiceException{
+		Map<String, Object> params=JsonUtil.convertJson2Object(json, Map.class);
+		PageListBean bean = rebateService.queryRebateList(params,(page-1)*pageSize,pageSize);
 		return rightPageListBeanResult(null, "查询成功！", "result", bean);
 	}
 	
@@ -58,4 +66,5 @@ public class RebateProcessController extends BaseController {
 		}
 		return errorResult("撤销付款失败！");
 	}
+	
 }

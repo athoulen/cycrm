@@ -38,6 +38,8 @@
 		<result column="product_norms" property="productNorms" jdbcType="VARCHAR" />
 		<result column="batch_no" property="batchNo" jdbcType="VARCHAR" />
 		<result column="sold_date" property="soldDate" jdbcType="VARCHAR" />
+		<result column="promotion_expense" property="rebatePrice" jdbcType="VARCHAR" />
+		<result  column="sec_expense"  property="secExpense" jdbcType="DECIMAL"/>
 		<result column="amount" property="amount"	jdbcType="INTEGER" />
 		<result column="sold_price" property="soldPrice" jdbcType="DECIMAL" />
 		<result column="sold_money" property="soldMoney" jdbcType="DECIMAL" />
@@ -45,7 +47,11 @@
 		<result column="department" property="department" jdbcType="VARCHAR" />
 		<result column="remark" property="remark" jdbcType="VARCHAR" />
 		<result column="type" property="type" jdbcType="TINYINT" />
+		<result column="is_terminal" property="isTerminal" jdbcType="TINYINT" />
 		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<association property="merProtocol"
+			column="{productId=product_id,hospitalId=accept_unit_id,soldDate=sold_date,isTerminal=is_terminal}"
+			select="MerchanProtocolMapper.getMerchanProtocolForBanlance" />
 	</resultMap>
 	
 	<resultMap type="java.util.Map" id="CustomerIdMap">
@@ -394,16 +400,65 @@
 		update cy_business_flow_table SET type=1,update_time=#{sysTime} WHERE
 		flow_id in
 		<foreach collection="processes" item="item" open="(" close=")" separator=",">
-		#{item}
+		#{item.flowId}
 		</foreach>
 	</update>
 	<select id="queryForFlow" resultMap="QueryResultMap">
-		SELECT (SELECT `name` FROM cy_merchandiser_table WHERE merch_id=f.sold_unit_id) as out_unit,(CASE 
+		SELECT flow_id,f.accept_unit_id,f.product_id,is_terminal,(SELECT `name` FROM cy_merchandiser_table WHERE merch_id=f.sold_unit_id) as out_unit,(CASE 
 		WHEN is_terminal=1 THEN (SELECT hospital_name FROM cy_hospital_table WHERE hospital_id=f.accept_unit_id)
 		ELSE	(SELECT `name` FROM cy_merchandiser_table WHERE merch_id=f.accept_unit_id)
 		END) as accept_unit,(SELECT customer_name FROM cy_customer_table WHERE customer_id=f.customer_id) as customer_name,
-		product_name,product_norms,(CASE WHEN is_terminal=1 THEN sold_goods_num	ELSE	allocate_goods_num END) as amount,
+		(CASE f.is_terminal WHEN 1 THEN
+		(select rebate FROM cy_customer_protocol_table WHERE customer_id=f.customer_id AND hospital_id=f.accept_unit_id
+		AND product_id=f.product_id) ELSE 0	END) as sec_expense	,sold_date,
+		product_name,product_norms,product_price,(CASE WHEN is_terminal=1 THEN sold_goods_num	ELSE	allocate_goods_num END) as amount,(CASE WHEN is_terminal=1 THEN (SELECT promotion_expense FROM cy_customer_protocol_table cp WHERE cp.customer_id=f.customer_id AND cp.hospital_id=f.accept_unit_id AND cp.product_id=f.product_id) ELSE NULL END) as promotion_expense,
 		(CASE WHEN is_terminal=1 THEN sold_price ELSE allocate_price END) as sold_price,sold_money,flow_flag,department,remark,create_time
- 		FROM cy_business_flow_table f LEFT JOIN cy_product_table p ON f.product_id=p.product_id
+ 		FROM cy_business_flow_table f LEFT JOIN cy_product_table p ON f.product_id=p.product_id 
+ 		where 1>0
+ 		<if test="isTerminal!=null">
+ 		and is_terminal=#{isTerminal}
+ 		</if>
+ 		<if test="flowFlag!=null">
+ 		and flow_flag=#{flowFlag}
+ 		</if>
+ 		<if test="acceptUnit!=null">
+ 		and (CASE is_terminal	WHEN 1 THEN	(SELECT hospital_name FROM cy_hospital_table WHERE hospital_id=f.accept_unit_id) 
+		ELSE	(SELECT `name` FROM cy_merchandiser_table WHERE merch_id=f.accept_unit_id)	END)	
+		LIKE CONCAT('%',#{acceptUnit,jdbcType=VARCHAR},'%')
+ 		</if>
+ 		<if test="batchNo!=null">
+ 		and batch_no like CONCAT('%',#{batchNo,jdbcType=VARCHAR},'%')
+ 		</if>
+ 		<if test="startDate!=null">
+ 		and sold_date>#{startDate}
+ 		</if>
+ 		<if test="endDate!=null">
+ 		and sold_date&lt;#{endDate}
+ 		</if>
+ 		order by sold_date asc,flow_id asc limit #{firstItem},#{pageSize}
+	</select>
+	<select id="queryForFlowCount" resultType="Long">
+		SELECT count(0)	FROM cy_business_flow_table f LEFT JOIN cy_product_table p ON f.product_id=p.product_id 
+		where 1>0
+ 		<if test="isTerminal!=null">
+ 		and is_terminal=#{isTerminal}
+ 		</if>
+ 		<if test="flowFlag!=null">
+ 		and flow_flag=#{flowFlag}
+ 		</if>
+ 		<if test="acceptUnit!=null">
+ 		and (CASE is_terminal	WHEN 1 THEN	(SELECT hospital_name FROM cy_hospital_table WHERE hospital_id=f.accept_unit_id) 
+		ELSE	(SELECT `name` FROM cy_merchandiser_table WHERE merch_id=f.accept_unit_id)	END)	
+		LIKE CONCAT('%',#{acceptUnit,jdbcType=VARCHAR},'%')
+ 		</if>
+ 		<if test="batchNo!=null">
+ 		and batch_no like CONCAT('%',#{batchNo,jdbcType=VARCHAR},'%')
+ 		</if>
+ 		<if test="startDate!=null">
+ 		and sold_date>#{startDate}
+ 		</if>
+ 		<if test="endDate!=null">
+ 		and sold_date&lt;#{endDate}
+ 		</if>
 	</select>
 </mapper>

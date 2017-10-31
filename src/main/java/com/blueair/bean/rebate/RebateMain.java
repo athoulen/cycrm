@@ -23,6 +23,7 @@ public class RebateMain {
 	private boolean state;
 	private String remark;
 	private MerchanProtocolBalance merProtocol;
+	private String secExpense;
 	private BigDecimal balance;
 	
 	public Long getRebateId() {
@@ -129,14 +130,21 @@ public class RebateMain {
 	}
 	
 	public void setBalance() {
-		BigDecimal salePrice=new BigDecimal(merProtocol.getBidPrice().toString());
+		BigDecimal salePrice=new BigDecimal(soldPrice);
 		BigDecimal upBack=new BigDecimal(merProtocol.getUpBack().toString());
 		BigDecimal loBack=new BigDecimal(merProtocol.getLoBack().toString());
 		BigDecimal rebate=new BigDecimal(this.rebateExpense);
+		BigDecimal secRebate=new BigDecimal(secExpense);
 		BigDecimal account=new BigDecimal(this.amount);
-		this.balance=(salePrice.subtract(upBack).subtract(loBack).subtract(rebate)).multiply(account);
+		this.balance=(salePrice.subtract(upBack).subtract(loBack).subtract(rebate).add(secRebate)).multiply(account);
 	}
 	public BigDecimal getBalance() {
 		return this.balance;
+	}
+	public String getSecExpense() {
+		return secExpense;
+	}
+	public void setSecExpense(String secExpense) {
+		this.secExpense = secExpense;
 	}
 }

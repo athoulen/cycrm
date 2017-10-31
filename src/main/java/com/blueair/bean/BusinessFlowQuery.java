@@ -19,7 +19,12 @@ public class BusinessFlowQuery {
 	private String department;
 	private Integer type;							//一级流向没有
 	private String remark;
+	private Integer isTerminal;
 	private String createTime;
+	private String rebatePrice;
+	private String secExpense;
+	private MerchanProtocolBalance merProtocol;
+	private BigDecimal balance;
 	public Long getFlowId() {
 		return flowId;
 	}
@@ -115,5 +120,42 @@ public class BusinessFlowQuery {
 	}
 	public void setFlowFlag(String flowFlag) {
 		this.flowFlag = flowFlag;
+	}
+	public MerchanProtocolBalance getMerProtocol() {
+		return merProtocol;
+	}
+	public void setMerProtocol(MerchanProtocolBalance merProtocol) {
+		this.merProtocol = merProtocol;
+	}
+	
+	public void setBalance() {
+		BigDecimal salePrice=this.soldPrice;
+		BigDecimal upBack=new BigDecimal(merProtocol.getUpBack().toString());
+		BigDecimal loBack=new BigDecimal(merProtocol.getLoBack().toString());
+		BigDecimal rebate=new BigDecimal(this.rebatePrice);
+		BigDecimal secRebate=new BigDecimal(secExpense);
+		BigDecimal account=new BigDecimal(this.amount);
+		this.balance=(salePrice.subtract(upBack).subtract(loBack).subtract(rebate).add(secRebate)).multiply(account);
+	}
+	public BigDecimal getBalance() {
+		return this.balance;
+	}
+	public String getRebatePrice() {
+		return rebatePrice;
+	}
+	public void setRebatePrice(String rebatePrice) {
+		this.rebatePrice = rebatePrice;
+	}
+	public String getSecExpense() {
+		return secExpense;
+	}
+	public void setSecExpense(String secExpense) {
+		this.secExpense = secExpense;
+	}
+	public Integer getIsTerminal() {
+		return isTerminal;
+	}
+	public void setIsTerminal(Integer isTerminal) {
+		this.isTerminal = isTerminal;
 	}
 }
