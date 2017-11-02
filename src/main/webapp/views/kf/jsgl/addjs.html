@@ -1,0 +1,41 @@
+<div class="addjs">
+<form role="form" name="myaddjsForm" ng-submit="submitForm(submitted)" class="form-horizontal" novalidate>
+    <h1 class="th1">
+        <span class='thtext'>新增角色</span>
+        <div class="thbtn">
+            <button type="button" class="btn btn-default" ui-sref='home.kf.jsgl'>取消</button>
+            <button type="submit" class="btn btn-default">保存</button>
+        </div>
+    </h1>
+    <div class="addjsmain">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label text_left">角色名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name='name' required placeholder='请输入角色名称(必填)' ng-model='jsname'>
+                        <span class='wrong_icon' ng-show="myaddjsForm.name.$error.required && myaddjsForm.submitted">角色名称是必须的</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label text_left">角色描述</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" rows="5" placeholder='点击添加描述(必填)' ng-model='jsremark' name='jsms' required></textarea>
+                        <span class='wrong_icon' ng-show="myaddjsForm.jsms.$error.required && myaddjsForm.submitted">角色描述是必须的</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-repeat='x in addjslist track by $index' id='addjschk'>     
+            <div class="col-sm12 addjsGroupth">
+                <input type="checkbox" ng-model='all[x.permissionMokuiId]' ng-change='changeit($index)'><span ng-bind='x.name'></span>
+            </div>
+            <div class="col-sm-6 addjsGroup" ng-repeat='y in x.subPermissions'>
+                <input type="checkbox" ng-change="check(y.permissionId,$index)" ng-model="y.check"> <span ng-bind='y.name'></span>
+            </div>
+        </div>
+    </div>
+</form>
+</div>

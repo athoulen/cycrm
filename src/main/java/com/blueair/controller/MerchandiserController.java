@@ -115,9 +115,10 @@ public class MerchandiserController extends BaseController {
 		}
 		name=DataCheckUtil.ifNullToEmpty(name);
 		desc=DataCheckUtil.ifNullToEmpty(desc);
+		String classType=request.getParameter("classType");
 		int firstItem=(page-1)*pageSize;
 		try {
-			Map<String, Object> bean = merchanService.queryMerchandisers(name,desc,firstItem,pageSize,flag);
+			Map<String, Object> bean = merchanService.queryMerchandisers(name,desc,firstItem,pageSize,flag,classType);
 			return rightPageListResult(null, "查询成功！", "merchans", bean);
 		} catch (Exception e) {
 			logger.debug("Merchans查询失败",e);

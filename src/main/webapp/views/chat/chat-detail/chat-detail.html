@@ -1,0 +1,21 @@
+<div class="chat-window" id="chat-window">
+	<ul class='talk_wrap clear-fix' id="talk_wrap">
+		<li ng-repeat='x in chatMsg' ng-class='{true:"chat_customer",false:"chat_kf"}[x.toId==userId]' class="clear-fix">
+			<img class="userPic" src='{{x.fromUserPhoto}}' ng-show="x.toId==userId"/>
+			<img class="userPic" src='img/kfPic.jpg' ng-show="x.toId!=userId"/>
+			<span class="user-chat-msg">
+				{{x.text.content}}
+				<img ng-show="x.msgtype=='image'" src="{{x.image.fileUrl}}"/>
+			</span>
+		</li>
+	</ul>
+</div>
+<div class="chat_handle">
+	<span class="put_img">
+		<input type="file" id="put_img"/>
+	</span>
+</div>
+<div class="chat-input">
+	<div class="msg_holder" id='msg_holder' contenteditable=true></div>
+	<button class="btn" id="push_msg">发送</button>
+</div>

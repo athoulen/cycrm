@@ -64,6 +64,9 @@
 		from   cy_merchandiser_table
 		where name like CONCAT('%',#{name,jdbcType=VARCHAR},'%') 
 		and `desc` like CONCAT('%',#{desc,jdbcType=VARCHAR},'%')
+		<if test="classType!=null">
+		and class_type=#{classType}
+		</if>
 		<if test="flag==1">
 		limit #{firstItem},#{pageSize}
 		</if>

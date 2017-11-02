@@ -1,0 +1,41 @@
+<div class="login clear-fix">
+<form class="form-horizontal" role="form">
+  <div class="form-group" ng-class="test_style1">
+    <label for="username" class="col-sm-2 control-label">账号</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" placeholder="请输入账号" id="username" ng-model="username">
+      <span class="help-block error" ng-bind="error_username" style="color:red;"></span>
+    </div>
+  </div>
+  <div class="form-group" ng-class="test_style2">
+    <label for="password" class="col-sm-2 control-label" >密码</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" placeholder="请输入密码" id="password" ng-model="password" />
+      <span class="help-block error" ng-bind="error_password" style="color:red;"></span>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button  class="btn btn-primary col-sm-10" ng-click="login()" ng-bind = 'login_submit'>登录</button>
+    </div>
+  </div>
+  <div class="form-group ">
+    <div class="col-sm-12">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model='rememberID'> 记住密码
+        </label>
+       <a href="javascript:;" class='col-sm-offset-7' ui-sref="register">忘记密码</a>
+      </div>
+    </div>
+  </div>
+  <div class="form-group" >
+    <div class="col-sm-12" style="text-align:right;">
+       <!-- <a href="javascript:;" ui-sref="register.step1">没有账号，立即注册</a> -->
+      </div>
+    </div>
+  </div>
+  
+</form>
+<secects></secects>
+</div>

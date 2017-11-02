@@ -45,12 +45,12 @@ public class FlowImpController extends BaseController {
 			return parameterResult("导入类型不能为空");
 		}
 		//导入年度
-		String impYear = (String) paramMap.get("impYear");
+		String impYear = String.valueOf(paramMap.get("impYear")) ;
 		if(StringUtils.isBlank(impYear)){
 			return parameterResult("导入年度不能为空");
 		}
 		//导入月份(前台以下拉框的形式呈现)
-		String impMonth = (String) paramMap.get("impMonth");
+		String impMonth =String.valueOf(paramMap.get("impMonth"));
 		if(StringUtils.isBlank(impMonth)){
 			return parameterResult("导入月份不能为空");
 		}
@@ -60,7 +60,9 @@ public class FlowImpController extends BaseController {
 			return parameterResult("删除标志不能为空");
 		}
 		//导入文件列表
-		List<String> pathList =  (List<String>) paramMap.get("pathList");
+		List<String> pathList =  new ArrayList<>();
+		String paths=(String)paramMap.get("pathList");
+		pathList.add(paths);
 		//如果上传文件列表参数为空,则不行
 		if(pathList.size()<=0){
 			return parameterResult("上传文件列表不能为空");

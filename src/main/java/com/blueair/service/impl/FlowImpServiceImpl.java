@@ -45,9 +45,9 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 		// 文件类型(101-国控01 102-国控02 201-华润01 202-华润02 301-九州通01 302-九州通02)
 		//String fileType = (String) param.get("fileType");
 		// 导入年份
-		String impYear = (String) param.get("impYear");
+		String impYear = String.valueOf(param.get("impYear"));
 		// 导入月份
-		String impMonth = (String) param.get("impMonth");
+		String impMonth = String.valueOf( param.get("impMonth"));
 		// 文件名称
 		String fileName = (String) param.get("fileName");
 		// 删除标志

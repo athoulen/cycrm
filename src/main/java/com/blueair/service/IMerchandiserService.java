@@ -38,7 +38,7 @@ public interface IMerchandiserService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public Map<String, Object> queryMerchandisers(String name, String desc, int firstItem, int pageSize,int flag) throws Exception;
+	public Map<String, Object> queryMerchandisers(String name, String desc, int firstItem, int pageSize,int flag,String classType) throws Exception;
 
 	/**
 	 * 查询公司详情

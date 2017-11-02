@@ -1,0 +1,36 @@
+<div class="kfgl">
+	<tipalert></tipalert>
+	<h1 class="th1">
+		<span class='thtext'>终端列表</span>
+        <div class="thbtn">
+            <button type="button" class="btn btn-success" ui-sref='home.kf.addKf'>+新增终端</button>
+        </div>
+	</h1>
+	<div class="search clearfix">
+		<div class="form-group" >
+		    <label class="col-sm-2 control-label text_left" >搜索终端</label>
+		    <div class="col-sm-6">
+		        <input type="text" class="form-control" ng-model='queryHospitalTxt' />
+		    </div>
+		    <div class="col-sm-4">
+		        <button class="btn btn-primary" ng-click = "search()">搜索</button>
+		    </div>
+		</div>
+	</div>
+	<table class="table table-striped">
+		<tr style="font-weight:600;">
+			<td>医院名称</td>
+			<td>创建时间</td>
+			<td>操作</td>
+		</tr>
+		<tr ng-repeat='x in dataList'>
+			<td>{{x.hospitalName}}</td>
+			<td>{{x.createTime}}</td>
+			<td>
+				<a href='javascript:;' ng-click='bjZd(x)'>编辑</a>
+				<a href='javascript:;' ng-click='deleZd(x)'>删除</a>
+			</td>
+		</tr>
+	</table>
+	<tm-pagination conf="paginationConf" ng-show='pagShow'></tm-pagination>
+</div>

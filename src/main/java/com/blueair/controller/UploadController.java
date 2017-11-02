@@ -43,12 +43,13 @@ public class UploadController extends BaseController {
 			// 将request变成多部分request
 			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
 			// 获取multiRequest 中所有的文件名
-			Iterator iter = multiRequest.getFileNames();
+//			Iterator iter = multiRequest.getFileNames();
+			Iterator<MultipartFile> iter=multiRequest.getFiles("file").iterator();
 			//循环遍历
 			while (iter.hasNext()) {
 				// 一次遍历所有文件
-				MultipartFile file = multiRequest.getFile(iter.next().toString());
-				if (file != null) {
+				MultipartFile file = iter.next();
+				if (file != null) { 
 					//服务路径
 					String uploadPath = PropertiesUtil.getString("system", "uploadPath");
 					//上传路径 
