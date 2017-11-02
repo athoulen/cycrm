@@ -1,0 +1,10 @@
+@import '../../common/config';
+$kf-view-width:$view-width - 150px;
+.bjkfz{
+	height:100%;
+	width:$kf-view-width;
+    h1{     
+        width:96%;
+        margin:0 auto;
+    }
+}

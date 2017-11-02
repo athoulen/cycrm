@@ -1,0 +1,30 @@
+angular.module('register.router',['register.ctrl'])
+.config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider){
+	$stateProvider
+	.state('register',{
+		url:'/register',
+		templateUrl:'views/register/register.html',
+		controller:"registerCtrl"
+	})
+	.state('register.step1',{
+		url:'/1',
+		templateUrl:'views/register/step1.html',
+		controller:'registerStep1Ctrl'
+	})
+	.state('register.step2',{
+		url:'/2',
+		templateUrl:'views/register/step2.html',
+		controller:'registerStep2Ctrl',
+		params:{
+			obj:null
+		}
+	})
+	.state('register.step3',{
+		url:'/3',
+		templateUrl:'views/register/step3.html',
+		controller:'registerStep3Ctrl',
+		params:{
+			obj:null
+		}
+	})
+}])

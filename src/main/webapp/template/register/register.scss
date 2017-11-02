@@ -1,0 +1,26 @@
+.register{
+	padding:30px;
+	margin:150px auto;
+	border:1px solid #eee;
+	width:500px;
+	border-radius:5px;
+	box-shadow: 0 0 2px 1px #333;
+	button{
+		width:100%;
+	}
+	img{
+		height:100%;
+		width:100%;
+	}
+	table{
+		border-color:#ccc;
+		height:15px;
+	}
+	.password_strong{
+		font-size:12px;
+		color:#ccc;
+	}
+	.password_bg{
+		background:#eee;
+	}
+}

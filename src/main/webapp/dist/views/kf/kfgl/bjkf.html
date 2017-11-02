@@ -1,0 +1,32 @@
+<div class="bjkf">
+    <tipalert></tipalert>
+    <h1 class="th1">
+        <span class='thtext'>编辑终端</span>
+        <div class="thbtn">
+            <button type="button" class="btn btn-default" ui-sref='home.kf.kfgl'>取消</button>
+            <button type="button" class="btn btn-default" ng-click='saveMsg()'>保存</button>
+        </div>
+    </h1>
+    <div class='bjkf_main'>
+		<form  class="form-horizontal" role="form" >
+            <citys my-area = "myArea" my-city = "myCity" ></citys>
+			<div class="form-group" >
+			    <label class="col-sm-2 control-label text_left" >*终端名称</label>
+			    <div class="col-sm-8">
+			        <input type="text" class="form-control" ng-model='myMsg.hospitalName' />
+			    </div>
+			</div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label text_left" >终端类型</label>
+                <div class="col-sm-8">
+                    <select class="form-control" ng-model = "myMsg.type">
+                        <option value="" ng-show="false" >--请选择--</option>
+                        <option value="1" >县级以上人民医院</option>
+                        <option value="2" >县级卫生院</option>
+                        <option value="3" >其他</option>
+                    </select>
+                </div>
+            </div>
+		</form>
+    </div>
+</div>

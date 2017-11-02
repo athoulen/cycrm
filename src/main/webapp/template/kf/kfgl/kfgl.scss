@@ -1,0 +1,28 @@
+@import '../../common/config';
+$kf-view-width:$view-width - 150px;
+$kfglBorder:1px solid rgba(204, 204, 204, 1);
+.kfgl{
+	height:100%;
+	width:$kf-view-width;
+	h1{		
+		width:96%;
+		margin:0 auto;
+	}
+	select{
+		border:none;
+		outline: none;
+	}
+}
+.groups{
+    position:relative;
+    .cover_groups{
+        position: absolute;
+        height:100%;
+        width:80%;
+        background:#fff;
+        border-top:1px solid #ccc;
+        border-bottom:1px solid #ccc;
+        z-index: 999;
+        margin-left:2px;
+    }
+}

@@ -1,0 +1,138 @@
+angular.module('data',[])
+.factory('Data',function(){
+	var data={
+		kfData:
+		{
+			'title':'客服中心',
+			'state':'.KF',
+			'list':[
+				{
+					'title':'客服管理',
+					'list':[
+						{
+							'title':'客服列表',
+							'state':'.KF_KF_lb'
+						},
+						{
+							'title':'添加客服',
+							'state':'.KF_KF_addKfz'
+						}
+					]
+				},
+				{
+					'title':'客服组',
+					'list':[
+						{
+							'title':'客服组列表',
+							'state':'.KF_KFZ_lb'
+						},
+						{
+							'title':'添加客服组',
+							'state':'.KF_KFZ_addKfz'
+						}
+					]
+				},
+				{
+					'title':'角色管理',
+					'list':[
+						{
+							'title':'角色列表',
+							'state':'.KF_JS_lb'
+						},
+						{
+							'title':'添加客服组',
+							'state':'.KF_JS_addJs'
+						}
+					]
+				}
+			]				
+		},
+		gdData:
+		{
+			'title':'工单管理',
+			'state':'.GD',
+			'list':[
+				{
+					'title':'我的未解决工单',
+					'list':[
+						{
+							'title':'优先未解决工单',
+							'state':'KF_GD_yxwjj'
+						},
+						{
+							'title':'一般未解决工单',
+							'state':'KF_GD_ybwjj'
+						}
+					]
+				},
+				{
+					'title':'组内未解决工单',
+					'list':[
+						
+					]
+				},
+				{
+					'title':'所有未解决工单',
+					'list':[
+						
+					]
+				},
+				{
+					'title':'我的已解决工单',
+					'list':[
+						
+					]
+				},
+				{
+					'title':'所有工单',
+					'list':[
+						
+					]
+				}
+			]				
+		},
+		chatData:
+		{
+			'title':'IM即时通讯',
+			'state':'.chat',
+			'list':[
+				{
+					'title':'当前会话',
+					//'list':chat.currentMessage(scope)
+				},
+				{
+					'title':'历史会话',
+					//'list':chat.historyMessage(scope)
+				}
+			]				
+		},
+		config:
+		{
+			'title':'配置',
+			'state':'.config',
+			'list':[
+				{
+					'title':'渠道配置',
+					//'list':chat.currentMessage(scope)
+				},
+				{
+					'title':'配置选项',
+					//'list':chat.historyMessage(scope)
+				}
+			]				
+		}
+	}
+		
+	return {
+		getData:function(id){
+			for(x in data){
+				if(id==x){
+					return data[x];
+				}
+			}
+		}
+	}
+		
+
+	
+})

@@ -1,0 +1,88 @@
+<div class="kfgl">
+	<tipalert></tipalert>
+	<h1 class="th1">
+		<span class='thtext'>流向列表</span>
+        <div class="thbtn">
+            <button type="button" class="btn btn-success" ui-sref='home.flow.addflow'>+新增流向</button>
+        </div>
+	</h1>
+	<div class="search_btn_content clearfix" style="padding:10px;">
+	        <button class="btn btn-primary" ng-click = "filterShow = !filterShow">条件筛选</button>
+	</div>
+	<div class="search clearfix" ng-show="filterShow">
+		<div class="form-group clearfix" style="margin-bottom:20px;" >
+		    <label class="col-sm-2 control-label text_left" >开始时间</label>
+		    <div class="col-sm-4">
+		        <input type="date" class="form-control" ng-model = "searchMsg.startDate" />
+		    </div>
+		    <label class="col-sm-2 control-label text_left" >结束时间</label>
+		    <div class="col-sm-4">
+		        <input type="date" ng-model = "searchMsg.endDate" class="form-control" />
+		    </div>
+		</div>
+		<div class="form-group clearfix" style="margin-bottom:20px;" >
+		    <label class="col-sm-2 control-label text_left" >接收单位</label>
+		    <div class="col-sm-4">
+		        <input type="text" class="form-control" ng-change = "getStart()" ng-model = "search.acceptUnit" />
+		    </div>
+		    <label class="col-sm-2 control-label text_left" >产品批号</label>
+		    <div class="col-sm-4">
+		        <input type="text" class="form-control" ng-change = "getStart()" ng-model = "search.batchNo" />
+		    </div>
+		    
+		</div>	
+		<div class="form-group clearfix" style="margin-bottom:20px;" >
+		    <label class="col-sm-2 control-label text_left" >是否发往终端</label>
+		    <div class="col-sm-4">
+			    <label>
+			    	是：
+					<input type="radio" name = "isTerminal" value = "1" ng-model = "searchMsg.isTerminal" />
+			    </label>
+		        <label>
+		        	否：
+					<input type="radio" name = "isTerminal" value = "0" ng-model = "searchMsg.isTerminal" />
+			    </label>
+		    </div>
+		    <label class="col-sm-2 control-label text_left" >流向等级</label>
+		    <div class="col-sm-4">
+		        <label>
+		            终端：
+					<input type="radio" name = "flowFlag" value = "01" ng-model = "searchMsg.flowFlag"  />
+			    </label>
+		        <label>
+		        	其他：
+					<input type="radio" name = "flowFlag" value = "02" ng-model = "searchMsg.flowFlag" />
+			    </label>
+		    </div>
+		</div>
+		<div class="search_btn_content clearfix">
+		        <button class="btn btn-primary" ng-click = "search()">搜索</button>
+		</div>
+	</div>
+	<div class="table_content clearfix">
+		<table class="table table-striped">
+			<tr style="font-weight:600;">
+				<td>发货单位</td>
+				<td>收货单位</td>
+				<td>客户姓名</td>
+				<td>商品名称</td>
+				<td>商品规格</td>
+				<td>批号</td>
+				<td>操作</td>
+			</tr>
+			<tr ng-repeat='x in dataList track by $index'>
+				<td>{{x.outUnit}}</td>
+				<td>{{x.acceptUnit}}</td>
+				<td>{{x.customerName}}</td>
+				<td>{{x.productName}}</td>
+				<td>{{x.productNorms}}</td>
+				<td>{{x.batchNo}}</td>
+				<td>
+					<a href='javascript:;' ng-click='bjZd(x)'>查看详情</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+		
+	<tm-pagination conf="paginationConf" ng-show='pagShow'></tm-pagination>
+</div>
