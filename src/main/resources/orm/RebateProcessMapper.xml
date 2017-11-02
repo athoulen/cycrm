@@ -78,11 +78,11 @@
 	</select>
 	<insert id="insertRebateInfo">
 		INSERT INTO
-		cy_business_rebate_table(flow_id,is_switch,rebate_expense,amount,total_expense,create_time)
+		cy_business_rebate_table(flow_id,is_switch,rebate_expense,amount,total_expense,sec_expense,create_time)
 		values
 		<foreach collection="processes" item="item" index="index"
 			separator=",">
-			(#{item.flowId},#{item.isSwitch},#{item.singleRebate},#{item.soldGoodsNum},#{item.totalRebate},#{sysTime})
+			(#{item.flowId},#{item.isSwitch},#{item.singleRebate},#{item.soldGoodsNum},#{item.totalRebate},#{item.secExpense},#{sysTime})
 		</foreach>
 	</insert>
 	<select id="getRebateList" resultMap="QueryResultMap">
@@ -148,4 +148,7 @@
 	<update id="cancelFlowType">
 		update cy_business_flow_table SET type=0 WHERE flow_id=#{flowId}
 	</update>
+	<select id="getLatestDataTime" resultType="java.util.Date">
+		SELECT create_time FROM cy_business_rebate_table ORDER BY create_time desc LIMIT 1
+	</select>
 </mapper>

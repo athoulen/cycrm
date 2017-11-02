@@ -1,5 +1,6 @@
 package com.blueair.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blueair.bean.PageListBean;
 import com.blueair.service.IRebateProcessService;
+import com.blueair.util.DateUtil;
 import com.blueair.util.JsonUtil;
 import com.blueair.web.exception.ServiceException;
 
@@ -67,4 +69,9 @@ public class RebateProcessController extends BaseController {
 		return errorResult("撤销付款失败！");
 	}
 	
+	@RequestMapping("time/latest")
+	public ModelMap getLatestDataTime(){
+		Date date = rebateService.getLatestDataTime();
+		return rightObjectResult(null, "查询成功！", "date", DateUtil.date2String2(date));
+	}
 }

@@ -19,6 +19,7 @@ public final class DateUtil {
 		String YYYYMMDD = "yyyyMMdd";
 		String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
 		String YYYY_MM_DD = "yyyy-MM-dd";
+		String YYYY_MMM_DDD="yyyy年MM月dd日 HH时mm分ss秒";
 		String YYYYMMDDHH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 		String YYYY_MM_DD_HH_MM = "yyyy/MM/dd HH:mm";
 	}
@@ -32,6 +33,10 @@ public final class DateUtil {
 	 */
 	public static String date2String(Date date) {
 		return date2String(date, DATE_PATTERN.YYYY_MM_DD);
+	}
+	
+	public static String date2String2(Date date) {
+		return date2String(date, DATE_PATTERN.YYYY_MMM_DDD);
 	}
 
 	/**

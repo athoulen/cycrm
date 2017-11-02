@@ -1,5 +1,6 @@
 package com.blueair.service;
 
+import java.util.Date;
 import java.util.Map;
 
 import com.blueair.bean.PageListBean;
@@ -12,4 +13,5 @@ public interface IRebateProcessService {
 	public PageListBean queryRebateList(Map<String, Object> params, int firstItem,int pageSize) throws ServiceException;
 	//结算或取消结算佣金
 	public boolean payRebateDeal(Long id,int payment);
+	public Date getLatestDataTime();
 }

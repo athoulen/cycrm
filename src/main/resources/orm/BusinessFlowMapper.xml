@@ -404,7 +404,7 @@
 		</foreach>
 	</update>
 	<select id="queryForFlow" resultMap="QueryResultMap">
-		SELECT flow_id,f.accept_unit_id,f.product_id,is_terminal,(SELECT `name` FROM cy_merchandiser_table WHERE merch_id=f.sold_unit_id) as out_unit,(CASE 
+		SELECT flow_id,f.accept_unit_id,f.product_id,is_terminal,batch_no,type,(SELECT `name` FROM cy_merchandiser_table WHERE merch_id=f.sold_unit_id) as out_unit,(CASE 
 		WHEN is_terminal=1 THEN (SELECT hospital_name FROM cy_hospital_table WHERE hospital_id=f.accept_unit_id)
 		ELSE	(SELECT `name` FROM cy_merchandiser_table WHERE merch_id=f.accept_unit_id)
 		END) as accept_unit,(SELECT customer_name FROM cy_customer_table WHERE customer_id=f.customer_id) as customer_name,

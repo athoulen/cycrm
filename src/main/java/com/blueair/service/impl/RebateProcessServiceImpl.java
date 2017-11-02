@@ -125,6 +125,11 @@ public class RebateProcessServiceImpl extends BaseServiceImpl implements IRebate
 		}
 		return false;
 	}
+	
+	@Override
+	public Date getLatestDataTime(){
+		return getBaseDao().queryForObject("RebateProcessMapper.getLatestDataTime", null,Date.class);
+	}
 
 	// 设置应返佣金
 	private void setSwitchRebate(RebateProcess rebateProcess, ProtocolForRebate protocol, boolean flag) {
