@@ -18,6 +18,7 @@
 		<mapper resource="orm/CustomerProtocolMapper.xml"/>
 		<mapper resource="orm/FileRecordMapper.xml"/>
 		<mapper resource="orm/RebateProcessMapper.xml"/>
+		<mapper resource="orm/RebateStyleMapper.xml"/>
 	</mappers>
 </configuration>
 

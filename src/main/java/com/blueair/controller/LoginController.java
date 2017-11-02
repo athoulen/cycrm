@@ -64,13 +64,13 @@ public class LoginController extends BaseController {
 	@RequestMapping("/login")
 	public ModelMap login(HttpServletRequest request){
 //		验证图形验证码
-		String verifyCode = Generator.getVerifyCode();
+	/*	String verifyCode = Generator.getVerifyCode();
 		String submitCode = WebUtils.getCleanParam(request, "verifyCode");
 		if (submitCode == null || "".equals(submitCode)
 				|| !submitCode.equalsIgnoreCase(verifyCode)) {
 			return parameterResult("验证码输入有误");
 		}
-		logger.info("LoginController.login ===> verifyCode is checkedIn");
+		logger.info("LoginController.login ===> verifyCode is checkedIn");*/
 		
 		String username = request.getParameter("username");
 		if (username == null || "".equals(username)) {

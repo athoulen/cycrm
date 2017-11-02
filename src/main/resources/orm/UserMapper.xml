@@ -12,7 +12,7 @@
   </resultMap>
   
   <sql id="LOG_BASIC_Column_List" >
-    id, username , password, area_code, type
+    id, username , password, area_id, type
   </sql>
   <select id="userLogInfo" resultMap="BaseResultMap">
 	  	select
