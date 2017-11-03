@@ -69,7 +69,7 @@
   
   <select id="queryDuplicatedProtocol" resultType="Integer">
   	SELECT COUNT(0) from cy_merchandiser_protocol_table 
-  	WHERE product_id=#{productId} AND hospital_id=#{hospitalId} AND up_merchan=#{upMerchan} and is_Valid=1
+  	WHERE product_id=#{productId} AND hospital_id=#{hospitalId} and  is_Valid=1
   	<if test="protocolId!=null">
   	and protocol_id!=#{protocolId}
   	</if>

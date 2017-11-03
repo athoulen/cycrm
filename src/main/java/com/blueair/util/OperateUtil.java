@@ -11,8 +11,8 @@ public class OperateUtil {
 	 * @param params
 	 */
 	public static void insertOperatorInfo(Map<String, Object> params){
-		params.put("operator", "admin");
-//		params.put("operator", Generator.getUsername());
+//		params.put("operator", "admin");
+		params.put("operator", Generator.getUsername());
 		params.put("createTime", System.currentTimeMillis());
 	}
 	

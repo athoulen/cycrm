@@ -90,6 +90,9 @@
   <insert id="insertProtocol" parameterType="com.blueair.bean.ProtocolBase">
   		insert into cy_customer_protocol_table
   		<set>
+  			<if test="protocolCode!=null">
+  			protocol_code=#{protocolCode},
+  			</if>
   			customer_id=#{customerId},
   			area_id=#{zoneId},
   			city_id=#{cityId},

@@ -7,6 +7,7 @@ package com.blueair.bean;
 public class ProtocolBase {
 
 	private Integer protocolId;				//协议ID
+	private String protocolCode;
 	private Integer customerId;			//客户ID
 	private Integer zoneId;					//大区ID
 	private Integer cityId;						//地市ID
@@ -190,5 +191,11 @@ public class ProtocolBase {
 	}
 	public void setIsValid(Byte isValid) {
 		this.isValid = isValid;
+	}
+	public String getProtocolCode() {
+		return protocolCode;
+	}
+	public void setProtocolCode(String protocolCode) {
+		this.protocolCode = protocolCode;
 	}
 }
