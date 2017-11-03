@@ -45,6 +45,7 @@
     <id column="protocol_id" property="protocolId" jdbcType="INTEGER" />
     <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
     <result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
+    <result column="hospital_name" property="hospitalName" jdbcType="VARCHAR" />
     <result column="product_name" property="productName" jdbcType="VARCHAR" />
     <result column="promotion_expense" property="promotionExpense" jdbcType="DOUBLE" />
     <result column="bail" property="bail" jdbcType="DOUBLE" />
@@ -166,8 +167,8 @@
   </select>
   
   <select id="queryProtocolsByCustomerAndHospitalName" resultMap="KeyResultMap">
-		select protocol_id,customer_name,cp.hospital_id,product_name,promotion_expense,bail,switch_expense,
-		switch_amount,rebate_period,rebate_payer,rebate,protocol_start,protocol_end
+		select protocol_id,customer_name,cp.hospital_id,(select hospital_name from cy_hospital_table where hospital_id=cp.hospital_id) as hospital_name,
+		product_name,promotion_expense,bail,switch_expense,switch_amount,rebate_period,rebate_payer,rebate,protocol_start,protocol_end
 		from cy_customer_protocol_table cp LEFT JOIN cy_customer_table c ON 	cp.customer_id=c.customer_id 
 		LEFT JOIN cy_product_table p ON cp.product_id=p.product_id LEFT JOIN cy_hospital_table h ON
 		cp.hospital_id=h.hospital_id

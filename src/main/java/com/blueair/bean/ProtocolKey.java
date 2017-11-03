@@ -5,6 +5,7 @@ public class ProtocolKey {
 	private Integer protocolId;				//协议ID
 	private String customerName;			//客户名
 	private Integer hospitalId;					//医院Id
+	private String hospitalName;
 	private String productName;				//产品ID
 	private Double promotionExpense;//推广费（佣金）
 	private Double bail;							//保证金
@@ -101,5 +102,10 @@ public class ProtocolKey {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	
+	public String getHospitalName() {
+		return hospitalName;
+	}
+	public void setHospitalName(String hospitalName) {
+		this.hospitalName = hospitalName;
+	}
 }
