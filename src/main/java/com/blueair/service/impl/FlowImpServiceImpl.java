@@ -176,8 +176,9 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 
 	/**
 	 * 处理国控数据
+	 * @throws ServiceException 
 	 */
-	public List<BusinessFlow> processGkData(List<HashMap<String, String>> dataList,String impYear,String fileType,String impMonth){
+	public List<BusinessFlow> processGkData(List<HashMap<String, String>> dataList,String impYear,String fileType,String impMonth) throws ServiceException{
 		List<BusinessFlow> flowList= new ArrayList<BusinessFlow>();
 		for (HashMap<String, String> dataMap : dataList) {
 			BusinessFlow flow = new BusinessFlow();
@@ -203,6 +204,8 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			Product pro = (Product) ProductCache.getProductMap().get(productName.trim()+manufacturer.trim());
 			if(null!=pro){
 				flow.setProductId(pro.getId()+"");
+			}else{
+				throw new ServiceException(HandleCode.FAIL, "产品名称规格为："+productName+"生产厂家："+manufacturer+"，未找到名录");
 			}
 			//产品销售单价
 			BigDecimal salePrice = new BigDecimal(pro.getProductPrice()+"");
@@ -214,6 +217,8 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			CustomerProtocol protocol = (CustomerProtocol) CustomerCache.getCustomerPtlMap().get(acceptUnitId+pro.getId());
 			if(null!=protocol){
 				flow.setCustomerId(protocol.getCustomerId()+"");
+			}else{
+				throw new ServiceException(HandleCode.FAIL, "产品名称规格为"+productName+"生产厂家"+manufacturer+"未找到名录");
 			}
 			//调货数量
 			int allocateGoodsNum = 0;
