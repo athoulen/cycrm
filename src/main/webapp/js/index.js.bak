@@ -3291,8 +3291,8 @@ angular.module('data',[])
 		getUrl:function(url){
 			for(i in urlData){
 				if(url==i){
-					 //return 'cycrm/'+urlData[i];//测试使用
-					 return urlData[i];//发布使用
+					 return 'cycrm/'+urlData[i];//测试使用
+					 //return urlData[i];//发布使用
 					// return "http://192.168.92.12:28074/"+urlData[i];
 					//return "http://192.168.92.23:28074/"+urlData[i];
 					//return "http://ykf.tunnel.qydev.com/"+urlData[i];

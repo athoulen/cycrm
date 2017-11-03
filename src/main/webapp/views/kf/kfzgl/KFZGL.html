@@ -20,12 +20,20 @@
     <table class="table table-striped">
         <tr style="font-weight:600;">
             <td>客户名称</td>
-            <td>创建时间</td>
+            <td>手机</td>
+            <td>账号</td>
+            <td>是否有效</td>
             <td>操作</td>
         </tr>
         <tr ng-repeat='x in dataList'>
             <td>{{x.customerName}}</td>
-            <td>{{x.createTime}}</td>
+            <td>{{x.phone}}</td>
+            <td>{{x.serialCode}}</td>
+            <td>
+                <span ng-show="x.isCorp==1">有效</span>
+                <span ng-show="x.isCorp==0">无效</span>
+            </td>
+            <!-- <td>{{x.createTime}}</td> -->
             <td>
                 <a href='javascript:;' ng-click='bjZd(x)'>编辑</a>
                 <a href='javascript:;' ng-click='deleZd(x)'>删除</a>

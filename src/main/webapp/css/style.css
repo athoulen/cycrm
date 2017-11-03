@@ -1,3 +1,11 @@
+.kf {
+  height: 100%; }
+  .kf .list_main {
+    width: 95%;
+    margin: 0 auto; }
+  .kf .search {
+    padding: 20px; }
+
 
 @charset "UTF-8";
 body, ul, li, p, dl, dt, dd, h1, h2, h3, h4, h5, h6 {
@@ -48,7 +56,7 @@ body {
 .main-content-wrap {
   display: flex; }
   .main-content-wrap .left-nav {
-    width: 150px;
+    width: 100px;
     height: 100%; }
     .main-content-wrap .left-nav a {
       color: #888; }
@@ -106,18 +114,21 @@ body {
 /* 二级菜单 */
 .nav {
   height: 100%;
-  background: #f2f2f2;
+  background: #a2e2a2;
   display: inline-block; }
   .nav ul {
-    height: 100%; }
+    padding-top: 80px;
+    height: 100%;
+    box-sizing: border-box; }
     .nav ul li a {
       display: inline-block;
       height: 50px;
-      width: 150px;
+      width: 100px;
       line-height: 50px;
-      text-align: center; }
+      text-align: center;
+      background-color: #fff; }
     .nav ul li a:hover {
-      background: #999;
+      background: #000;
       color: #fff; }
 
 /* 一级标题（右侧按钮） */
@@ -231,13 +242,39 @@ h1.th1 {
   width: 100%;
   overflow: auto; }
 
-.kf {
-  height: 100%; }
-  .kf .list_main {
-    width: 95%;
-    margin: 0 auto; }
-  .kf .search {
-    padding: 20px; }
+/*提示框样式*/
+.tip-alert {
+  position: fixed;
+  height: auto;
+  min-width: 400px;
+  max-width: 800px;
+  padding: 0 30px;
+  top: 10px;
+  left: 50%;
+  margin-left: -200px;
+  text-align: center;
+  transition: 0.5s;
+  z-index: 10002;
+  border-radius: 3px;
+  text-align: left; }
+  .tip-alert span {
+    color: #fff;
+    line-height: 40px;
+    font-size: 16px;
+    font-family: '微软雅黑'; }
+  .tip-alert i {
+    line-height: 40px;
+    color: #fff; }
+
+.tip-alert-success {
+  background-color: #47cea3; }
+  .tip-alert-success i {
+    background: url(../img/common/controls/toast_successful.png) no-repeat left top; }
+
+.tip-alert-error {
+  background-color: #ff624d; }
+  .tip-alert-error i {
+    background: url(../img/common/controls/toast_error.png) no-repeat left top; }
 
 .home {
   height: 100%;
@@ -246,7 +283,7 @@ h1.th1 {
   .home .home-nav {
     height: 100%;
     width: 70px;
-    background: #666;
+    background: linear-gradient(#5cb85c, #3e733e);
     float: left; }
     .home .home-nav ul {
       height: 100%; }
@@ -263,10 +300,13 @@ h1.th1 {
           text-align: center;
           color: #888; }
     .home .home-nav .logo {
-      height: 70px;
+      height: 80px;
+      padding: 10px 0;
+      color: #fff;
+      font-size: 22px;
       text-align: center;
-      background: #e4e4e4;
-      line-height: 70px; }
+      background: #3c8a3c;
+      line-height: 30px; }
   .home .home-r {
     flex: 1; }
     .home .home-r .home-view {
@@ -275,6 +315,14 @@ h1.th1 {
       display: inline-block;
       float: left;
       border-right: 1px solid #cccccc; }
+
+.kf {
+  height: 100%; }
+  .kf .list_main {
+    width: 95%;
+    margin: 0 auto; }
+  .kf .search {
+    padding: 20px; }
 
 .login {
   padding: 30px;
@@ -285,6 +333,23 @@ h1.th1 {
   box-shadow: 0 0 2px 1px #333; }
   .login button {
     width: 100%; }
+
+.addKf {
+  height: 100%;
+  width: 1050px; }
+  .addKf h1 {
+    width: 96%;
+    margin: 0 auto; }
+
+.bjkf {
+  height: 100%;
+  width: 1050px; }
+  .bjkf h1 {
+    width: 96%;
+    margin: 0 auto; }
+  .bjkf .bjkf_main {
+    width: 80%;
+    margin: 20px auto; }
 
 .register {
   padding: 30px;
@@ -307,13 +372,39 @@ h1.th1 {
   .register .password_bg {
     background: #eee; }
 
-.kf {
-  height: 100%; }
-  .kf .list_main {
-    width: 95%;
+.addKf {
+  height: 100%;
+  width: 1050px; }
+  .addKf h1 {
+    width: 96%;
     margin: 0 auto; }
-  .kf .search {
-    padding: 20px; }
+
+.bjkf {
+  height: 100%;
+  width: 1050px; }
+  .bjkf h1 {
+    width: 96%;
+    margin: 0 auto; }
+  .bjkf .bjkf_main {
+    width: 80%;
+    margin: 20px auto; }
+
+.addKf {
+  height: 100%;
+  width: 1050px; }
+  .addKf h1 {
+    width: 96%;
+    margin: 0 auto; }
+
+.bjkf {
+  height: 100%;
+  width: 1050px; }
+  .bjkf h1 {
+    width: 96%;
+    margin: 0 auto; }
+  .bjkf .bjkf_main {
+    width: 80%;
+    margin: 20px auto; }
 
 .addKf {
   height: 100%;

@@ -1,0 +1,43 @@
+<div class="kfgl">
+	<tipalert></tipalert>
+	<h1 class="th1">
+		<span class='thtext'>商业公司列表</span>
+        <div class="thbtn" ng-init="toFilter2=false">
+            <button type="button" class="btn btn-primary" ng-click="toFilter2=!toFilter2">筛选</button>
+            <button type="button" class="btn btn-success" ui-sref='home.company.addCompany'>+新增公司</button>
+        </div>
+	</h1>
+	<div class="form-group clear-fix" style="margin-top:20px;"  ng-show="toFilter2">
+	    <label class="col-sm-2 control-label text_left" >公司名称:</label>
+	    <div class="col-sm-3">
+	        <input type="text" class="form-control" ng-model='searchKey.name' required />
+	    </div>
+	    <label class="col-sm-2 col-offset-sm-1 control-label text_left" >公司描述:</label>
+	    <div class="col-sm-3">
+	        <input type="text" class="form-control" ng-model='searchKey.desc' required />
+	    </div>
+	    <button type="button" class="btn btn-primary" ng-click='search(searchKey)'>搜索</button>
+	</div>
+	<table class="table table-striped clear-fix">
+		<tr>
+			<td>公司名称</td>
+			<td>公司级别</td>
+			<td>公司描述</td>
+			<td>操作</td>
+		</tr>
+		<tr ng-repeat='x in dataList'>
+			<td>{{x.name}}</td>
+			<td>
+				<span ng-show="x.classType==1">一级商业</span>
+				<span ng-show="x.classType==2">二级商业</span>
+				<span ng-show="x.classType==3">普通二级商业</span>
+			</td>
+			<td>{{x.desc}}</td>
+			<td>
+				<a href='javascript:;' ui-sref='home.company.editCompany({obj:x})'>编辑</a>
+				<!-- <a href='javascript:;' ng-click='deleZd(x)'>删除</a> -->
+			</td>
+		</tr>
+	</table>
+	<tm-pagination conf="paginationConf" ng-show='pagShow'></tm-pagination>
+</div>

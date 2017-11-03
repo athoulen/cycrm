@@ -1,0 +1,111 @@
+<tipalert></tipalert>
+<div class="bjkf">
+    <h1 class="th1">
+        <span class='thtext'>新增协议</span>
+        <div class="thbtn">
+            <button type="button" class="btn btn-default" ui-sref='home.agreement.businessAgreement'>取消</button>
+            <button type="button" class="btn btn-success" ng-click='save()'>保存</button>
+        </div>
+    </h1>
+    <div class='bjkf_main'>
+		<form  class="form-horizontal" role="form" >
+            <div class="form-group" >
+                <label class="col-sm-2 control-label text_left" >*协议编号</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model='agreement.protocolCode'>
+                </div>
+			    <label class="col-sm-2 col-offset-sm-1 control-label text_left" >*产品名称</label>
+			    <div class="col-sm-4" style="position:relative;">
+			        <input type="text" class="form-control" ng-model='searchKey.productName' required ng-change="search(searchKey);" ng-click="search(searchKey);$event.stopPropagation();"/>
+                    <ul style="position:absolute;top:36px;z-index:9;background-color:#eee;width:90%;border:1px solid #ccc;box-sizing:border-box;min-height:60px;" ng-show="isShow">
+                        <li style="line-height:20px;height:20px;text-indent:10px;cursor:pointer;overflow: hidden;" ng-repeat="x in pdataList" ng-bind="x.productName+'/'+x.productNorms+'/'+x.manufacture" title="{{x.productName+'/'+x.productNorms+'/'+x.manufacture}}" ng-click="selectProduct(x)"></li>
+                    </ul>
+			    </div>
+            </div>
+            <citys my-area="agreement.zoneId" my-city="agreement.cityId"></citys>
+            <div class="form-group">
+                <label class="col-sm-2 control-label text_left" >*一级商业公司</label>
+                <div class="col-sm-4" style="position:relative;">
+                    <input type="text" class="form-control" ng-model='searchKey1.name' required ng-change="search1(searchKey1);" ng-click="search1(searchKey1);$event.stopPropagation();"/>
+                    <ul style="position:absolute;top:36px;z-index:9;background-color:#eee;width:90%;border:1px solid #ccc;box-sizing:border-box;min-height:60px;" ng-show="isShow1">
+                        <li style="line-height:20px;text-indent:10px;cursor:pointer;" ng-repeat="x in dataList1" ng-bind="x.name" ng-click="selectProduct1(x)"></li>
+                    </ul>
+                </div>
+                <label class="col-sm-2 control-label text_left" >*二级商业公司</label>
+                <div class="col-sm-4" style="position:relative;">
+                    <input type="text" class="form-control" ng-model='searchKey2.name' required ng-change="search2(searchKey2);" ng-click="search2(searchKey2);$event.stopPropagation();"/>
+                    <ul style="position:absolute;top:36px;z-index:9;background-color:#eee;width:90%;border:1px solid #ccc;box-sizing:border-box;min-height:60px;" ng-show="isShow2">
+                        <li style="line-height:20px;text-indent:10px;cursor:pointer;" ng-repeat="x in dataList2" ng-bind="x.name" ng-click="selectProduct2(x)"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label text_left" >*销售价</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model='agreement.bidPrice' />
+                </div>
+                <label class="col-sm-2 control-label text_left" >*终端（医院）</label>
+                <div class="col-sm-4" style="position:relative;">
+                    <input type="text" class="form-control" ng-model='searchKey3.hospitalName' required ng-change="search3(searchKey3);" ng-click="search3(searchKey3);$event.stopPropagation();"/>
+                    <ul style="position:absolute;top:36px;z-index:9;background-color:#eee;width:90%;border:1px solid #ccc;box-sizing:border-box;min-height:60px;" ng-show="isShow3">
+                        <li style="line-height:20px;text-indent:10px;cursor:pointer;" ng-repeat="x in dataList3" ng-bind="x.hospitalName" ng-click="selectProduct3(x)"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label text_left" >*一级返利</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model='agreement.upBack'/>
+                </div>
+                <label class="col-sm-2 control-label text_left" >*二级返利</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model='agreement.loBack'/>
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label text_left" >*返利周期/方式</label>
+                <div class="col-sm-8">
+                    <!-- <select class="form-control" ng-options="x.back_id as {{x.back_period_name/back_style_name}} for x in dataList4" ng-model='agreement.backPeriodStyle'/> -->
+                    <span class="form-control" ng-bind='back_period_style'  ng-click="search4();$event.stopPropagation();"/>
+                    <ul style="position:absolute;top:36px;z-index:9;background-color:#eee;width:95%;border:1px solid #ccc;box-sizing:border-box;min-height:60px;" ng-show="isShow4">
+                        <li style="line-height:20px;text-indent:10px;cursor:pointer;" ng-repeat="b in dataList4" ng-bind="b.back_period_name+'/'+b.back_style_name" ng-click="selectProduct4(b)"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label text_left" >*协议有效期</label>
+                <div class="col-sm-4">
+                    <input type="date" class="form-control" ng-model='startTime'/>
+                </div>
+                <div class="col-sm-4">
+                    <input type="date" class="form-control" ng-model='endTime'/>
+                </div>
+            </div>  
+            <div class="form-group" >
+                <label class="col-sm-2 control-label text_left" >*返利联系人</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" ng-model='agreement.contactor' required />
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label text_left" >*手机</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" ng-model='agreement.phone' required />
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label text_left" >*QQ</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" ng-model='agreement.qq' required />
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label text_left" >*是否可用</label>
+                <div class="col-sm-8">
+                    <label class="col-sm-5">可用  <input type="radio"  name="isValid" ng-model='agreement.isValid' value="1" required /></label>
+                    <label class="col-sm-5 col-offset-sm-1">不可用  <input type="radio" name="isValid" ng-model='agreement.isValid' value="0"  /></label>
+                </div>
+            </div>
+		</form>
+    </div>
+</div>

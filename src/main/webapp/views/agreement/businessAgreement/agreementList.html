@@ -1,0 +1,51 @@
+<div class="kfgl">
+	<tipalert></tipalert>
+	<h1 class="th1">
+		<span class='thtext'>商业协议</span>
+        <div class="thbtn">
+            <!-- <button type="button" class="btn btn-default" ng-click='del()'>删除</button> -->
+            <button type="button" class="btn btn-default" ui-sref='home.agreement.addAgreement'>+新增协议</button>
+        </div>
+	</h1>
+	<div class="form-group clear-fix" style="margin-top:20px;">
+	    <label class="col-sm-2 control-label text_left" >商业协议:</label>
+	    <div class="col-sm-3">
+	        <input type="text" class="form-control" ng-model='searchKey.protocolCode' required />
+	    </div>
+	    <label class="col-sm-2 col-offset-sm-1 control-label text_left" >产品名称:</label>
+	    <div class="col-sm-3">
+	        <input type="text" class="form-control" ng-model='searchKey.productName' required />
+	    </div>
+	</div>
+	<div class="form-group clear-fix">
+	    <label class="col-sm-2 control-label text_left" >医院名称:</label>
+	    <div class="col-sm-3">
+	        <input type="text" class="form-control" ng-model='searchKey.hospital' required />
+	    </div>
+	    <label class="col-sm-2 control-label text_left" >产品规格:</label>
+	    <div class="col-sm-3">
+	        <input type="text" class="form-control" ng-model='searchKey.productNorms' required />
+	    </div>
+	    <button type="button" class="btn btn-default" ng-click='search(searchKey)'>搜索</button>
+	</div>
+	<table class="table table-striped clear-fix">
+		<tr>
+			<td>商业协议</td>
+			<td>产品名称</td>
+			<td>医院名称</td>
+			<td>产品规格</td>
+			<td>操作</td>
+		</tr>
+		<tr ng-repeat='x in dataList'>
+			<td>{{x.protocolCode}}</td>
+			<td>{{x.product.productName}}</td>
+			<td>{{x.hospital.hospitalName}}</td>
+			<td>{{x.product.productNorms}}</td>
+			<td>
+				<a href='javascript:;' ui-sref='home.product.editProduct({obj:x})'>编辑</a>
+				<!-- <a href='javascript:;' ng-click='deleZd(x)'>删除</a> -->
+			</td>
+		</tr>
+	</table>
+	<!-- <tm-pagination conf="paginationConf" ng-show='pagShow'></tm-pagination> -->
+</div>
