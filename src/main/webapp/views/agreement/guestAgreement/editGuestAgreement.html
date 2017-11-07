@@ -1,7 +1,7 @@
 <tipalert></tipalert>
 <div class="bjkf">
     <h1 class="th1">
-        <span class='thtext'>新增协议</span>
+        <span class='thtext'>编辑协议</span>
         <div class="thbtn">
             <button type="button" class="btn btn-default" ui-sref='home.agreement.guestAgreement'>取消</button>
             <button type="button" class="btn btn-success" ng-click='save()'>保存</button>
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="form-group" >
-                <label class="col-sm-2 control-label text_left" >*推广费(元)</label>
+                <label class="col-sm-2 control-label text_left" >*推广费(元/盒)</label>
                 <div class="col-sm-4">
                     <input type="text" class="form-control" ng-model='agreement.promotionExpense' />
                 </div>
@@ -93,32 +93,19 @@
                     <input type="text" class="form-control" ng-model='agreement.switchExpense' required />
                 </div>
             </div>
-            <div class="form-group" ng-show="agreement.switchStandard==1">
-                <label class="col-sm-2 control-label text_left" >*返推广费周期(元)</label>
+            <div class="form-group">
+                <label class="col-sm-2 control-label text_left" >*返推广费周期</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" ng-model='agreement.rebatePeriod' required />
+                    <!-- <select  class="form-control" ng-model='agreement.rebatePeriod' ng-options="v.value as v.name for v in rebatePeriodList"></select>                       -->
+                    <select  class="form-control" ng-model='agreement.rebatePeriod'>
+                        <option value="1">月结</option>
+                        <option value="2">压批压月</option>
+                        <option value="3">60天</option>
+                        <option value="4">90天</option>
+                        <option value="5">120天</option>
+                    </select>
                 </div>
             </div>
-<!--             <div class="form-group" >
-                <label class="col-sm-2 control-label text_left" >*一级返利</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model='agreement.upBack'/>
-                </div>
-                <label class="col-sm-2 control-label text_left" >*二级返利</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" ng-model='agreement.loBack'/>
-                </div>
-            </div> -->
-            <!-- <div class="form-group" >
-                <label class="col-sm-2 control-label text_left" >*返利周期/方式</label>
-                <div class="col-sm-8"> -->
-                    <!-- <select class="form-control" ng-options="x.back_id as {{x.back_period_name/back_style_name}} for x in dataList4" ng-model='agreement.backPeriodStyle'/> -->
-                    <!-- <span class="form-control" ng-bind='back_period_style'  ng-click="search4();$event.stopPropagation();"/>
-                    <ul style="position:absolute;top:36px;z-index:9;background-color:#eee;width:95%;border:1px solid #ccc;box-sizing:border-box;min-height:60px;" ng-show="isShow4">
-                        <li style="line-height:20px;text-indent:10px;cursor:pointer;" ng-repeat="b in dataList4" ng-bind="b.back_period_name+'/'+b.back_style_name" ng-click="selectProduct4(b)"></li>
-                    </ul>
-                </div>
-            </div> -->
             <div class="form-group" >
                 <label class="col-sm-2 control-label text_left" >*协议有效期</label>
                 <div class="col-sm-4">

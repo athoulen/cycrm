@@ -1,11 +1,3 @@
-.kf {
-  height: 100%; }
-  .kf .list_main {
-    width: 95%;
-    margin: 0 auto; }
-  .kf .search {
-    padding: 20px; }
-
 
 @charset "UTF-8";
 body, ul, li, p, dl, dt, dd, h1, h2, h3, h4, h5, h6 {
@@ -276,6 +268,14 @@ h1.th1 {
   .tip-alert-error i {
     background: url(../img/common/controls/toast_error.png) no-repeat left top; }
 
+.kf {
+  height: 100%; }
+  .kf .list_main {
+    width: 95%;
+    margin: 0 auto; }
+  .kf .search {
+    padding: 20px; }
+
 .home {
   height: 100%;
   width: 100%;
@@ -389,40 +389,6 @@ h1.th1 {
     width: 80%;
     margin: 20px auto; }
 
-.addKf {
-  height: 100%;
-  width: 1050px; }
-  .addKf h1 {
-    width: 96%;
-    margin: 0 auto; }
-
-.bjkf {
-  height: 100%;
-  width: 1050px; }
-  .bjkf h1 {
-    width: 96%;
-    margin: 0 auto; }
-  .bjkf .bjkf_main {
-    width: 80%;
-    margin: 20px auto; }
-
-.addKf {
-  height: 100%;
-  width: 1050px; }
-  .addKf h1 {
-    width: 96%;
-    margin: 0 auto; }
-
-.bjkf {
-  height: 100%;
-  width: 1050px; }
-  .bjkf h1 {
-    width: 96%;
-    margin: 0 auto; }
-  .bjkf .bjkf_main {
-    width: 80%;
-    margin: 20px auto; }
-
 .kfgl {
   height: 100%;
   width: 1050px; }
@@ -447,45 +413,6 @@ h1.th1 {
     z-index: 999;
     margin-left: 2px; }
 
-
-.addKf {
-  height: 100%;
-  width: 1050px; }
-  .addKf h1 {
-    width: 96%;
-    margin: 0 auto; }
-
-.bjkf {
-  height: 100%;
-  width: 1050px; }
-  .bjkf h1 {
-    width: 96%;
-    margin: 0 auto; }
-  .bjkf .bjkf_main {
-    width: 80%;
-    margin: 20px auto; }
-
-.kfgl {
-  height: 100%;
-  width: 1050px; }
-  .kfgl h1 {
-    width: 96%;
-    margin: 0 auto; }
-  .kfgl select {
-    border: none;
-    outline: none; }
-
-.groups {
-  position: relative; }
-  .groups .cover_groups {
-    position: absolute;
-    height: 100%;
-    width: 80%;
-    background: #fff;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    z-index: 999;
-    margin-left: 2px; }
 
 .addkfz {
   height: 100%;
@@ -572,3 +499,76 @@ h1.th1 {
 
 .addkfz .addList .msg_list:hover {
   background: #eee; }
+
+.addKf {
+  height: 100%;
+  width: 1050px; }
+  .addKf h1 {
+    width: 96%;
+    margin: 0 auto; }
+
+.bjkf {
+  height: 100%;
+  width: 1050px; }
+  .bjkf h1 {
+    width: 96%;
+    margin: 0 auto; }
+  .bjkf .bjkf_main {
+    width: 80%;
+    margin: 20px auto; }
+
+.kfgl {
+  height: 100%;
+  width: 1050px; }
+  .kfgl h1 {
+    width: 96%;
+    margin: 0 auto; }
+  .kfgl select {
+    border: none;
+    outline: none; }
+
+.groups {
+  position: relative; }
+  .groups .cover_groups {
+    position: absolute;
+    height: 100%;
+    width: 80%;
+    background: #fff;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    z-index: 999;
+    margin-left: 2px; }
+
+.addKf {
+  height: 100%;
+  width: 1050px; }
+  .addKf h1 {
+    width: 96%;
+    margin: 0 auto; }
+
+.bjkf {
+  height: 100%;
+  width: 1050px; }
+  .bjkf h1 {
+    width: 96%;
+    margin: 0 auto; }
+  .bjkf .bjkf_main {
+    width: 80%;
+    margin: 20px auto; }
+
+.addKf {
+  height: 100%;
+  width: 1050px; }
+  .addKf h1 {
+    width: 96%;
+    margin: 0 auto; }
+
+.bjkf {
+  height: 100%;
+  width: 1050px; }
+  .bjkf h1 {
+    width: 96%;
+    margin: 0 auto; }
+  .bjkf .bjkf_main {
+    width: 80%;
+    margin: 20px auto; }

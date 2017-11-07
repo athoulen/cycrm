@@ -59,30 +59,34 @@ public class FlowImpController extends BaseController {
 		if(StringUtils.isBlank(delFlag)){
 			return parameterResult("删除标志不能为空");
 		}
-		//导入文件列表
-		List<String> pathList =  new ArrayList<>();
-		String paths=(String)paramMap.get("pathList");
-		pathList.add(paths);
-		//如果上传文件列表参数为空,则不行
-		if(pathList.size()<=0){
-			return parameterResult("上传文件列表不能为空");
+		if(!"1".equals(delFlag)){
+			//导入文件列表
+			List<String> pathList =  new ArrayList<>();
+			String paths=(String)paramMap.get("pathList");
+			pathList.add(paths);
+			//如果上传文件列表参数为空,则不行
+			if(pathList.size()<=0){
+				return parameterResult("上传文件列表不能为空");
+			}
+			//存储每个上传文件中的数据
+			List<HashMap<String, String>> dataList = new ArrayList<HashMap<String, String>>();
+			//循环遍历读取上传文件的数据
+			for (String path : pathList) {
+				ReadExcel reader = new ReadExcel(path);
+				reader.processByRow(1);
+				dataList.addAll(reader.excelList);
+				//文件名称
+				paramMap.put("fileName", new File(path).getName());
+			}
+			//向 service 传输的参数
+			paramMap.put("dataList", dataList);
 		}
-		//存储每个上传文件中的数据
-		List<HashMap<String, String>> dataList = new ArrayList<HashMap<String, String>>();
-		//循环遍历读取上传文件的数据
-		for (String path : pathList) {
-			ReadExcel reader = new ReadExcel(path);
-			reader.processByRow(1);
-			dataList.addAll(reader.excelList);
-			//文件名称
-			paramMap.put("fileName", new File(path).getName());
-		}
-		//向 service 传输的参数
-		paramMap.put("dataList", dataList);
 		//返回执行标志
 		boolean result = flowImpService.importFlowData(paramMap);
-		if(result){
+		if(result&&"0".equals(delFlag)){
 			return rightResult(null, "上传成功！");
+		}else if(result&&"1".equals(delFlag)){
+			return rightResult(null, "删除成功！");
 		}
 		return failResult("上传失败！");
 	}

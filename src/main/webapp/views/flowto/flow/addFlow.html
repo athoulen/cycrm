@@ -50,6 +50,9 @@
             <div style="text-align:center;" ng-show="pathList.length>0">
                 <button class="btn btn-success" ng-click="flow()" >导入</button>
             </div>
+            <div style="text-align:center;" ng-show="myMsg.impType&&myMsg.impMonth&&myMsg.impYear">
+                <button class="btn btn-success" ng-click="deleflow()" >删除流向</button>
+            </div>
         </form>
     </div>
 </div>

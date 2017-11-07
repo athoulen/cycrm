@@ -1,0 +1,96 @@
+<div class="allist">
+<tipalert></tipalert>
+    <h1 class="th1">
+        <span class='thtext' ng-model='gdtitle'>{{gdtitle}}</span>
+        <button type="button" class="btn btn-link" id='gjsx' ng-click="gjsxtoggle()">高级筛选<img src="img/select_icon.png" alt="" /></button>
+        <div class="thbtn">
+            <button type="button" class="btn btn-default" ng-click='gdDelete()'>删除</button>
+            <button type="button" class="btn btn-default" ng-click='gdAdd()'>+新增工单</button>
+        </div>
+    </h1>
+    <div class="gjsx_result" ng-hide="gjsx_result">
+        <div class="row">
+            <div class="col-xs-2">
+                <button type="button" class="btn btn-link">满足以下全部条件</button>
+            </div>
+            <div class="col-xs-9 mztj">
+                <div class="row mztj_line" ng-repeat='x in mztj track by $index'>
+                    <div class="col-xs-3">
+                        <select class="form-control" ng-change="nameChange(e,mztjName,$index)" ng-model="mztj[$index].b">
+                            <option value="">--请选择--</option>
+                            <option value="{{y}}" ng-repeat='y in mztj[$index].mztjName' ng-bind='y'></option>
+                        </select>
+                    </div>
+                    <div class="col-xs-3">
+                        <select class="form-control" ng-model="mztj[$index].b">
+                            <option value="" ng-repeat='y in mztj[$index].mztjCommon track by $index' ng-bind='y'></option>
+                        </select>
+                    </div>
+                    <div class="col-xs-3" ng-hide="mztjSelect[$index]" >
+                        <select class="form-control" ng-model="mztj[$index].c">
+                            <option value="" ng-repeat='x in mztj[$index].mztjSelects track by $index' ng-bind='x'></option>
+                        </select>
+                    </div>
+                    <div class="col-xs-3" ng-hide="mztjInput[$index]" ng-model='c[$index]'>
+                        <input type="text" class="form-control" ng-model="mztj[$index].c" />
+                    </div>
+                    <div class="col-xs-3 text_right">
+                        <p class="btn btn-link"><img src="img/delete.png" class="delete_icon" alt="" ng-click="delline($index)"/></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-2">
+                <button type="button" class="btn btn-link" id='tjxtj' ng-click='addline()'>+添加新条件</button>
+            </div>
+            <div class="col-xs-4 text_right">
+                <button type="button" class="btn btn-default" ng-click="gjcx()">查询</button>
+            </div>
+        </div>     
+    </div>
+    <div class="gd_table">
+        <table id='gd_table_list' class="table table-striped">
+            <tr>
+                <th><input type="checkbox" ng-model="all" ng-change='changeit(all)'/></th>
+                <th>标题</th>
+                <th>客户</th>
+                <th>
+                    <select ng-change="changeChannel(channel)" ng-model="channel">
+                        <option value="{{x}}" ng-repeat='x in channelist' ng-bind='x'></option>
+                    </select>
+                </th>
+                <th>客服</th>
+                <th>创建时间</th>
+                <th>
+                    <select ng-change='changePriority(priority)' ng-model='priority'>
+                        <option value="{{x}}" ng-repeat='x in prioritylist' ng-bind='x'></option>
+                    </select>
+                </th>
+                <th>
+                    <select ng-change='changeStatus(statuse)' ng-model='statuse'>
+                        <option value="{{x}}" ng-repeat='x in statuslist' ng-bind='x'></option>
+                    </select>
+                </th>
+                <th>操作</th>
+            </tr>
+            <tr ng-repeat='x in gdTableList track by $index'>
+                <td><input type="checkbox" ng-change='check(x.workOrderId,all)' ng-model="all"/></td>    
+                <td ui-sref='home.gdxq'>
+                    <div class="gd_list_th" ng-bind='x.title'></div>
+                </td>
+                <td ng-bind='x.customerId'></td>
+                <td ng-bind='x.channel'></td>
+                <td ng-bind='x.employeeId'></td>
+                <td ng-bind='x.createTime'></td>
+                <td ng-bind='x.priority'></td>
+                <td ng-bind='x.status'></td>
+                <td><a href='javascript:;' ng-click='handleData(x)'>查看详情</a></td>
+            </tr>
+        </table>
+        <div ng-repeat="x in arr"></div>
+        <tm-pagination conf="paginationConf" ng-show='pagShow'></tm-pagination>
+    </div>
+    
+</div>

@@ -6,13 +6,15 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="css/perfect-scrollbar.min.css" />
-		<link rel="stylesheet" type="text/css" href="css/ngDialog.css" />
-		<link rel="stylesheet" type="text/css" href="css/ngDialog-theme-default.css" />
+<!-- 		<link rel="stylesheet" type="text/css" href="css/ngDialog.css" />
+		<link rel="stylesheet" type="text/css" href="css/ngDialog-theme-default.css" /> -->
 	</head>
 	<body>
+		<tip-log></tip-log>
 		<div dialog></div>
 		<tipalert></tipalert>
 			<!-- view视图 -->
+		<!-- <div class="main-head-title"></div> -->
 		<div ui-view id="main-view"></div>
 	</body>
 	<script src="js/jquery.js"></script>
@@ -27,16 +29,39 @@
     		
     	}
     </script>
+    <script type="text/ng-template" id="selects" >
+    	<div class="selects-box">
+			<div class="selects-view">
+				<div ng-repeat="x in viewMsg">
+					<div ng-bind="x.firstName" ng-init="indexP = $index"></div>
+					<ul>
+						<li ng-repeat="y in x.list">
+							<input type="text" ng-model="y.name" ng-show="y.inputShow"/>
+							<span ng-bind="y.name" ng-click="y.check(y.name,indexP)"></span>
+							<span ng-click="y.edit()">编辑</span>
+							<span ng-click="y.delete($index)"></span>
+						</li>
+						<li>
+							<a href="javascript:;" ng-click="x.add()">添加</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div>
+				<a href="javascript:;" ng-click="addMenu()">添加</a>
+			</div>
+    	</div>
+    </script>
     <script type="text/ng-template" id="citys" >
     	<div>
 			<div class="form-group" >
-			    <label class="col-sm-2 control-label text_left" >*所属大区</label>
+			    <label class="col-sm-2 control-label text_left" >所属大区</label>
 			    <div class="col-sm-4">
 			    	<select class="form-control" ng-change = "areaChange()" ng-model = "area" ng-options = "x.area_id as x.area_name for x in areasList" >
 			    		<option value="" ng-show = "false" >--请选择--</option>
 			    	</select>
 			    </div>
-			    <label class="col-sm-2 control-label text_left" >*所属城市</label>
+			    <label class="col-sm-2 control-label text_left" >所属城市</label>
 			    <div class="col-sm-4">
                     <select class="form-control" ng-model = "city" ng-options = "x.cityId as x.cityName for x in cityList" >
 			    		<option value="" ng-show = "false" >--请选择--</option>

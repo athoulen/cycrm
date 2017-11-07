@@ -461,4 +461,7 @@
  		and sold_date&lt;#{endDate}
  		</if>
 	</select>
+	<delete id="deleteImpFileRecord">
+		DELETE FROM cy_business_flow_table WHERE sold_year=#{soldYear} AND sold_month=#{soldMonth} and file_type=#{fileType}
+	</delete>
 </mapper>
