@@ -104,7 +104,7 @@
 		<if test="customerName!=null">
 			AND (select customer_name FROM cy_customer_table WHERE customer_id=f.customer_id) LIKE CONCAT('%',#{customerName},'%')
 		</if>
-		<if test="startDate!=null">
+		<if test="startDate!=null and startDate!=''">
 		AND sold_date>#{startDate}
 		</if>
 		<if test="endDate!=null">
@@ -149,6 +149,10 @@
 		update cy_business_flow_table SET type=0 WHERE flow_id=#{flowId}
 	</update>
 	<select id="getLatestDataTime" resultType="java.util.Date">
-		SELECT create_time FROM cy_business_rebate_table ORDER BY create_time desc LIMIT 1
+		SELECT rebate_deal_time FROM cy_rebate_deal_time_table ORDER BY rebate_deal_time desc LIMIT 1
+	</select>
+	<select id="setDealTime">
+		insert into cy_rebate_deal_time_table(rebate_deal_time,operator)
+		values(#{sysDate},#{operator})
 	</select>
 </mapper>

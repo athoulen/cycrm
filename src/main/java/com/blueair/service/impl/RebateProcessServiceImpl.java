@@ -17,6 +17,7 @@ import com.blueair.bean.rebate.RebateMain;
 import com.blueair.bean.rebate.RebateProcess;
 import com.blueair.constant.HandleCode;
 import com.blueair.service.IRebateProcessService;
+import com.blueair.shiro.util.Generator;
 import com.blueair.util.DateUtil;
 import com.blueair.util.LongUtil;
 import com.blueair.web.exception.ServiceException;
@@ -86,6 +87,10 @@ public class RebateProcessServiceImpl extends BaseServiceImpl implements IRebate
 				logger.info("{}已写入佣金信息", new Date());
 			}
 		}
+		Map<String, Object> params=new HashMap<>();
+		params.put("sysDate", new Date());
+		params.put("operator", Generator.getUsername());
+		getBaseDao().insert("RebateProcessMapper.setDealTime", params);
 		return written;
 	}
 
