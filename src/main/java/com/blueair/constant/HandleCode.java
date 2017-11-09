@@ -9,4 +9,8 @@ public class HandleCode {
 	public final static String SESSION_TIMEOUT = "6666"; // Session失效
 	public final static String NO_PERMISSION = "2222"; // 没有权限操作code
 	public final static String ILLEGAL_OPERATION = "4444"; // 没有权限操作code
+	
+	
+	public final static String NOTICE_ALERT="110";
+	public final static String NOTICE_MESSAGE="10000";
 }
