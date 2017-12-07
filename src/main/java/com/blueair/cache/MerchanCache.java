@@ -2,10 +2,6 @@ package com.blueair.cache;
 
 import java.util.Map;
 
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-
 import com.blueair.service.IHospitalService;
 import com.blueair.service.IMerchandiserService;
 import com.blueair.util.SpringContextHolder;

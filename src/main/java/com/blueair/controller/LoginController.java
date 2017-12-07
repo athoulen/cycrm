@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,6 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,4 +119,19 @@ public class LoginController extends BaseController {
 		return rightResult(null, "登陆成功");
 	}
 	
+	/**
+     * pc用户登出
+     */
+    @RequestMapping("/logout")
+    public ModelMap logout(HttpServletRequest request, HttpServletResponse response) {
+        Subject user = SecurityUtils.getSubject();
+        if (user.isAuthenticated()) {
+        	String username=user.getPrincipal().toString();
+        	logger.info("[pc]{}退出成功", username);
+        	user.logout();
+        	return rightResult(null, String.format("用户[%s]退出成功", username));
+        } else {
+        	return rightResult(null, "用户未登录");
+        }
+    }
 }

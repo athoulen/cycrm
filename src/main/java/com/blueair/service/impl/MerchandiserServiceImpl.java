@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.blueair.bean.Merchandiser;
 import com.blueair.bean.MerchandiserKey;
 import com.blueair.service.IMerchandiserService;
-import com.blueair.shiro.util.Generator;
 import com.blueair.util.ConvertUtil;
 import com.blueair.util.OperateUtil;
 @Service("merchanService")

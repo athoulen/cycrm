@@ -109,7 +109,6 @@ body {
   background: #a2e2a2;
   display: inline-block; }
   .nav ul {
-    padding-top: 80px;
     height: 100%;
     box-sizing: border-box; }
     .nav ul li a {
@@ -269,17 +268,54 @@ h1.th1 {
     background: url(../img/common/controls/toast_error.png) no-repeat left top; }
 
 .kf {
-  height: 100%; }
+  height: 100%;
+  padding-bottom: 50px;
+  box-sizing: border-box; }
   .kf .list_main {
     width: 95%;
     margin: 0 auto; }
   .kf .search {
     padding: 20px; }
 
+@charset "UTF-8";
 .home {
   height: 100%;
   width: 100%;
   display: flex; }
+  .home .CorporateHeader {
+    font-family: "微软雅黑";
+    width: 100%;
+    min-width: 1080px;
+    height: 80px;
+    margin: 0 auto;
+    background: #a2e2a2; }
+    .home .CorporateHeader .logo {
+      width: 250px;
+      height: 80px;
+      background: url(../img/common/topnav_title.png) no-repeat;
+      background-size: 100%;
+      float: left; }
+    .home .CorporateHeader .login-btn {
+      float: right;
+      padding: 30px;
+      width: 350px; }
+      .home .CorporateHeader .login-btn .registerButton {
+        cursor: pointer;
+        width: 120px;
+        height: 40px;
+        margin-top: 20px;
+        border: 1px solid #fff;
+        color: #fff;
+        outline: none;
+        background: #05cbd8;
+        border-radius: 4px;
+        font-size: 16px; }
+      .home .CorporateHeader .login-btn .registerButton:hover {
+        background: #14b4be;
+        border: #14b4be; }
+      .home .CorporateHeader .login-btn .loginOut {
+        margin: 0 20px;
+        cursor: pointer; }
   .home .home-nav {
     height: 100%;
     width: 70px;
@@ -299,7 +335,7 @@ h1.th1 {
           background: #e4e4e4;
           text-align: center;
           color: #888; }
-    .home .home-nav .logo {
+    .home .home-nav .logo-tit {
       height: 80px;
       padding: 10px 0;
       color: #fff;
@@ -389,6 +425,40 @@ h1.th1 {
     width: 80%;
     margin: 20px auto; }
 
+.addKf {
+  height: 100%;
+  width: 1050px; }
+  .addKf h1 {
+    width: 96%;
+    margin: 0 auto; }
+
+.bjkf {
+  height: 100%;
+  width: 1050px; }
+  .bjkf h1 {
+    width: 96%;
+    margin: 0 auto; }
+  .bjkf .bjkf_main {
+    width: 80%;
+    margin: 20px auto; }
+
+.addKf {
+  height: 100%;
+  width: 1050px; }
+  .addKf h1 {
+    width: 96%;
+    margin: 0 auto; }
+
+.bjkf {
+  height: 100%;
+  width: 1050px; }
+  .bjkf h1 {
+    width: 96%;
+    margin: 0 auto; }
+  .bjkf .bjkf_main {
+    width: 80%;
+    margin: 20px auto; }
+
 .kfgl {
   height: 100%;
   width: 1050px; }
@@ -413,6 +483,46 @@ h1.th1 {
     z-index: 999;
     margin-left: 2px; }
 
+
+.addKf {
+  height: 100%;
+  width: 1050px; }
+  .addKf h1 {
+    width: 96%;
+    margin: 0 auto; }
+
+.bjkf {
+  padding-bottom: 50px;
+  width: 1050px;
+  overflow: auto; }
+  .bjkf h1 {
+    width: 96%;
+    margin: 0 auto; }
+  .bjkf .bjkf_main {
+    width: 80%;
+    margin: 20px auto; }
+
+.kfgl {
+  height: 100%;
+  width: 1050px; }
+  .kfgl h1 {
+    width: 96%;
+    margin: 0 auto; }
+  .kfgl select {
+    border: none;
+    outline: none; }
+
+.groups {
+  position: relative; }
+  .groups .cover_groups {
+    position: absolute;
+    height: 100%;
+    width: 80%;
+    background: #fff;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    z-index: 999;
+    margin-left: 2px; }
 
 .addkfz {
   height: 100%;
@@ -499,76 +609,3 @@ h1.th1 {
 
 .addkfz .addList .msg_list:hover {
   background: #eee; }
-
-.addKf {
-  height: 100%;
-  width: 1050px; }
-  .addKf h1 {
-    width: 96%;
-    margin: 0 auto; }
-
-.bjkf {
-  height: 100%;
-  width: 1050px; }
-  .bjkf h1 {
-    width: 96%;
-    margin: 0 auto; }
-  .bjkf .bjkf_main {
-    width: 80%;
-    margin: 20px auto; }
-
-.kfgl {
-  height: 100%;
-  width: 1050px; }
-  .kfgl h1 {
-    width: 96%;
-    margin: 0 auto; }
-  .kfgl select {
-    border: none;
-    outline: none; }
-
-.groups {
-  position: relative; }
-  .groups .cover_groups {
-    position: absolute;
-    height: 100%;
-    width: 80%;
-    background: #fff;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    z-index: 999;
-    margin-left: 2px; }
-
-.addKf {
-  height: 100%;
-  width: 1050px; }
-  .addKf h1 {
-    width: 96%;
-    margin: 0 auto; }
-
-.bjkf {
-  height: 100%;
-  width: 1050px; }
-  .bjkf h1 {
-    width: 96%;
-    margin: 0 auto; }
-  .bjkf .bjkf_main {
-    width: 80%;
-    margin: 20px auto; }
-
-.addKf {
-  height: 100%;
-  width: 1050px; }
-  .addKf h1 {
-    width: 96%;
-    margin: 0 auto; }
-
-.bjkf {
-  height: 100%;
-  width: 1050px; }
-  .bjkf h1 {
-    width: 96%;
-    margin: 0 auto; }
-  .bjkf .bjkf_main {
-    width: 80%;
-    margin: 20px auto; }

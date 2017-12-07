@@ -71,4 +71,13 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
+	
+	<!-- 登录拦截器 -->
+	<!-- <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/*/**"/>
+			<mvc:exclude-mapping path="/login/**"/>
+			<bean class="com.blueair.interceptor.LoginIntercepter"/>
+		</mvc:interceptor>
+	</mvc:interceptors> -->
 </beans>

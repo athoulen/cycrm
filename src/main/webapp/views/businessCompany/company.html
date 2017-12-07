@@ -1,0 +1,11 @@
+<div class="kf">
+<tipalert></tipalert>
+	<div class="nav">
+		<ul>
+			<li ng-repeat='x in list' ui-sref='{{x.state}}' >
+				<a href="javascript:;" ng-bind="x.title" ></a>
+			</li>
+		</ul>
+	</div>	
+	<div ui-view='' class="view"></div>
+</div>

@@ -13,7 +13,7 @@ public class ProductBanlance extends Product {
 	}
 
 	public void setSum(Long sum) {
-		this.sum = sum;
+		this.sum = sum==null?0:sum;
 	}
 
 	public List<ProductBanlance> getProducts() {

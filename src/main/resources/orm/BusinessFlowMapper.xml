@@ -32,15 +32,18 @@
 	<resultMap id="QueryResultMap" type="com.blueair.bean.BusinessFlowQuery">
 		<id column="flow_id" property="flowId" jdbcType="BIGINT" />
 		<result column="out_unit" property="outUnit" jdbcType="VARCHAR" />
-		<result column="accept_unit" property="acceptUnit"	jdbcType="VARCHAR" />
-		<result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+		<result column="accept_unit" property="acceptUnit" jdbcType="VARCHAR" />
+		<result column="customer_name" property="customerName"
+			jdbcType="VARCHAR" />
 		<result column="product_name" property="productName" jdbcType="VARCHAR" />
-		<result column="product_norms" property="productNorms" jdbcType="VARCHAR" />
+		<result column="product_norms" property="productNorms"
+			jdbcType="VARCHAR" />
 		<result column="batch_no" property="batchNo" jdbcType="VARCHAR" />
 		<result column="sold_date" property="soldDate" jdbcType="VARCHAR" />
-		<result column="promotion_expense" property="rebatePrice" jdbcType="VARCHAR" />
-		<result  column="sec_expense"  property="secExpense" jdbcType="DECIMAL"/>
-		<result column="amount" property="amount"	jdbcType="INTEGER" />
+		<result column="promotion_expense" property="rebatePrice"
+			jdbcType="VARCHAR" />
+		<result column="sec_expense" property="secExpense" jdbcType="DECIMAL" />
+		<result column="amount" property="amount" jdbcType="INTEGER" />
 		<result column="sold_price" property="soldPrice" jdbcType="DECIMAL" />
 		<result column="sold_money" property="soldMoney" jdbcType="DECIMAL" />
 		<result column="flow_flag" property="flowFlag" jdbcType="CHAR" />
@@ -53,22 +56,47 @@
 			column="{productId=product_id,hospitalId=accept_unit_id,soldDate=sold_date,isTerminal=is_terminal}"
 			select="MerchanProtocolMapper.getMerchanProtocolForBanlance" />
 	</resultMap>
-	
+
 	<resultMap type="java.util.Map" id="CustomerIdMap">
 		<result column="customer_id" property="customerId" jdbcType="VARCHAR" />
 		<result column="hospital_id" property="hospitalId" jdbcType="VARCHAR" />
 		<result column="product_id" property="productId" jdbcType="VARCHAR" />
 	</resultMap>
 
+	<resultMap type="com.blueair.bean.alertbean.merchanpro.MerchanProductBean"
+		id="MerchanProductResult">
+		<id column="sold_unit_id" property="merchanId" jdbcType="INTEGER" />
+		<id column="product_id" property="productId" jdbcType="INTEGER" />
+		<id column="allocate_goods_num" property="allocateSum" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<resultMap type="com.blueair.bean.alertbean.merchanpro.MerchanProductBean"
+		id="MerchanProductAllocResult">
+		<id column="accept_unit_id" property="merchanId" jdbcType="INTEGER" />
+		<id column="product_id" property="productId" jdbcType="INTEGER" />
+		<id column="sold_sum" property="soldSum" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<resultMap type="com.blueair.bean.alertbean.StockExpInfo" id="StockInfoResult">
+		<id column="merchan_id" property="merchanId" jdbcType="INTEGER"/>
+		<id column="product_id" property="productId" jdbcType="INTEGER"/>
+		<result column="merchan_name" property="merchanName" jdbcType="VARCHAR"/>
+		<result column="product_name" property="productName" jdbcType="VARCHAR"/>
+		<result column="stock" property="stock" jdbcType="BIGINT" />
+	</resultMap>
+
 	<sql id="Base_Column_List">
 		flow_id, sold_unit_id, accept_unit_id, customer_id,
 		product_id, batch_no,
 		sold_date,sold_year,
-		sold_month, file_type,allocate_goods_num,
-		sold_goods_num, sold_price, allocate_price,
+		sold_month,
+		file_type,allocate_goods_num,
+		sold_goods_num, sold_price,
+		allocate_price,
 		sold_money,
 		flow_flag,
-		is_terminal, department, remark, create_time, update_time
+		is_terminal, department, remark,
+		create_time, update_time
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.String">
@@ -85,9 +113,10 @@
 	<delete id="deleteFlowData" parameterType="java.util.Map">
 		delete from
 		cy_business_flow_table
-		where sold_year = #{soldYear,jdbcType=VARCHAR} 
-		and sold_month = #{soldMonth,jdbcType=VARCHAR} 
-		and file_type = #{fileType,jdbcType=VARCHAR}
+		where sold_year = #{soldYear,jdbcType=VARCHAR}
+		and sold_month = #{soldMonth,jdbcType=VARCHAR}
+		and file_type =
+		#{fileType,jdbcType=VARCHAR}
 	</delete>
 	<insert id="insert" parameterType="com.blueair.bean.BusinessFlow">
 		insert into
@@ -96,9 +125,11 @@
 		customer_id, product_id, batch_no,
 		sold_date,sold_year, sold_month,
 		file_type,allocate_goods_num,
-		sold_goods_num, sold_price, allocate_price,
+		sold_goods_num, sold_price,
+		allocate_price,
 		sold_money, flow_flag, is_terminal,
-		department, remark, create_time,
+		department, remark,
+		create_time,
 		update_time)
 		values (#{flowId,jdbcType=VARCHAR},
 		#{soldUnitId,jdbcType=VARCHAR},
@@ -126,15 +157,18 @@
 		customer_id, product_id, batch_no,
 		sold_date,sold_year, sold_month,
 		file_type,allocate_goods_num,
-		sold_goods_num, sold_price, allocate_price,
+		sold_goods_num, sold_price,
+		allocate_price,
 		sold_money, flow_flag, is_terminal,
-		department, remark, create_time,
+		department, remark,
+		create_time,
 		update_time)
 		values
-		<foreach collection="list" item="item" index="index" separator=",">
+		<foreach collection="list" item="item" index="index"
+			separator=",">
 			(#{item.soldUnitId,jdbcType=VARCHAR},
 			#{item.acceptUnitId,jdbcType=VARCHAR},
-			#{item.customerId,jdbcType=VARCHAR}, 
+			#{item.customerId,jdbcType=VARCHAR},
 			#{item.productId,jdbcType=VARCHAR},
 			#{item.batchNo,jdbcType=VARCHAR},
 			#{item.soldDate,jdbcType=VARCHAR},
@@ -142,13 +176,13 @@
 			#{item.soldMonth,jdbcType=VARCHAR},
 			#{item.fileType,jdbcType=VARCHAR},
 			#{item.allocateGoodsNum,jdbcType=INTEGER},
-			#{item.soldGoodsNum,jdbcType=INTEGER}, 
+			#{item.soldGoodsNum,jdbcType=INTEGER},
 			#{item.soldPrice,jdbcType=DECIMAL},
 			#{item.allocatePrice,jdbcType=DECIMAL},
 			#{item.soldMoney,jdbcType=DECIMAL},
-			#{item.flowFlag,jdbcType=CHAR}, 
+			#{item.flowFlag,jdbcType=CHAR},
 			#{item.isTerminal,jdbcType=CHAR},
-			#{item.department,jdbcType=VARCHAR}, 
+			#{item.department,jdbcType=VARCHAR},
 			#{item.remark,jdbcType=VARCHAR},
 			CURRENT_TIMESTAMP(),
 			CURRENT_TIMESTAMP())
@@ -399,69 +433,181 @@
 	<update id="setFlowType">
 		update cy_business_flow_table SET type=1,update_time=#{sysTime} WHERE
 		flow_id in
-		<foreach collection="processes" item="item" open="(" close=")" separator=",">
-		#{item.flowId}
+		<foreach collection="processes" item="item" open="(" close=")"
+			separator=",">
+			#{item.flowId}
 		</foreach>
 	</update>
 	<select id="queryForFlow" resultMap="QueryResultMap">
-		SELECT flow_id,f.accept_unit_id,f.product_id,is_terminal,batch_no,type,(SELECT `name` FROM cy_merchandiser_table WHERE merch_id=f.sold_unit_id) as out_unit,(CASE 
-		WHEN is_terminal=1 THEN (SELECT hospital_name FROM cy_hospital_table WHERE hospital_id=f.accept_unit_id)
-		ELSE	(SELECT `name` FROM cy_merchandiser_table WHERE merch_id=f.accept_unit_id)
-		END) as accept_unit,(SELECT customer_name FROM cy_customer_table WHERE customer_id=f.customer_id) as customer_name,
-		(CASE f.is_terminal WHEN 1 THEN
-		(select rebate FROM cy_customer_protocol_table WHERE customer_id=f.customer_id AND hospital_id=f.accept_unit_id
-		AND product_id=f.product_id) ELSE 0	END) as sec_expense	,sold_date,
-		product_name,product_norms,product_price,(CASE WHEN is_terminal=1 THEN sold_goods_num	ELSE	allocate_goods_num END) as amount,(CASE WHEN is_terminal=1 THEN (SELECT promotion_expense FROM cy_customer_protocol_table cp WHERE cp.customer_id=f.customer_id AND cp.hospital_id=f.accept_unit_id AND cp.product_id=f.product_id) ELSE NULL END) as promotion_expense,
-		(CASE WHEN is_terminal=1 THEN sold_price ELSE allocate_price END) as sold_price,sold_money,flow_flag,department,remark,create_time
- 		FROM cy_business_flow_table f LEFT JOIN cy_product_table p ON f.product_id=p.product_id 
- 		where 1>0
- 		<if test="isTerminal!=null">
- 		and is_terminal=#{isTerminal}
- 		</if>
- 		<if test="flowFlag!=null">
- 		and flow_flag=#{flowFlag}
- 		</if>
- 		<if test="acceptUnit!=null">
- 		and (CASE is_terminal	WHEN 1 THEN	(SELECT hospital_name FROM cy_hospital_table WHERE hospital_id=f.accept_unit_id) 
-		ELSE	(SELECT `name` FROM cy_merchandiser_table WHERE merch_id=f.accept_unit_id)	END)	
-		LIKE CONCAT('%',#{acceptUnit,jdbcType=VARCHAR},'%')
- 		</if>
- 		<if test="batchNo!=null">
- 		and batch_no like CONCAT('%',#{batchNo,jdbcType=VARCHAR},'%')
- 		</if>
- 		<if test="startDate!=null">
- 		and sold_date>#{startDate}
- 		</if>
- 		<if test="endDate!=null">
- 		and sold_date&lt;#{endDate}
- 		</if>
- 		order by sold_date asc,flow_id asc limit #{firstItem},#{pageSize}
+		SELECT
+		flow_id,f.accept_unit_id,f.product_id,is_terminal,batch_no,type,(SELECT
+		`name` FROM cy_merchandiser_table WHERE merch_id=f.sold_unit_id) as
+		out_unit,(CASE
+		WHEN is_terminal=1 THEN (SELECT hospital_name FROM
+		cy_hospital_table WHERE
+		hospital_id=f.accept_unit_id)
+		ELSE (SELECT
+		`name` FROM
+		cy_merchandiser_table WHERE merch_id=f.accept_unit_id)
+		END)
+		as
+		accept_unit,(SELECT customer_name FROM cy_customer_table WHERE
+		customer_id=f.customer_id) as customer_name,
+		(CASE f.is_terminal WHEN 1
+		THEN
+		(select rebate FROM cy_customer_protocol_table WHERE
+		customer_id=f.customer_id AND hospital_id=f.accept_unit_id
+		AND
+		product_id=f.product_id) ELSE 0 END) as sec_expense ,sold_date,
+		product_name,product_norms,product_price,(CASE WHEN is_terminal=1 THEN
+		sold_goods_num ELSE allocate_goods_num END) as amount,(CASE WHEN
+		is_terminal=1 THEN (SELECT promotion_expense FROM
+		cy_customer_protocol_table cp WHERE cp.customer_id=f.customer_id AND
+		cp.hospital_id=f.accept_unit_id AND cp.product_id=f.product_id) ELSE
+		NULL END) as promotion_expense,
+		(CASE WHEN is_terminal=1 THEN
+		sold_price ELSE allocate_price END) as
+		sold_price,sold_money,flow_flag,department,remark,create_time
+		FROM
+		cy_business_flow_table f LEFT JOIN cy_product_table p ON
+		f.product_id=p.product_id
+		where 1>0
+		<if test="isTerminal!=null">
+			and is_terminal=#{isTerminal}
+		</if>
+		<if test="flowFlag!=null">
+			and flow_flag=#{flowFlag}
+		</if>
+		<if test="acceptUnit!=null">
+			and (CASE is_terminal WHEN 1 THEN (SELECT hospital_name
+			FROM
+			cy_hospital_table WHERE hospital_id=f.accept_unit_id)
+			ELSE (SELECT
+			`name` FROM cy_merchandiser_table WHERE
+			merch_id=f.accept_unit_id)
+			END)
+			LIKE CONCAT('%',#{acceptUnit,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="batchNo!=null">
+			and batch_no like
+			CONCAT('%',#{batchNo,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="startDate!=null">
+			and sold_date>#{startDate}
+		</if>
+		<if test="endDate!=null">
+			and sold_date&lt;#{endDate}
+		</if>
+		order by sold_date asc,flow_id asc limit #{firstItem},#{pageSize}
 	</select>
 	<select id="queryForFlowCount" resultType="Long">
-		SELECT count(0)	FROM cy_business_flow_table f LEFT JOIN cy_product_table p ON f.product_id=p.product_id 
+		SELECT count(0) FROM cy_business_flow_table f LEFT JOIN
+		cy_product_table p ON f.product_id=p.product_id
 		where 1>0
- 		<if test="isTerminal!=null">
- 		and is_terminal=#{isTerminal}
- 		</if>
- 		<if test="flowFlag!=null">
- 		and flow_flag=#{flowFlag}
- 		</if>
- 		<if test="acceptUnit!=null">
- 		and (CASE is_terminal	WHEN 1 THEN	(SELECT hospital_name FROM cy_hospital_table WHERE hospital_id=f.accept_unit_id) 
-		ELSE	(SELECT `name` FROM cy_merchandiser_table WHERE merch_id=f.accept_unit_id)	END)	
-		LIKE CONCAT('%',#{acceptUnit,jdbcType=VARCHAR},'%')
- 		</if>
- 		<if test="batchNo!=null">
- 		and batch_no like CONCAT('%',#{batchNo,jdbcType=VARCHAR},'%')
- 		</if>
- 		<if test="startDate!=null">
- 		and sold_date>#{startDate}
- 		</if>
- 		<if test="endDate!=null">
- 		and sold_date&lt;#{endDate}
- 		</if>
+		<if test="isTerminal!=null">
+			and is_terminal=#{isTerminal}
+		</if>
+		<if test="flowFlag!=null">
+			and flow_flag=#{flowFlag}
+		</if>
+		<if test="acceptUnit!=null">
+			and (CASE is_terminal WHEN 1 THEN (SELECT hospital_name
+			FROM
+			cy_hospital_table WHERE hospital_id=f.accept_unit_id)
+			ELSE (SELECT
+			`name` FROM cy_merchandiser_table WHERE
+			merch_id=f.accept_unit_id)
+			END)
+			LIKE CONCAT('%',#{acceptUnit,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="batchNo!=null">
+			and batch_no like
+			CONCAT('%',#{batchNo,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="startDate!=null">
+			and sold_date>#{startDate}
+		</if>
+		<if test="endDate!=null">
+			and sold_date&lt;#{endDate}
+		</if>
 	</select>
 	<delete id="deleteImpFileRecord">
-		DELETE FROM cy_business_flow_table WHERE sold_year=#{soldYear} AND sold_month=#{soldMonth} and file_type=#{fileType}
+		DELETE FROM cy_impfile_record_table WHERE
+		imp_year=#{soldYear} AND imp_month=#{soldMonth} and
+		file_type=#{fileType}
 	</delete>
+	<select id="calSumOProduct" resultType="Long">
+		SELECT
+		(SUM(allocate_goods_num)-SUM(sold_goods_num)) as `sum`
+		FROM
+		cy_business_flow_table WHERE product_id=#{id}
+	</select>
+	
+	<select id="queryForLastFlowId" resultType="Long">
+		SELECT flow_id FROM cy_business_flow_table ORDER BY flow_id desc LIMIT 1
+	</select>
+	
+	<select id="queryForLastFlowIdEl" resultType="Long">
+		SELECT last_flow_id FROM cy_merchan_stock_info_table ORDER BY last_flow_id desc LIMIT 1
+	</select>
+
+	<select id="queryForMerchanProduct" resultMap="MerchanProductResult">
+		SELECT
+		sold_unit_id,product_id,sum(sold_goods_num) as  sold_sum FROM
+		cy_business_flow_table cf LEFT JOIN cy_merchandiser_table cm on
+		cf.sold_unit_id=cm.merch_id WHERE	cm.class_type!=1 
+		GROUP BY cf.sold_unit_id,cf.product_id
+	</select>
+	<select id="queryForMerchanProductAllocSum" resultType="Long">
+		SELECT sum(allocate_goods_num) FROM cy_business_flow_table 
+		WHERE accept_unit_id=#{merchanId} AND product_id=#{productId} AND is_terminal=0
+	</select>
+	<select id="getMerchanProductCount" resultType="Integer">
+		SELECT count(0) FROM cy_merchan_stock_info_table 
+		WHERE merchan_id=#{merProductBean.merchanId} AND product_id=#{merProductBean.productId}
+	</select>
+	<update id="updateMerchanProductStock">
+		UPDATE cy_merchan_stock_info_table SET 
+		stock=stock+#{merProductBean.sum},
+		is_notice=0
+		WHERE merchan_id=#{merProductBean.merchanId} and product_id=#{merProductBean.productId}
+	</update>
+	<insert id="insertMerchanProductStock">
+		INSERT INTO cy_merchan_stock_info_table
+		VALUES(#{merProductBean.merchanId},#{merProductBean.productId},#{merProductBean.sum},0,#{lastFlowId})
+	</insert>
+	<!-- 删除流向时的操作-->
+	<select id="queryForDemissMerchanProductSoldSum" resultMap="MerchanProductResult">
+		SELECT
+		sold_unit_id,product_id,sum(sold_goods_num) as  sold_sum FROM
+		cy_business_flow_table cf LEFT JOIN cy_merchandiser_table cm on
+		cf.sold_unit_id=cm.merch_id WHERE cm.class_type!=1 and cf.sold_year=#{soldYear} 
+		AND cf.sold_month=#{soldMonth}
+		GROUP BY cf.sold_unit_id,cf.product_id
+	</select>
+	<select id="queryForDemissMerchanProductAllocSum" resultMap="MerchanProductAllocResult">
+		SELECT
+		accept_unit_id,product_id, sum(allocate_goods_num) as  allocate_goods_num FROM
+		cy_business_flow_table cf LEFT JOIN cy_merchandiser_table cm on
+		cf.sold_unit_id=cm.merch_id WHERE cf.is_terminal=0 AND
+		cm.class_type!=1 and cf.sold_year=#{soldYear} AND cf.sold_month=#{soldMonth}
+		GROUP BY cf.sold_unit_id,cf.product_id
+	</select>
+	<update id="updateDemissMerProduct">
+		update cy_merchan_stock_info_table set
+		stock=stock-#{sum},
+		is_notice=0
+		where merchan_id=#{merchanId} and product_id=#{productId}
+	</update>
+	<select id="queryExpMerchanStock" resultMap="StockInfoResult">
+		SELECT merchan_id,product_id,stock,(SELECT `name` FROM cy_merchandiser_table WHERE merch_id=merchan_id) as merchan_name,
+		(SELECT product_name FROM cy_product_table WHERE product_id=csi.product_id) as product_name
+		FROM cy_merchan_stock_info_table csi WHERE is_notice=0 and stock&lt;0
+	</select>
+	<update id="updateStockState">
+		<foreach collection="stockExpInfos" item="item" separator=";">
+		UPDATE cy_merchan_stock_info_table SET is_notice=1 
+		WHERE merchan_id=#{item.merchanId} AND product_id=#{item.productId}
+		</foreach>
+	</update>
 </mapper>

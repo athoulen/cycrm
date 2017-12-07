@@ -10,8 +10,8 @@ import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.SqlSession;
 
+@SuppressWarnings("rawtypes")
 public class MapResultHandler implements ResultHandler {
-	@SuppressWarnings("rawtypes")
 	private final Map mappedResults;
 	private final String mapKey;
 	private final ObjectFactory objectFactory;

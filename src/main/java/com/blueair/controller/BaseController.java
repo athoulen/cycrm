@@ -88,6 +88,7 @@ public class BaseController {
 		return output;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public ModelMap rightPageListBeanResult(ModelMap map,String message,String objectName,PageListBean bean) {
 		ModelMap output = map;
 		if (output == null) {

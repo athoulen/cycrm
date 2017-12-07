@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.time.StopWatch;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.blueair.bean.BusinessFlow;
@@ -22,12 +24,15 @@ import com.blueair.cache.MerchanCache;
 import com.blueair.cache.ProductCache;
 import com.blueair.constant.HandleCode;
 import com.blueair.service.IFlowImpService;
+import com.blueair.service.IStockService;
 import com.blueair.util.Constants;
 import com.blueair.util.DateUtil;
 import com.blueair.web.exception.ServiceException;
 
 @Service("flowImpService")
 public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpService {
+	@Autowired
+	private IStockService stockService;
 
 	/**
 	 * 导入流向数据
@@ -57,6 +62,8 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			params.put("soldYear", impYear);
 			params.put("soldMonth", impMonth);
 			params.put("fileType", impType);
+			//处理库存
+			stockService.checkLowerMerchanStock(impYear, impMonth,impType ,true);
 			getBaseDao().delete("BusinessFlowMapper.deleteFlowData", params);
 			getBaseDao().delete("BusinessFlowMapper.deleteImpFileRecord", params);
 			return true;
@@ -95,13 +102,16 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 		}
 		if (!flowList.isEmpty()) {
 			// 执行开始时间
-			Long start = System.currentTimeMillis();
+			StopWatch watch=new StopWatch();
+			watch.start();
 			// 批量入库
 			int result = getBaseDao().insert("BusinessFlowMapper.insertBatch", flowList);
 			// 执行结束时间
-			Long end = System.currentTimeMillis();
+			watch.stop();
 			System.out.println(
-					"-------向数据库插入 " + flowList.size() + " 条数据，共用时：" + (double) (end - start) / 1000 + " s--------");
+					"-------向数据库插入 " + flowList.size() + " 条数据，共用时：" + watch.getTime() / 1000 + " s--------");
+			//处理库存
+			stockService.checkLowerMerchanStock(null, null,null, false);
 			// 判断是否插入成功
 			if (result <= 0) {
 				return false;

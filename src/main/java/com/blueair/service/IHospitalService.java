@@ -16,5 +16,6 @@ public interface IHospitalService {
 	
 	public Map<String, Object> queryHospitalMap();
 
+	@SuppressWarnings("rawtypes")
 	public PageListBean queryHospitals(String hospitalName, int page, int pageSize, int flag);
 }

@@ -23,6 +23,7 @@ public class CustomerContoller extends BaseController {
 	@Autowired
 	private ICustomerService customerService;
 	
+	@SuppressWarnings("unused")
 	private Logger logger=LoggerFactory.getLogger(CustomerContoller.class);
 
 	/*@RequestMapping("/uploadCustomer")

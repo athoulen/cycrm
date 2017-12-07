@@ -4,7 +4,7 @@
 
   <groupId>com.blueair</groupId>
   <artifactId>cycrm</artifactId>
-  <version>0.5.1-SNAPSHOT</version>
+  <version>0.5.3-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <name>cycrm</name>
@@ -15,6 +15,7 @@
 		<spring-version>4.3.3.RELEASE</spring-version>
 		<javax.servlet.version>3.1.0</javax.servlet.version>
 	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	    <java.version>1.7</java.version>
 	    <quartz-version>2.2.3</quartz-version>
 	  </properties>
 	
@@ -266,11 +267,12 @@
 	  <profiles>
 			<profile>
 				<!-- 本地开发 -->
-				<id>master</id>
+				<id>dev</id>
 				<properties>
 					<jdbc.username>admin</jdbc.username>
 					<jdbc.password>1496B11C04AC1861</jdbc.password>
 					<jdbc.jdbcUrl>jdbc:mysql://localhost:3306/cycrm?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true&amp;useConfigs=maxPerformance&amp;allowMultiQueries=true</jdbc.jdbcUrl>
+					<uploadPath>E:/upload/</uploadPath>
 				</properties>
 				<activation>
 					<activeByDefault>true</activeByDefault>
@@ -283,10 +285,9 @@
 					<jdbc.username>admin</jdbc.username>
 					<jdbc.password>1496B11C04AC1861</jdbc.password>
 					<jdbc.jdbcUrl>jdbc:mysql://localhost:3306/cycrm?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true&amp;useConfigs=maxPerformance&amp;allowMultiQueries=true</jdbc.jdbcUrl>
+					<uploadPath>D:/upload/</uploadPath>
 				</properties>
-				<activation>
-					<activeByDefault>true</activeByDefault>
-				</activation>
+				
 			</profile>
 	</profiles>
 </project>

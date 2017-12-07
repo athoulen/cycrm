@@ -284,7 +284,7 @@ public final class ConvertUtil {
 			@Override
 			public int compare(T o1, T o2) {
 				try {
-					Class clazz = o1.getClass();
+					Class<? extends Object> clazz = o1.getClass();
 					Field field = clazz.getDeclaredField(sortField); //获取成员变量
 					field.setAccessible(true); //设置成可访问状态
 					String typeName = field.getType().getName().toLowerCase(); //转换成小写

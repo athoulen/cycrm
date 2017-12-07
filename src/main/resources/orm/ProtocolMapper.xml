@@ -77,10 +77,28 @@
     <result column="product_id" property="productId" jdbcType="INTEGER" />
   </resultMap>
   
+  <resultMap type="com.blueair.bean.alertbean.promotereb.PromoteRebateInfo" id="PromoteRebateInfoResult">
+  	<id column="product_id" property="productId" jdbcType="INTEGER"/>
+  	<id column="hospital_id" property="hospitalId" jdbcType="INTEGER"/>
+  	<result column="lo_back" property="rebate" jdbcType="DOUBLE"/>
+  	<result column="promote" property="promote" jdbcType="DOUBLE"/>
+  	<result column="product_name" property="productName" jdbcType="VARCHAR"/>
+  	<result column="hospital_name" property="hospitalName" jdbcType="VARCHAR"/>
+  	<result column="total_promote" property="totalPromote" jdbcType="DECIMAL"/>
+  </resultMap>
+  
+  <resultMap type="com.blueair.bean.alertbean.promotereb.PromoteRebateInfo" id="PromotionExpResult">
+  	<id column="product_id" property="productId" jdbcType="INTEGER"/>
+  	<id column="hospital_id" property="hospitalId" jdbcType="INTEGER"/>
+  	<result column="product_name" property="productName" jdbcType="VARCHAR"/>
+  	<result column="hospital_name" property="hospitalName" jdbcType="VARCHAR"/>
+  	<result column="substract" property="substract" jdbcType="DECIMAL"/>
+  </resultMap>
+  
   
   <select id="queryProtocolByCondition" parameterType="com.blueair.bean.ProtocolBase" resultType="Integer">
   		select count(0) from cy_customer_protocol_table
-  		where customer_id=#{customerId} and hospital_id=#{hospitalId}
+  		where hospital_id=#{hospitalId}
   		and product_id=#{productId} and is_valid=1
   		<if test="protocolId!=null">
   		and protocol_id!=#{protocolId}
@@ -228,4 +246,32 @@
   		from cy_customer_protocol_table WHERE customer_id=#{customerId} AND product_id=#{productId} 
   		AND hospital_id=#{acceptUnitId} AND #{soldDate}> protocol_end ORDER BY protocol_end desc LIMIT 1
   </select>
+  <select id="queryForPromoteAndRebateMer"  resultMap="PromoteRebateInfoResult">
+  		SELECT cmp.product_id,cmp.hospital_id,cmp.lo_back,(CASE WHEN ccp.promotion_expense > ccp.switch_expense
+           THEN ccp.promotion_expense 
+           ELSE ccp.switch_expense
+           END) as promote,
+		(SELECT product_name FROM cy_product_table WHERE product_id=cmp.product_id) as product_name,
+		(SELECT hospital_name FROM cy_hospital_table WHERE hospital_id=cmp.hospital_id) as hospital_name,
+		(SELECT promote_fee FROM cy_product_table WHERE product_id=cmp.product_id) as total_promote
+		 FROM cy_merchandiser_protocol_table cmp LEFT JOIN cy_customer_protocol_table ccp
+		on cmp.product_id=ccp.product_id AND cmp.hospital_id=ccp.hospital_id WHERE cmp.product_id=#{productId} AND cmp.hospital_id=#{hospitalId}
+  </select>
+  <insert id="insertExpProRebateInfo">
+  		INSERT INTO cy_rebate_notice_table 
+  		VALUES(#{productId},#{hospitalId},#{substract},1);		
+  </insert>
+  <update id="updateExpProRebateInfo">
+  		UPDATE cy_rebate_notice_table SET is_exp=0,substract=#{substract} 
+  		WHERE product_id=#{productId} and hospital_id=#{hospitalId}
+  </update>
+  <select id="queryForPromotionExpInfo" resultMap="PromotionExpResult">
+  		SELECT *,(SELECT product_name FROM cy_product_table WHERE product_id=cnt.product_id) as product_name,
+		(SELECT hospital_name FROM cy_hospital_table WHERE hospital_id=cnt.hospital_id) as hospital_name
+		FROM cy_rebate_notice_table cnt WHERE is_exp=1 and is_notice=0
+  </select>
+  <update id="updatePromoteState">
+  		UPDATE cy_rebate_notice_table SET is_notice=1 
+		WHERE product_id=#{productId} and hospital_id=#{hospitalId}
+  </update>
 </mapper>

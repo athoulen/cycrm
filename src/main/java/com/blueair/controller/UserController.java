@@ -48,5 +48,13 @@ public class UserController extends BaseController {
 			return errorResult("注册失败！");
 		}
 	}
-	
+	/**
+	 * 查询用户名
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/username")
+	public ModelMap queryLoginUserName(HttpServletRequest request){
+		return rightObjectResult(null, "查询成功！", "username", Generator.getUsername());
+	}
 }

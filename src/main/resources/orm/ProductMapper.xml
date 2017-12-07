@@ -6,7 +6,13 @@
     <result column="product_name" property="productName" jdbcType="VARCHAR" />
     <result column="product_norms" property="productNorms" jdbcType="VARCHAR" />
     <result column="product_price" property="productPrice" jdbcType="DECIMAL" />
+    <result column="bid_price" property="bidPrice" jdbcType="DECIMAL" />
     <result column="manufacture" property="manufacture" jdbcType="VARCHAR" />
+    <result column="promote_fee" property="promoteFee" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="BalanceResultMap" type="com.blueair.bean.ProductBanlance" extends="BaseResultMap">
+    <result column="sum" property="sum" jdbcType="VARCHAR" />
   </resultMap>
   
   <resultMap id="CacadeMap" type="java.util.Map" >
@@ -37,7 +43,9 @@
   			product_name=#{productName},
   			product_norms=#{productNorms},
   			product_price=#{productPrice},
-  			manufacture=#{manufacture}
+  			manufacture=#{manufacture},
+  			bid_price=#{bidPrice},
+  			promote_fee=#{promoteFee}
   		</set>
   </insert>
   <update id="updateProduct">
@@ -46,7 +54,9 @@
   			product_name=#{productName},
   			product_norms=#{productNorms},
   			product_price=#{productPrice},
-  			manufacture=#{manufacture}
+  			manufacture=#{manufacture},
+  			bid_price=#{bidPrice},
+  			promote_fee=#{promoteFee}
   		</set>
   		where product_id=#{id}
   </update>
@@ -108,5 +118,9 @@
   <select id="queryProductsByNameAndMaf" resultType="java.util.Map">
   		select product_id as productId,product_norms as productNorms from
   		cy_product_table where manufacture=#{manufacture} and product_name=#{productName} 
+  </select>
+  
+  <select id="queryForAllProduct" resultMap="BalanceResultMap">
+  		SELECT * FROM cy_product_table
   </select>
 </mapper>

@@ -9,8 +9,6 @@ import org.apache.shiro.session.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.blueair.util.SerializeUtil;
-
 public class ShiroSessionManager implements ShiroSessionRepository{
 	
 	private static Map<String,Session> sessionMap=new ConcurrentHashMap<>();

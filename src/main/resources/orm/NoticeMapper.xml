@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="NoticeMapper">
+
+	<insert id="insertNoticeRecord">
+		insert into cy_notice_record_table
+		<set>
+			notice_style=#{noticeStyle},
+			notice_type=#{noticeType},
+			notice_message=#{noticeMessage},
+			notice_time=#{noticeTime}
+		</set>
+	</insert>
+</mapper>

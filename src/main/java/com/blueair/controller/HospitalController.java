@@ -101,6 +101,7 @@ public class HospitalController extends BaseController {
 	 * @param flag
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	@RequestMapping("/query/list")
 	public ModelMap queryHospitals(HttpServletRequest request,String hospitalName,int page,int pageSize,int flag){
 		hospitalName=DataCheckUtil.ifNullToEmpty(hospitalName);

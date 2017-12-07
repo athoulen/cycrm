@@ -1,12 +1,16 @@
 package com.blueair.bean;
 
+import java.math.BigDecimal;
+
 public class Product {
 
 	private Integer id;
 	private String productName;
 	private String productNorms;
 	private String productPrice;
+	private String bidPrice;
 	private String manufacture;
+	private BigDecimal promoteFee;
 	public Integer getId() {
 		return id;
 	}
@@ -36,6 +40,18 @@ public class Product {
 	}
 	public void setManufacture(String manufacture) {
 		this.manufacture = manufacture;
+	}
+	public String getBidPrice() {
+		return bidPrice;
+	}
+	public void setBidPrice(String bidPrice) {
+		this.bidPrice = bidPrice;
+	}
+	public BigDecimal getPromoteFee() {
+		return promoteFee;
+	}
+	public void setPromoteFee(BigDecimal promoteFee) {
+		this.promoteFee = promoteFee;
 	}
 	public Product() {
 		super();

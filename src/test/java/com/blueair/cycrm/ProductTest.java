@@ -1,12 +1,10 @@
 package com.blueair.cycrm;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,7 +48,6 @@ public class ProductTest extends JunitTestBase{
 
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String result = String.format("%.2f", Double.valueOf("3.156545"));
 		 System.out.println(result);
 		 String soldDate= "2017-07-03 18:06:27.0";

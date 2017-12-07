@@ -111,6 +111,10 @@
   		<include refid="KEY_Column_List"/>
   		from cy_merchandiser_table
   </select>
+  
+  <select id="queryForClassType" resultType="Integer">
+	   SELECT class_type FROM cy_merchandiser_table WHERE merch_id=#{merchanId}
+  </select>
  
   <!-- <select id="queryLowerMerchandisers" resultMap="KeyResultMap">
   		select 

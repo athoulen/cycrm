@@ -137,6 +137,7 @@ public abstract class Excel2003RowProcessor implements ExcelRowProcessor{
 	 * @throws SAXException 
 	 * @throws OpenXML4JException 
 	 */
+	@SuppressWarnings("resource")
 	public void processByRow(String sheetName) throws OpenXML4JException, SAXException, Exception  {
 		this.is=new FileInputStream(fileName);
 		this.fs=new POIFSFileSystem(is);

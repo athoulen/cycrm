@@ -1,7 +1,6 @@
 package com.blueair.controller;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +39,7 @@ public class RebateProcessController extends BaseController {
 	 * @return
 	 * @throws ServiceException 
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping("list")
 	public ModelMap queryRebateList(String json,int page,int pageSize) throws ServiceException{
 		Map<String, Object> params=JsonUtil.convertJson2Object(json, Map.class);

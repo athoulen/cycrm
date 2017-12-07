@@ -94,6 +94,7 @@ public class RebateProcessServiceImpl extends BaseServiceImpl implements IRebate
 		return written;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public PageListBean queryRebateList(Map<String, Object> params,int firstItem, int pageSize) throws ServiceException {
 		params = params==null?new HashMap<String, Object>():params;

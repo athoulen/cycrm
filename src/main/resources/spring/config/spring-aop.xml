@@ -69,4 +69,18 @@
 			<aop:after-returning pointcut-ref="delPointcut" method="refreshCacheMap" />
        </aop:aspect>
  	</aop:config>
+ 	
+ 	<bean id="promoteRebateManager" class="com.blueair.service.impl.PromoteServiceImpl"/>
+ 	<aop:config>
+ 		<aop:pointcut expression="execution(public * com.blueair.service.impl.MerchanProtocolServiceImpl.update*(..))" id="updatePointcut1"/>
+ 		<aop:pointcut expression="execution(public * com.blueair.service.impl.MerchanProtocolServiceImpl.insert*(..))" id="insertPointcut1"/>
+ 		<aop:pointcut expression="execution(public * com.blueair.service.impl.ProtocolServiceImpl.update*(..))" id="updatePointcut2"/>
+ 		<aop:pointcut expression="execution(public * com.blueair.service.impl.ProtocolServiceImpl.insert*(..))" id="insertPointcut2"/>
+ 		<aop:aspect id="promoteRebateAspect" ref="promoteRebateManager">
+ 			<aop:after-returning pointcut-ref="updatePointcut1" method="checkAndRecordPromotionExp" returning="result"/>
+			<aop:after-returning pointcut-ref="insertPointcut1" method="checkAndRecordPromotionExp" returning="result"/>
+			<aop:after-returning pointcut-ref="updatePointcut2" method="checkAndRecordPromotionExp" returning="result"/>
+			<aop:after-returning pointcut-ref="insertPointcut2" method="checkAndRecordPromotionExp"  returning="result"/>
+ 		</aop:aspect>
+ 	</aop:config>
 </beans>

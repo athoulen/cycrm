@@ -9,7 +9,12 @@ import java.util.Map.Entry;
 import javax.websocket.EncodeException;
 import javax.websocket.Session;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class InStream {
+	
+	private static Logger logger=LoggerFactory.getLogger(InStream.class);
 	//WebSocket发送消息给所有前端用户
 	public static void sendMessage2AllFront(String json) throws IOException{
 		 Map<String, Session> userMap = WebSocketTest.getSessionMap();
@@ -22,9 +27,17 @@ public class InStream {
 	public static void sendMessage2Users(String json,String... username) throws IOException{
 		 Map<String, Session> userMap = WebSocketTest.getSessionMap();
 		 List<String> nameList=Arrays.asList(username);
+		 if(nameList==null||nameList.isEmpty()){
+			 logger.debug("需要选择用户");
+			 return ;
+		 }
 		 for (String name : nameList) {
 			 Session session=userMap.get(name);
-			 session.getBasicRemote().sendText(json);
+			 if(session==null){
+				 logger.debug("用户"+name+"未连接websocket");
+				 continue;
+			 }
+			 session.getAsyncRemote().sendText(json);
 		}
 	}
 	

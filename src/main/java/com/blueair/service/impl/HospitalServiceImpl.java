@@ -59,6 +59,7 @@ public class HospitalServiceImpl extends BaseServiceImpl implements IHospitalSer
 		return getBaseDao().queryForMap("HospitalMapper.queryHospitalMap", null, "hospitalName", "hospitalId");
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public PageListBean queryHospitals(String hospitalName, int page, int pageSize, int flag) {
 		Map<String, Object> params=new HashMap<>();

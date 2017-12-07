@@ -16,6 +16,7 @@ import com.blueair.web.exception.ServiceException;
 @Service("productService")
 public class ProductServiceImpl extends BaseServiceImpl implements IProductService {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(ProductServiceImpl.class);
 
 	@Override

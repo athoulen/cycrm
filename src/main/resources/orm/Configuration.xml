@@ -15,6 +15,7 @@
 		<mapper resource="orm/UserMapper.xml"/>
 		<mapper resource="orm/ZoneMapper.xml"/>
 		<mapper resource="orm/BusinessFlowMapper.xml"/>
+		<mapper resource="orm/NoticeMapper.xml"/>
 		<mapper resource="orm/CustomerProtocolMapper.xml"/>
 		<mapper resource="orm/FileRecordMapper.xml"/>
 		<mapper resource="orm/RebateProcessMapper.xml"/>

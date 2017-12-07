@@ -1,8 +1,8 @@
 package com.blueair.util;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -18,6 +18,10 @@ public class DataCheckUtil {
 	
 	public static boolean isDoubleEmpty(Double data){
 		return data==null||data==0;
+	}
+	
+	public static boolean isBigDecimalEmpty(BigDecimal data){
+		return data==null||data==new BigDecimal(0);
 	}
 	
 	public static String ifNullToEmpty(String data){

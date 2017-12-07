@@ -1,6 +1,6 @@
 <div class="home">
 	<div class="home-nav clear-fix">
-		<div class="logo">
+		<div class="logo-tit">
 			承一<br/>医药
 		</div>
 		<ul>
@@ -12,7 +12,21 @@
 		</ul>
 	</div>
 	<div class="home-r">
-		<!-- <div class="home-head"></div> -->
+		<div class="CorporateHeader">
+			<div class="small fix">
+				<div class="logo"></div>
+				<div class="login-btn">
+					<span>
+						<img src="img/icon_user.png" alt=""> 
+						当前用户：{{username}}
+					</span>
+					<span class='loginOut' ng-click="loginout()"}>
+						<img src="img/logout.png" alt=""> 
+						退出
+					</span>
+				</div>
+			</div>
+		</div>
 		<div ui-view='' class="home-view"></div>
 	</div>
 </div>

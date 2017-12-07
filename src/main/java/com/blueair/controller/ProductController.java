@@ -44,7 +44,16 @@ public class ProductController extends BaseController {
 			return errorResult("产品规格不能为空");
 		}
 		if (DataCheckUtil.isStringEmpty(product.getManufacture())) {
-			return errorResult("产品规格不能为空");
+			return errorResult("生产商不能为空");
+		}
+		if (DataCheckUtil.isStringEmpty(product.getBidPrice())) {
+			return errorResult("中标价不能为空");
+		}
+		if (DataCheckUtil.isStringEmpty(product.getProductPrice())) {
+			return errorResult("产品价格不能为空");
+		}
+		if (DataCheckUtil.isBigDecimalEmpty(product.getPromoteFee())) {
+			return errorResult("推广费不能为空");
 		}
 		int result = productService.insertProduct(product);
 		switch (result) {
@@ -79,6 +88,15 @@ public class ProductController extends BaseController {
 		}
 		if (DataCheckUtil.isStringEmpty(product.getManufacture())) {
 			return errorResult("产品规格不能为空");
+		}
+		if (DataCheckUtil.isStringEmpty(product.getBidPrice())) {
+			return errorResult("中标价不能为空");
+		}
+		if (DataCheckUtil.isStringEmpty(product.getProductPrice())) {
+			return errorResult("产品价格不能为空");
+		}
+		if (DataCheckUtil.isBigDecimalEmpty(product.getPromoteFee())) {
+			return errorResult("推广费不能为空");
 		}
 		int result = productService.updateProduct(product);
 		switch (result) {

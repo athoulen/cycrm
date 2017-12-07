@@ -22,7 +22,7 @@ public class PageListBean <T> {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public PageListBean(List list, Long totalCount) {
+	public PageListBean(List<T> list, Long totalCount) {
 		super();
 		this.list = list;
 		this.totalCount = totalCount;
