@@ -61,16 +61,13 @@
 				<div class="window_tip_table">
 					<div class="tip_table_tit">
 						{{tipTableTit}}
-						<span ng-click="closeTipTable()">x</span>
+						<span ng-click="closeTips()">x</span>
 					</div>
 					<div class="tip_table_main">
-						<div class="table_main">
-							<div style="line-height:20px;text-align:right;" ng-if="tipTableList.length>1"><a ng-click="closeTips()" style="cursor:pointer;">全部不再提醒</a></div>
-							<div class="main-list" ng-repeat="x in tipTableList track by $index">
-								<p ng-show="x.merchanName">商业公司 {{x.merchanName}} 的药品  {{x.productName}}规格{{x.productNorms}} 库存报警  目前库存为{{x.stock}} </p>
-								<p ng-show="x.hospitalName">发往医院  {{x.hospitalName}}  的药品 {{x.productName}} 规格 {{x.productNorms}}推广费返利差为负值 {{x.substract}}</p>                  
-								<a ng-click="closeTip(x,$index)">不再提醒</a>
-							</div>
+						<div class="main-list" ng-repeat="x in tipTableList track by $index">
+							<p ng-show="x.merchanName">商业公司 {{x.merchanName}} 的药品  {{x.productName}}规格{{x.productNorms}} 库存报警  目前库存为{{x.stock}} </p>
+							<p ng-show="x.hospitalName">发往医院  {{x.hospitalName}}  的药品 {{x.productName}} 规格 {{x.productNorms}}推广费返利差为负值 {{x.substract}}</p>                  
+							<a ng-click="closeTip(x,$index)">不再提醒</a>
 						</div>
 					</div>
 					<!-- <table class="tip_table_main" id="gd_table_list"> -->

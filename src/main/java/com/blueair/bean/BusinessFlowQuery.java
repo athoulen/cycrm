@@ -130,12 +130,12 @@ public class BusinessFlowQuery {
 	
 	public void setBalance() {
 		BigDecimal salePrice=this.soldPrice;
-		BigDecimal upBack=new BigDecimal(merProtocol.getUpBack().toString());
+//		BigDecimal upBack=new BigDecimal(merProtocol.getUpBack().toString());
 		BigDecimal loBack=new BigDecimal(merProtocol.getLoBack().toString());
-		BigDecimal rebate=new BigDecimal(this.rebatePrice);
-		BigDecimal secRebate=new BigDecimal(secExpense);
+		BigDecimal rebate=new BigDecimal(this.rebatePrice==null?"0":this.rebatePrice);
+		BigDecimal secRebate=new BigDecimal(this.secExpense==null?"0":this.secExpense);
 		BigDecimal account=new BigDecimal(this.amount);
-		this.balance=(salePrice.subtract(upBack).subtract(loBack).subtract(rebate).add(secRebate)).multiply(account);
+		this.balance=(salePrice.subtract(loBack).subtract(rebate).add(secRebate)).multiply(account);
 	}
 	public BigDecimal getBalance() {
 		return this.balance;
@@ -150,7 +150,7 @@ public class BusinessFlowQuery {
 		return secExpense;
 	}
 	public void setSecExpense(String secExpense) {
-		this.secExpense = secExpense;
+		this.secExpense = secExpense==null?"0":secExpense;
 	}
 	public Integer getIsTerminal() {
 		return isTerminal;

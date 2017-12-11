@@ -257,10 +257,17 @@
 		 FROM cy_merchandiser_protocol_table cmp LEFT JOIN cy_customer_protocol_table ccp
 		on cmp.product_id=ccp.product_id AND cmp.hospital_id=ccp.hospital_id WHERE cmp.product_id=#{productId} AND cmp.hospital_id=#{hospitalId}
   </select>
+  <select id="queryExpProRebateCount" resultType="Integer">
+  		select count(0) from cy_rebate_notice_table WHERE product_id=#{productId} and hospital_id=#{hospitalId}	
+  </select>
   <insert id="insertExpProRebateInfo">
-  		INSERT INTO cy_rebate_notice_table 
-  		VALUES(#{productId},#{hospitalId},#{substract},1);		
+  		INSERT INTO cy_rebate_notice_table(product_id,hospital_id,substract,is_exp)
+  		VALUES(#{productId},#{hospitalId},#{substract},1)		
   </insert>
+  <update id="updateExpProRebateSubInfo">
+  		UPDATE cy_rebate_notice_table SET is_exp=1,substract=#{substract},is_notice=0 
+  		WHERE product_id=#{productId} and hospital_id=#{hospitalId}
+  </update>
   <update id="updateExpProRebateInfo">
   		UPDATE cy_rebate_notice_table SET is_exp=0,substract=#{substract} 
   		WHERE product_id=#{productId} and hospital_id=#{hospitalId}
@@ -271,7 +278,9 @@
 		FROM cy_rebate_notice_table cnt WHERE is_exp=1 and is_notice=0
   </select>
   <update id="updatePromoteState">
+  		<foreach collection="list" item="item" separator=";">
   		UPDATE cy_rebate_notice_table SET is_notice=1 
-		WHERE product_id=#{productId} and hospital_id=#{hospitalId}
+		WHERE product_id=#{item.productId} and hospital_id=#{item.hospitalId}
+		</foreach>
   </update>
 </mapper>

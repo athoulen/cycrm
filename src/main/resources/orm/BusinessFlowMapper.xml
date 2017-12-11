@@ -67,21 +67,21 @@
 		id="MerchanProductResult">
 		<id column="sold_unit_id" property="merchanId" jdbcType="INTEGER" />
 		<id column="product_id" property="productId" jdbcType="INTEGER" />
-		<id column="allocate_goods_num" property="allocateSum" jdbcType="BIGINT" />
+		<id column="sold_sum" property="soldSum" jdbcType="BIGINT" />
 	</resultMap>
-	
+
 	<resultMap type="com.blueair.bean.alertbean.merchanpro.MerchanProductBean"
 		id="MerchanProductAllocResult">
 		<id column="accept_unit_id" property="merchanId" jdbcType="INTEGER" />
 		<id column="product_id" property="productId" jdbcType="INTEGER" />
-		<id column="sold_sum" property="soldSum" jdbcType="BIGINT" />
+		<id column="allocate_goods_num" property="allocateSum" jdbcType="BIGINT" />
 	</resultMap>
-	
+
 	<resultMap type="com.blueair.bean.alertbean.StockExpInfo" id="StockInfoResult">
-		<id column="merchan_id" property="merchanId" jdbcType="INTEGER"/>
-		<id column="product_id" property="productId" jdbcType="INTEGER"/>
-		<result column="merchan_name" property="merchanName" jdbcType="VARCHAR"/>
-		<result column="product_name" property="productName" jdbcType="VARCHAR"/>
+		<id column="merchan_id" property="merchanId" jdbcType="INTEGER" />
+		<id column="product_id" property="productId" jdbcType="INTEGER" />
+		<result column="merchan_name" property="merchanName" jdbcType="VARCHAR" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
 		<result column="stock" property="stock" jdbcType="BIGINT" />
 	</resultMap>
 
@@ -542,72 +542,117 @@
 		FROM
 		cy_business_flow_table WHERE product_id=#{id}
 	</select>
-	
+
 	<select id="queryForLastFlowId" resultType="Long">
-		SELECT flow_id FROM cy_business_flow_table ORDER BY flow_id desc LIMIT 1
+		SELECT flow_id FROM
+		cy_business_flow_table ORDER BY flow_id desc LIMIT 1
 	</select>
-	
+
 	<select id="queryForLastFlowIdEl" resultType="Long">
-		SELECT last_flow_id FROM cy_merchan_stock_info_table ORDER BY last_flow_id desc LIMIT 1
+		SELECT last_flow_id
+		FROM cy_merchan_stock_info_table ORDER BY last_flow_id desc LIMIT 1
 	</select>
 
 	<select id="queryForMerchanProduct" resultMap="MerchanProductResult">
 		SELECT
-		sold_unit_id,product_id,sum(sold_goods_num) as  sold_sum FROM
+		sold_unit_id,product_id,sum(sold_goods_num) as sold_sum FROM
 		cy_business_flow_table cf LEFT JOIN cy_merchandiser_table cm on
-		cf.sold_unit_id=cm.merch_id WHERE	cm.class_type!=1 
+		cf.sold_unit_id=cm.merch_id WHERE cm.class_type!=1 and flow_id>#{id}
 		GROUP BY cf.sold_unit_id,cf.product_id
 	</select>
-	<select id="queryForMerchanProductAllocSum" resultType="Long">
-		SELECT sum(allocate_goods_num) FROM cy_business_flow_table 
-		WHERE accept_unit_id=#{merchanId} AND product_id=#{productId} AND is_terminal=0
+	<select id="queryForMerchanProductAllocSum" resultMap="MerchanProductAllocResult">
+		SELECT
+		accept_unit_id,product_id,sum(allocate_goods_num) as allocate_goods_num FROM
+		cy_business_flow_table cf LEFT JOIN cy_merchandiser_table cm on
+		cf.accept_unit_id=cm.merch_id WHERE cm.class_type!=1 and flow_id>#{id}
+		GROUP BY cf.accept_unit_id,cf.product_id
 	</select>
 	<select id="getMerchanProductCount" resultType="Integer">
-		SELECT count(0) FROM cy_merchan_stock_info_table 
-		WHERE merchan_id=#{merProductBean.merchanId} AND product_id=#{merProductBean.productId}
+		SELECT count(0)
+		FROM cy_merchan_stock_info_table
+		WHERE merchan_id=#{merProductBean.merchanId} AND
+		product_id=#{merProductBean.productId}
 	</select>
 	<update id="updateMerchanProductStock">
-		UPDATE cy_merchan_stock_info_table SET 
+		UPDATE cy_merchan_stock_info_table SET
 		stock=stock+#{merProductBean.sum},
 		is_notice=0
-		WHERE merchan_id=#{merProductBean.merchanId} and product_id=#{merProductBean.productId}
+		WHERE
+		merchan_id=#{merProductBean.merchanId} and
+		product_id=#{merProductBean.productId}
 	</update>
 	<insert id="insertMerchanProductStock">
 		INSERT INTO cy_merchan_stock_info_table
 		VALUES(#{merProductBean.merchanId},#{merProductBean.productId},#{merProductBean.sum},0,#{lastFlowId})
 	</insert>
-	<!-- 删除流向时的操作-->
+	<!-- 删除流向时的操作 -->
 	<select id="queryForDemissMerchanProductSoldSum" resultMap="MerchanProductResult">
 		SELECT
-		sold_unit_id,product_id,sum(sold_goods_num) as  sold_sum FROM
+		sold_unit_id,product_id,sum(sold_goods_num) as sold_sum FROM
 		cy_business_flow_table cf LEFT JOIN cy_merchandiser_table cm on
-		cf.sold_unit_id=cm.merch_id WHERE cm.class_type!=1 and cf.sold_year=#{soldYear} 
+		cf.sold_unit_id=cm.merch_id WHERE cm.class_type!=1 and
+		cf.sold_year=#{soldYear}
 		AND cf.sold_month=#{soldMonth}
 		GROUP BY cf.sold_unit_id,cf.product_id
 	</select>
 	<select id="queryForDemissMerchanProductAllocSum" resultMap="MerchanProductAllocResult">
-		SELECT
-		accept_unit_id,product_id, sum(allocate_goods_num) as  allocate_goods_num FROM
-		cy_business_flow_table cf LEFT JOIN cy_merchandiser_table cm on
-		cf.sold_unit_id=cm.merch_id WHERE cf.is_terminal=0 AND
-		cm.class_type!=1 and cf.sold_year=#{soldYear} AND cf.sold_month=#{soldMonth}
-		GROUP BY cf.sold_unit_id,cf.product_id
+		SELECT accept_unit_id,product_id, sum(allocate_goods_num) as
+		allocate_goods_num FROM cy_business_flow_table cf LEFT JOIN
+		cy_merchandiser_table cm on cf.accept_unit_id=cm.merch_id WHERE
+		cf.is_terminal=0 AND cm.class_type!=1 and cf.sold_year=#{soldYear} AND
+		cf.sold_month=#{soldMonth} GROUP BY cf.accept_unit_id,cf.product_id
 	</select>
 	<update id="updateDemissMerProduct">
+		<foreach collection="list" item="item" separator=";">
 		update cy_merchan_stock_info_table set
-		stock=stock-#{sum},
+		stock=stock-#{item.sum},
 		is_notice=0
-		where merchan_id=#{merchanId} and product_id=#{productId}
+		where merchan_id=#{item.merchanId} and
+		product_id=#{item.productId}
+		</foreach>
 	</update>
 	<select id="queryExpMerchanStock" resultMap="StockInfoResult">
-		SELECT merchan_id,product_id,stock,(SELECT `name` FROM cy_merchandiser_table WHERE merch_id=merchan_id) as merchan_name,
-		(SELECT product_name FROM cy_product_table WHERE product_id=csi.product_id) as product_name
-		FROM cy_merchan_stock_info_table csi WHERE is_notice=0 and stock&lt;0
+		SELECT
+		merchan_id,product_id,stock,(SELECT `name` FROM cy_merchandiser_table
+		WHERE merch_id=merchan_id) as merchan_name,
+		(SELECT product_name FROM
+		cy_product_table WHERE product_id=csi.product_id) as product_name
+		FROM
+		cy_merchan_stock_info_table csi WHERE is_notice=0 and stock&lt;0
 	</select>
 	<update id="updateStockState">
-		<foreach collection="stockExpInfos" item="item" separator=";">
-		UPDATE cy_merchan_stock_info_table SET is_notice=1 
-		WHERE merchan_id=#{item.merchanId} AND product_id=#{item.productId}
+		<foreach collection="list" item="item" separator=";">
+			UPDATE cy_merchan_stock_info_table SET is_notice=1
+			WHERE merchan_id=#{item.merchanId} AND product_id=#{item.productId}
 		</foreach>
+	</update>
+	<select id="queryForRecordCount" resultType="Integer">
+		SELECT count(0) FROM cy_merchan_stock_info_table WHERE merchan_id=#{merchanId} AND product_id=#{productId}
+	</select>
+	<insert id="insertSoldStockRecord">
+		INSERT INTO cy_merchan_stock_info_table
+		VALUES(#{merchanId},#{productId},
+		<if test="soldSum!=null">
+		#{soldSum},
+		</if>
+		0,#{lastFlowId})
+	</insert>
+	<insert id="insertAllocStockRecord">
+		INSERT INTO cy_merchan_stock_info_table
+		VALUES(#{merchanId},#{productId},
+		<if test="allocateSum!=null">
+		#{allocateSum},
+		</if>
+		0,#{lastFlowId})
+	</insert>
+	<update id="updateSoldStockRecord">
+		update cy_merchan_stock_info_table set
+		stock=stock+#{soldSum}
+		where merchan_id=#{merchanId} and product_id=#{productId}
+	</update>
+	<update id="updateAllocStockRecord">
+		update cy_merchan_stock_info_table set
+		stock=stock+#{allocateSum}
+		where merchan_id=#{merchanId} and product_id=#{productId}
 	</update>
 </mapper>

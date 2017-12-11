@@ -34,29 +34,18 @@
                     <input type="text" class="form-control" ng-model='product.manufacture' />
                 </div>
             </div>
-			<!-- <div class="form-group">
-                <label class="col-sm-2 control-label text_left">选择客服组</label>
-                <div class="col-sm-8 groups">
-                    <div class="cover_groups">
-                        <span ng-repeat='x in selecGroups'>
-                            {{x.name}}
-                            <a href='javascript:;' ng-click='del($index)'>x</a>
-                        </span>
-                    </div>
-                    <select class="form-control" ng-change='add()' ng-model='seledKf'>
-                        <option value='{{y}}' ng-repeat='y in groupData' ng-bind='y.name'></option>
-                    </select>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label text_left" >中标价</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" ng-model='product.bidPrice' />
                 </div>
-            </div>
-			<div class="form-group" >
-			    <label class="col-sm-2 control-label text_left" ng-bind='bjkfSelect.name'></label>
-			    <div class="col-sm-8">
-			        <select class="form-control" ng-change='changeRole()' ng-model='kfRole'>
-                        <option ng-show="false" >{{bjkfSelect.value}}</option>
-			            <option value='{{y}}' ng-repeat='y in roleData' ng-bind='y.name'></option>
-			        </select>
-			    </div>
-			</div>  -->    
+            </div> 
+            <div class="form-group" >
+                <label class="col-sm-2 control-label text_left" >推广费</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" ng-model='product.promoteFee' />
+                </div>
+            </div> 
 		</form>
     </div>
 </div>

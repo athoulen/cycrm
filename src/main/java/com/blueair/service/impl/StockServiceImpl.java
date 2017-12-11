@@ -85,9 +85,33 @@ public class StockServiceImpl extends BaseServiceImpl implements IStockService {
 		}else{
 			//查找到商业库存最后计算的流向id
 			Object lastFlowIdEl=getBaseDao().queryForObject("BusinessFlowMapper.queryForLastFlowIdEl", null);
+			//查询各商业各品种销售量
 			List<MerchanProductBean> merProduct = getBaseDao().queryForList("BusinessFlowMapper.queryForMerchanProduct", lastFlowIdEl, MerchanProductBean.class);
+			List<MerchanProductBean> allocProduct=getBaseDao().queryForList("BusinessFlowMapper.queryForMerchanProductAllocSum", lastFlowIdEl, MerchanProductBean.class);
+			//销售插入
+			for (MerchanProductBean merchanProductBean : merProduct) {
+				merchanProductBean.setSoldSum(-merchanProductBean.getSoldSum());
+				Map<String, Object> params= ConvertUtil.convertBean2Map(merchanProductBean);
+				Integer count = getBaseDao().queryForObject("BusinessFlowMapper.queryForRecordCount", params, Integer.class);
+				if(count>0){
+					getBaseDao().update("BusinessFlowMapper.updateSoldStockRecord", params);
+				}else{
+					getBaseDao().insert("BusinessFlowMapper.insertSoldStockRecord", params);
+				}
+			}
+			//调入插入
+			for (MerchanProductBean merchanProductBean : allocProduct) {
+				merchanProductBean.setAllocateSum(merchanProductBean.getAllocateSum());
+				Map<String, Object> params= ConvertUtil.convertBean2Map(merchanProductBean);
+				Integer count = getBaseDao().queryForObject("BusinessFlowMapper.queryForRecordCount", params, Integer.class);
+				if(count>0){
+					getBaseDao().update("BusinessFlowMapper.updateAllocStockRecord", params);
+				}else{
+					getBaseDao().insert("BusinessFlowMapper.insertAllocStockRecord", params);
+				}
+			}
 			//分开计算总量
-			CountDownLatch finish=new CountDownLatch(merProduct.size());
+			/*CountDownLatch finish=new CountDownLatch(merProduct.size());
 			List<MerchanProductBean> list=new CopyOnWriteArrayList<>();
 			for (MerchanProductBean merchanProductBean : merProduct) {
 				multiHandler.getAllocateSum(merchanProductBean,list,finish);
@@ -96,8 +120,8 @@ public class StockServiceImpl extends BaseServiceImpl implements IStockService {
 				finish.await();
 			} catch (InterruptedException e) {
 				logger.debug("并发处理异常{}",e);
-			}
-			if(!list.isEmpty()){
+			}*/
+			/*if(!list.isEmpty()){
 				Object lastFlowId=getBaseDao().queryForObject("BusinessFlowMapper.queryForLastFlowId", null);
 				CountDownLatch finish2=new CountDownLatch(list.size());
 				for (MerchanProductBean merchanProductBean : list) {
@@ -108,7 +132,7 @@ public class StockServiceImpl extends BaseServiceImpl implements IStockService {
 				} catch (InterruptedException e) {
 					logger.debug("并发处理2异常{}",e);
 				}
-			}
+			}*/
 		}
 	}
 	

@@ -28,6 +28,7 @@ import com.blueair.service.IUserService;
 import com.blueair.shiro.util.Generator;
 import com.blueair.util.RemoteUtil;
 import com.blueair.util.VerifyCodeUtil;
+import com.blueair.websocket.WebSocketTest;
 
 @RestController
 @RequestMapping("login")
@@ -127,7 +128,8 @@ public class LoginController extends BaseController {
         Subject user = SecurityUtils.getSubject();
         if (user.isAuthenticated()) {
         	String username=user.getPrincipal().toString();
-        	logger.info("[pc]{}退出成功", username);
+        	WebSocketTest.logoutSessionMap(username);
+        	logger.info("webSocket用户："+username+" 退出成功！");
         	user.logout();
         	return rightResult(null, String.format("用户[%s]退出成功", username));
         } else {

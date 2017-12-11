@@ -146,7 +146,7 @@ public class RebateProcessServiceImpl extends BaseServiceImpl implements IRebate
 		} else {
 			singleRebate = new BigDecimal(protocol.getPromotionExpense() + "");
 		}
-		BigDecimal secRebate=new BigDecimal(rebateProcess.getSecExpense());
+		BigDecimal secRebate=new BigDecimal(rebateProcess.getSecExpense()==null?"0":rebateProcess.getSecExpense());
 		BigDecimal amount=new BigDecimal(rebateProcess.getSoldGoodsNum());
 		totalRebate = (singleRebate.subtract(secRebate)).multiply(amount);
 		rebateProcess.setSingleRebate(singleRebate.toString());

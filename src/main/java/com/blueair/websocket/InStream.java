@@ -37,7 +37,14 @@ public class InStream {
 				 logger.debug("用户"+name+"未连接websocket");
 				 continue;
 			 }
-			 session.getAsyncRemote().sendText(json);
+			 try {
+				synchronized (session) {
+					session.getBasicRemote().sendText(json);
+					logger.info("消息发送成功：{}",json);
+				}
+			} catch (Exception e) {
+				logger.debug("远程连接可能已关闭{}",e);
+			}
 		}
 	}
 	

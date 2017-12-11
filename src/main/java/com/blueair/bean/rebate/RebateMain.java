@@ -133,8 +133,8 @@ public class RebateMain {
 		BigDecimal salePrice=new BigDecimal(soldPrice);
 		BigDecimal upBack=new BigDecimal(merProtocol.getUpBack().toString());
 		BigDecimal loBack=new BigDecimal(merProtocol.getLoBack().toString());
-		BigDecimal rebate=new BigDecimal(this.rebateExpense);
-		BigDecimal secRebate=new BigDecimal(secExpense);
+		BigDecimal rebate=new BigDecimal(this.rebateExpense==null?"0":this.rebateExpense);
+		BigDecimal secRebate=new BigDecimal(this.secExpense==null?"0":this.secExpense);
 		BigDecimal account=new BigDecimal(this.amount);
 		this.balance=(salePrice.subtract(upBack).subtract(loBack).subtract(rebate).add(secRebate)).multiply(account);
 	}

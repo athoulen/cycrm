@@ -5,10 +5,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
-import org.springframework.stereotype.Service;
 
 import com.blueair.bean.alertbean.AlertObject;
-import com.blueair.bean.alertbean.StockExpInfo;
 import com.blueair.bean.alertbean.promotereb.PromoteRebateInfo;
 import com.blueair.service.IPromoteService;
 import com.blueair.util.ConvertUtil;
@@ -23,8 +21,16 @@ public class PromoteServiceImpl extends BaseServiceImpl implements IPromoteServi
 		Object[] os=joinPoint.getArgs();
 		Object o=os[0];
 		PromoteRebateInfo promoteRebateInfo = getBaseDao().queryForObject("ProtocolMapper.queryForPromoteAndRebateMer", ConvertUtil.convertBean2Map(o), PromoteRebateInfo.class);
+		if(promoteRebateInfo==null){
+			return ;
+		}
 		if(!calculatePromoteRebate(promoteRebateInfo)){
-			getBaseDao().insert("ProtocolMapper.insertExpProRebateInfo", promoteRebateInfo);
+			int count=getBaseDao().queryForObject("ProtocolMapper.queryExpProRebateCount", ConvertUtil.convertBean2Map(promoteRebateInfo), Integer.class);
+			if(count>0){
+				getBaseDao().update("ProtocolMapper.updateExpProRebateSubInfo", promoteRebateInfo);
+			}else{
+				getBaseDao().insert("ProtocolMapper.insertExpProRebateInfo", promoteRebateInfo);
+			}
 		}else{
 			getBaseDao().update("ProtocolMapper.updateExpProRebateInfo", promoteRebateInfo);
 		}
@@ -48,9 +54,9 @@ public class PromoteServiceImpl extends BaseServiceImpl implements IPromoteServi
 	}
 	
 	public boolean calculatePromoteRebate(PromoteRebateInfo promoteRebateInfo){
-		BigDecimal promote = promoteRebateInfo.getPromote();
-		BigDecimal rebate = promoteRebateInfo.getRebate();
-		BigDecimal totalPromote = promoteRebateInfo.getTotalPromote();
+		BigDecimal promote = promoteRebateInfo.getPromote()==null?new BigDecimal(0):promoteRebateInfo.getPromote();
+		BigDecimal rebate = promoteRebateInfo.getRebate()==null?new BigDecimal(0):promoteRebateInfo.getRebate();
+		BigDecimal totalPromote = promoteRebateInfo.getTotalPromote()==null?new BigDecimal(0):promoteRebateInfo.getTotalPromote();
 		BigDecimal total=totalPromote.subtract(rebate).subtract(promote);
 		promoteRebateInfo.setSubstract(total);
 		if(total.doubleValue()>=0){
