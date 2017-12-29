@@ -74,6 +74,10 @@
   		select * from cy_customer_table where customer_id=#{id}
   </select>
   
+  <select id="selectCustomers" resultMap="BaseResultMap">
+  		select * from cy_customer_table
+  </select>
+  
   <select id="queryCustomersBlur"  resultMap="BaseResultMap">
   		select customer_id,serial_code,customer_name,phone,`desc`,is_corp from cy_customer_table 
   		where 	customer_name like CONCAT('%',#{customerName,jdbcType=VARCHAR},'%')

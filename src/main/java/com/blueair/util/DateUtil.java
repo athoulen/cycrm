@@ -15,6 +15,7 @@ public final class DateUtil {
 		String HHMMSS = "HHmmss";
 		String HH_MM_SS = "HH:mm:ss";
 		String YYYYMMDD = "yyyyMMdd";
+		String YYYYMMDDDOTE = "yyyy.MM.dd";
 		String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
 		String YYYY_MM_DD = "yyyy-MM-dd";
 		String YYYY_MMM_DDD="yyyy年MM月dd日 HH时mm分ss秒";
@@ -98,6 +99,20 @@ public final class DateUtil {
 	 */
 	public static long fromDateStringToLong(String time) { //此方法计算时间毫秒
 		SimpleDateFormat inputFormat = new SimpleDateFormat(DATE_PATTERN.YYYYMMDDHH_MM_SS);
+		try {
+			return inputFormat.parse(time).getTime(); //将字符型转换成日期型
+		} catch (ParseException e) {
+			return 0L;
+		}
+	}
+	
+	/**
+	 *
+	 * @param time
+	 * @return
+	 */
+	public static long fromDateStringToLong2(String time) { //此方法计算时间毫秒
+		SimpleDateFormat inputFormat = new SimpleDateFormat(DATE_PATTERN.YYYYMMDDDOTE);
 		try {
 			return inputFormat.parse(time).getTime(); //将字符型转换成日期型
 		} catch (ParseException e) {

@@ -241,7 +241,6 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			// 接收部门id
 			String acceptUnitId = MerchanCache.getHospitalMap().get(acceptUnitName) == null ? null
 					: MerchanCache.getHospitalMap().get(acceptUnitName).toString();
-
 			// 调货数量
 			int allocateGoodsNum = 0;
 			// 销售数量
@@ -250,7 +249,24 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 				acceptUnitId = MerchanCache.getMerchanMap().get(acceptUnitName) == null ? null
 						: MerchanCache.getMerchanMap().get(acceptUnitName).toString();
 				if (acceptUnitId == null) {
-					throw new ServiceException(HandleCode.FAIL, "未找到" + acceptUnitName + "终端或公司");
+					/***为卫生院新增处理方式***/
+					String clinic=dataMap.get("M");
+					acceptUnitId=MerchanCache.getHospitalMap().get(clinic) == null ? null
+							: MerchanCache.getHospitalMap().get(clinic).toString();
+					if(acceptUnitId==null){
+						throw new ServiceException(HandleCode.FAIL, "未找到" + acceptUnitName + "终端或公司");
+					}
+					String customerName=dataMap.get("N");
+					// 客户protocol
+					Integer customerId = (Integer) CustomerCache.getCustomerMap()
+							.get(customerName.replaceAll(" ", ""));
+					if (null != customerId) {
+						flow.setCustomerId(customerId+"");
+					} else {
+						throw new ServiceException(HandleCode.FAIL,
+								"未找到客户：[" + customerName + "]");
+					}
+					/***为卫生院新增处理方式***/
 				}
 				allocateGoodsNum = Integer.parseInt(dataMap.get("G"));
 				flow.setAllocateGoodsNum(allocateGoodsNum);
@@ -367,7 +383,24 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 				acceptUnitId = MerchanCache.getMerchanMap().get(acceptUnitName) == null ? null
 						: MerchanCache.getMerchanMap().get(acceptUnitName).toString();
 				if (acceptUnitId == null) {
-					throw new ServiceException(HandleCode.FAIL, "未找到" + acceptUnitName + "终端或公司");
+					/***为卫生院新增处理方式***/
+					String clinic=dataMap.get("X");
+					acceptUnitId=MerchanCache.getHospitalMap().get(clinic) == null ? null
+							: MerchanCache.getHospitalMap().get(clinic).toString();
+					if(acceptUnitId==null){
+						throw new ServiceException(HandleCode.FAIL, "未找到" + acceptUnitName + "终端或公司");
+					}
+					String customerName=dataMap.get("Y");
+					// 客户protocol
+					Integer customerId = (Integer) CustomerCache.getCustomerMap()
+							.get(customerName.replaceAll(" ", ""));
+					if (null != customerId) {
+						flow.setCustomerId(customerId+"");
+					} else {
+						throw new ServiceException(HandleCode.FAIL,
+								"未找到客户：[" + customerName + "]");
+					}
+					/***为卫生院新增处理方式***/
 				}
 				allocateGoodsNum = Integer.parseInt(dataMap.get("I"));
 				flow.setAllocateGoodsNum(allocateGoodsNum);
@@ -473,7 +506,24 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 				acceptUnitId = MerchanCache.getMerchanMap().get(acceptUnitName) == null ? null
 						: MerchanCache.getMerchanMap().get(acceptUnitName).toString();
 				if (acceptUnitId == null) {
-					throw new ServiceException(HandleCode.FAIL, "未找到" + acceptUnitName + "终端或公司");
+					/***为卫生院新增处理方式***/
+					String clinic=dataMap.get("Q");
+					acceptUnitId=MerchanCache.getHospitalMap().get(clinic) == null ? null
+							: MerchanCache.getHospitalMap().get(clinic).toString();
+					if(acceptUnitId==null){
+						throw new ServiceException(HandleCode.FAIL, "未找到" + acceptUnitName + "终端或公司");
+					}
+					String customerName=dataMap.get("R");
+					// 客户protocol
+					Integer customerId = (Integer) CustomerCache.getCustomerMap()
+							.get(customerName.replaceAll(" ", ""));
+					if (null != customerId) {
+						flow.setCustomerId(customerId+"");
+					} else {
+						throw new ServiceException(HandleCode.FAIL,
+								"未找到客户：[" + customerName + "]");
+					}
+					/***为卫生院新增处理方式***/
 				}
 				allocateGoodsNum = Integer.parseInt(dataMap.get("H"));
 				flow.setAllocateGoodsNum(allocateGoodsNum);

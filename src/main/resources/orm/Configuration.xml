@@ -20,6 +20,7 @@
 		<mapper resource="orm/FileRecordMapper.xml"/>
 		<mapper resource="orm/RebateProcessMapper.xml"/>
 		<mapper resource="orm/RebateStyleMapper.xml"/>
+		<mapper resource="orm/ImportMapper.xml"/>
 	</mappers>
 </configuration>
 

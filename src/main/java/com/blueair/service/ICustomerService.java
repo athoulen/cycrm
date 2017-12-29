@@ -39,4 +39,6 @@ public interface ICustomerService {
 	 * @return
 	 */
 	public Map<String, Object> queryCustomersBlur(Customer customer,int firstItem,int pageSize,int flag);
+
+	public List<Customer> selectCustomerId();
 }

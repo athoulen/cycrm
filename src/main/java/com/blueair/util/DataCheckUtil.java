@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 public class DataCheckUtil {
 
 	public static boolean isStringEmpty(String data){
-		return StringUtils.isEmpty(data);
+		return StringUtils.isEmpty(data)||"undefined".equals(data);
 	}
 	
 	public static boolean isIntegerEmpty(Integer data){

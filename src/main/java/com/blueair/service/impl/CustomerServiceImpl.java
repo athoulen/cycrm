@@ -9,7 +9,7 @@ import com.blueair.bean.Customer;
 import com.blueair.service.ICustomerService;
 import com.blueair.util.ConvertUtil;
 import com.blueair.util.OperateUtil;
-@Service
+@Service("customerService")
 public class CustomerServiceImpl extends BaseServiceImpl implements ICustomerService {
 
 	@Override
@@ -55,6 +55,11 @@ public class CustomerServiceImpl extends BaseServiceImpl implements ICustomerSer
 	@Override
 	public Customer queryCustomerById(Integer id) {
 		return  getBaseDao().queryForObject("CustomerMapper.queryCustomerById", id, Customer.class);
+	}
+	
+	@Override
+	public List<Customer> selectCustomerId(){
+		return getBaseDao().queryForList("CustomerMapper.selectCustomers", null, Customer.class);
 	}
 
 	@Override
