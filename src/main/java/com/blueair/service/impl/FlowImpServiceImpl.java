@@ -161,9 +161,29 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			// 接收部门id
 			String acceptUnitId = MerchanCache.getHospitalMap().get(acceptUnitName) == null ? null
 					: MerchanCache.getHospitalMap().get(acceptUnitName).toString();
+			if(acceptUnitId==null) {
+				/*处理乡镇卫生院*/
+				String clinic=dataMap.get("M");
+				acceptUnitId=MerchanCache.getHospitalMap().get(clinic) == null ? null
+						: MerchanCache.getHospitalMap().get(clinic).toString();
+				if(acceptUnitId==null){
+					throw new ServiceException(HandleCode.FAIL, "未找到" + acceptUnitName + "终端或公司");
+				}
+				String customerName=dataMap.get("N");
+				// 客户protocol
+				Integer customerId = (Integer) CustomerCache.getCustomerMap()
+						.get(customerName.replaceAll(" ", ""));
+				if (null != customerId) {
+					flow.setCustomerId(customerId+"");
+				} else {
+					throw new ServiceException(HandleCode.FAIL,
+							"未找到客户：[" + customerName + "]");
+				}
+				/*处理乡镇卫生院*/
+			}
 			// 客户protocol
 			CustomerProtocol protocol = (CustomerProtocol) CustomerCache.getCustomerPtlMap()
-					.get(acceptUnitId + pro.getId());
+					.get(acceptUnitId +"-"+ pro.getId());
 			if (null != protocol) {
 				flow.setCustomerId(protocol.getCustomerId() + "");
 			} else {
@@ -187,6 +207,7 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			flow.setFlowFlag("02");
 			// 部门
 			flow.setDepartment("商务部");
+			flow.setRemark("H");
 			flowList.add(flow);
 		}
 		return flowList;
@@ -275,7 +296,7 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			} else {
 				// 客户protocol
 				CustomerProtocol protocol = (CustomerProtocol) CustomerCache.getCustomerPtlMap()
-						.get(acceptUnitId + pro.getId());
+						.get(acceptUnitId +"-"+ pro.getId());
 				if (null != protocol) {
 					flow.setCustomerId(protocol.getCustomerId() + "");
 				} else {
@@ -291,6 +312,7 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 					salePrice = protocol.getSalePrice();
 				}*/
 			}
+			flow.setRemark(dataMap.get("D"));
 			flow.setAcceptUnitId(acceptUnitId);
 			// 批号信息
 			String batchNoContents = dataMap.get("J");
@@ -409,7 +431,7 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			} else {
 				// 客户protocol
 				CustomerProtocol protocol = (CustomerProtocol) CustomerCache.getCustomerPtlMap()
-						.get(acceptUnitId + pro.getId());
+						.get(acceptUnitId +"-"+ pro.getId());
 				if (null != protocol) {
 					flow.setCustomerId(protocol.getCustomerId() + "");
 				} else {
@@ -425,6 +447,7 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 					salePrice = protocol.getSalePrice();
 				}*/
 			}
+			flow.setRemark(dataMap.get("K"));
 			flow.setAcceptUnitId(acceptUnitId);
 			// 批号
 			String batchNo = dataMap.get("G");
@@ -532,7 +555,7 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			} else {
 				// 客户protocol
 				CustomerProtocol protocol = (CustomerProtocol) CustomerCache.getCustomerPtlMap()
-						.get(acceptUnitId + pro.getId());
+						.get(acceptUnitId +"-"+ pro.getId());
 				if (null != protocol) {
 					flow.setCustomerId(protocol.getCustomerId() + "");
 				} else {
@@ -548,6 +571,7 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 					salePrice = protocol.getSalePrice();
 				}*/
 			}
+			flow.setRemark(dataMap.get("D"));
 			flow.setAcceptUnitId(acceptUnitId);
 			// 批号
 			String batchNo = dataMap.get("K");

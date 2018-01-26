@@ -141,9 +141,9 @@ public class ProtocolController extends BaseController {
 		if(DataCheckUtil.isIntegerEmpty(protocol.getCityId())){
 			return errorResult("地市ID不能为空");
 		}
-		if(DataCheckUtil.isIntegerEmpty(protocol.getUpperMerchan())){
+		/*if(DataCheckUtil.isIntegerEmpty(protocol.getUpperMerchan())){
 			return errorResult("一级商业ID不能为空");
-		}
+		}*/
 		if(DataCheckUtil.isIntegerEmpty(protocol.getHospitalId())){
 			return errorResult("医院不能为空");
 		}

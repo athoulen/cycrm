@@ -66,7 +66,7 @@ public class CustomerCache {
 		List<CustomerProtocol> customerPtlList =flowImpService.selectCustomerId();
 		customerPtlMap = new HashMap<String, Object>();
 		for (CustomerProtocol customerProtocol : customerPtlList) {
-			customerPtlMap.put(customerProtocol.getHospitalId()+""+ customerProtocol.getProductId()+"", customerProtocol);
+			customerPtlMap.put(customerProtocol.getHospitalId()+"-"+ customerProtocol.getProductId(), customerProtocol);
 		}
 	}
 }

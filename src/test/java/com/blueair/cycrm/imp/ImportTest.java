@@ -12,7 +12,7 @@ public class ImportTest extends JunitTestBase {
 	private ImportService service;
 	@Test
 	public void customerImport(){
-		String path="E:\\Project\\客户关系管理\\导入表格\\客户列表.xlsx";
+		String path="D:\\客户列表.xlsx";
 		try {
 			service.importInitExcel(path, Constants.CUSTOMER_IMPORT);
 		} catch (Exception e) {
