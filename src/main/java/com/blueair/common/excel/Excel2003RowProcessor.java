@@ -31,6 +31,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
+import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
 import com.blueair.util.StringUtil;
@@ -82,6 +83,20 @@ public abstract class Excel2003RowProcessor implements ExcelRowProcessor{
 			throw new FileFormatException("Excel板式与解析器不匹配，解析器仅支持Excel-2003及以下版本。");
 		}
 		this.fileName=filename;
+		this.hssfListener=new MyHSSFListener();
+	}
+	
+	/**
+	 * 构造Excel-2003行级解析器
+	 * @param MultipartFile excel完整文件名
+	 * @throws java.io.IOException
+	 */
+	public Excel2003RowProcessor(MultipartFile file) throws IOException{
+		if(file.getOriginalFilename().endsWith(".xlsx")){
+			throw new FileFormatException("Excel板式与解析器不匹配，解析器仅支持Excel-2003及以下版本。");
+		}
+		this.fileName=file.getOriginalFilename();
+		this.is=file.getInputStream();
 		this.hssfListener=new MyHSSFListener();
 	}
 

@@ -39,7 +39,7 @@ public class FlowImpController extends BaseController {
 	public ModelMap importFile(HttpServletRequest request,String json) throws Exception {
 		//将前台传输的json 参数进行转换
 		Map<String, Object> paramMap = JsonUtil.convertJson2Object(json, Map.class);
-		//导入类型(下拉框形式呈现 1-国控  2-华润  3-九州通 4-二级)
+		//导入类型(下拉框形式呈现 1-国控  2-华润  3-九州通 4-二级 5-整理总表)
 		String impType = (String) paramMap.get("impType");
 		if(StringUtils.isBlank(impType)){
 			return parameterResult("导入类型不能为空");
@@ -70,6 +70,11 @@ public class FlowImpController extends BaseController {
 			}
 			//存储每个上传文件中的数据
 			List<HashMap<String, String>> dataList = new ArrayList<HashMap<String, String>>();
+			
+			Integer row=1;
+			if("5".equals(impType)) {
+				row=3;
+			}
 			//循环遍历读取上传文件的数据
 			for (String path : pathList) {
 				ReadExcel reader = new ReadExcel(path);

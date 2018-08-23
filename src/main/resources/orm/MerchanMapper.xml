@@ -62,8 +62,10 @@
   		select 
   		<include refid="BASIC_Column_List"/>
 		from   cy_merchandiser_table
-		where name like CONCAT('%',#{name,jdbcType=VARCHAR},'%') 
+		where name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+		<if test="desc!=null and desc!=''"> 
 		and `desc` like CONCAT('%',#{desc,jdbcType=VARCHAR},'%')
+		</if>
 		<if test="classType!=null">
 		and class_type=#{classType}
 		</if>

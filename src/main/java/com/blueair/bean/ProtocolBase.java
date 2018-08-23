@@ -1,4 +1,7 @@
 package com.blueair.bean;
+
+import java.util.List;
+
 /**
  * 客户协议类
  * @author athou
@@ -15,6 +18,7 @@ public class ProtocolBase {
 	private Integer lowerMerchan;		//二级商业ID
 	private Integer hospitalId;					//医院ID
 	private Integer productId;				//产品ID
+	private List<Integer> hospitals;		//医院ID集合
 	private Double promotionExpense;//推广费（佣金）
 	private Double bail;							//保证金
 	private String bailDesc;					//保证金描述
@@ -197,5 +201,11 @@ public class ProtocolBase {
 	}
 	public void setProtocolCode(String protocolCode) {
 		this.protocolCode = protocolCode;
+	}
+	public List<Integer> getHospitals() {
+		return hospitals;
+	}
+	public void setHospitals(List<Integer> hospitals) {
+		this.hospitals = hospitals;
 	}
 }

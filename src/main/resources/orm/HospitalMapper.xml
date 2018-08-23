@@ -6,6 +6,11 @@
     <result column="hospital_name" property="hospitalName" jdbcType="VARCHAR" />
   </resultMap>
   
+  <resultMap type="com.blueair.bean.ClinicKey" id="ClinicResultMap">
+		<id column="hospital_id" property="hospitalId" jdbcType="INTEGER"/>
+		<id column="clinic_id" property="clinicId" jdbcType="INTEGER"/>
+	</resultMap>
+  
   <resultMap type="com.blueair.bean.Hospital" id="BaseResultMap" extends="KeyResultMap">
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="area_id" property="zoneId" jdbcType="INTEGER" />
@@ -33,6 +38,17 @@
   </select>
   <select id="queryHospital" resultMap="DetailResultMap">
   		select hospital_id,hospital_name,type,area_id,city_id from cy_hospital_table
+  		where hospital_id=#{hospitalId}
+  </select>
+  
+  <select id="queryClinics" resultMap="ClinicResultMap">
+  		SELECT clinic_id,hospital_id FROM cy_clinic_table
+  		where clinic_name like concat("%",#{clinicName},"%")
+  		or #{clinicName} like concat("%",clinic_name,"%")
+  </select>
+  
+  <select id="queryClinicsById" resultType="String">
+  		SELECT clinic_id FROM cy_clinic_table
   		where hospital_id=#{hospitalId}
   </select>
   

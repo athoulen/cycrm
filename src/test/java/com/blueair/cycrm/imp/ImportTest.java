@@ -12,7 +12,7 @@ public class ImportTest extends JunitTestBase {
 	private ImportService service;
 	@Test
 	public void customerImport(){
-		String path="D:\\客户列表.xlsx";
+		String path="E:\\Project\\客户关系管理\\导入表格\\新接口\\批量表格\\客户列表.xlsx";
 		try {
 			service.importInitExcel(path, Constants.CUSTOMER_IMPORT);
 		} catch (Exception e) {
@@ -22,7 +22,7 @@ public class ImportTest extends JunitTestBase {
 	
 	@Test
 	public void hospitalImport(){
-		String path="E:\\Project\\客户关系管理\\导入表格\\医院列表.xlsx";
+		String path="E:\\Project\\客户关系管理\\导入表格\\新接口\\批量表格\\医院列表.xlsx";
 		try {
 			service.importInitExcel(path, Constants.HOSP_IMPORT);
 		} catch (Exception e) {
@@ -33,7 +33,7 @@ public class ImportTest extends JunitTestBase {
 	
 	@Test
 	public void productImport(){
-		String path="E:\\Project\\客户关系管理\\导入表格\\产品列表.xlsx";
+		String path="E:\\Project\\客户关系管理\\导入表格\\新接口\\批量表格\\产品列表.xlsx";
 		try {
 			service.importInitExcel(path, Constants.PRODUCT_IMPORT);
 		} catch (Exception e) {
@@ -43,7 +43,7 @@ public class ImportTest extends JunitTestBase {
 	}
 	@Test
 	public void merchanImport(){
-		String path="E:\\Project\\客户关系管理\\导入表格\\商业公司列表.xlsx";
+		String path="E:\\Project\\客户关系管理\\导入表格\\新接口\\批量表格\\商业公司列表.xlsx";
 		try {
 			service.importInitExcel(path, Constants.MERCHAN_IMPORT);
 		} catch (Exception e) {
@@ -53,7 +53,7 @@ public class ImportTest extends JunitTestBase {
 	}
 	@Test
 	public void cusProtocolImport(){
-		String path="E:\\Project\\客户关系管理\\导入表格\\客户协议 .xlsx";
+		String path="E:\\Project\\客户关系管理\\导入表格\\新接口\\批量表格\\客户协议.xlsx";
 		try {
 			service.importInitExcel(path, Constants.CUSTOMER_PROTOCOL_IMPORT);
 		} catch (Exception e) {

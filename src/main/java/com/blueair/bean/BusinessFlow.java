@@ -9,6 +9,8 @@ public class BusinessFlow {
 
     private String acceptUnitId;
 
+    private String clinicId;
+    
     private String customerId;
 
     private String productId;
@@ -69,7 +71,15 @@ public class BusinessFlow {
         this.acceptUnitId = acceptUnitId == null ? null : acceptUnitId.trim();
     }
 
-    public String getCustomerId() {
+    public String getClinicId() {
+		return clinicId;
+	}
+
+	public void setClinicId(String clinicId) {
+		this.clinicId = clinicId;
+	}
+
+	public String getCustomerId() {
         return customerId;
     }
 

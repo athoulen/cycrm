@@ -59,10 +59,10 @@
 		FROM cy_business_flow_table f WHERE type=0 and is_terminal=1
 	</select>
 	<select id="getFlowCount" resultType="Integer">
-		select count(0) FROM
+		select count(0) as total FROM
 		cy_business_flow_table WHERE customer_id=#{customerId} AND
 		product_id=#{productId}
-		AND accept_unit_id=#{acceptUnitId} AND sold_date>#{soldDate}
+		AND accept_unit_id=#{acceptUnitId} AND (sold_date>#{soldDate} or (sold_date=#{soldDate} and flow_id>#{flowId}))
 	</select>
 	<select id="getFlowSum" resultType="Integer">
 		select sum(sold_goods_num)
@@ -87,8 +87,9 @@
 	</insert>
 	<select id="getRebateList" resultMap="QueryResultMap">
 		select f.product_id,f.accept_unit_id as hospital_id,
-		rebate_id,f.flow_id,(select hospital_name FROM cy_hospital_table WHERE
-		hospital_id=f.accept_unit_id) as hospital_name,
+		rebate_id,f.flow_id,CASE WHEN (SELECT type FROM cy_hospital_table WHERE	hospital_id=f.accept_unit_id)=1 
+		THEN (SELECT hospital_name FROM cy_hospital_table WHERE	hospital_id=f.accept_unit_id) 
+		ELSE (SELECT clinic_name FROM cy_clinic_table WHERE clinic_id=f.clinic_id) END as hospital_name,
 		(select customer_name FROM cy_customer_table WHERE customer_id=f.customer_id)
 		as customer_name,
 		(select rebate FROM cy_customer_protocol_table WHERE customer_id=f.customer_id AND hospital_id=f.accept_unit_id
@@ -110,7 +111,7 @@
 		<if test="endDate!=null">
 		AND sold_date&lt;#{endDate}
 		</if>
-		order by f.sold_date ASC,r.rebate_id ASC 
+		order by f.sold_date DESC,r.rebate_id ASC 
 		 limit #{firstItem},#{pageSize}
 	</select>
 	<select id="getRebateListCount" resultType="Long">
@@ -123,12 +124,13 @@
 		<if test="customerName!=null">
 			AND (select customer_name FROM cy_customer_table WHERE customer_id=f.customer_id) LIKE CONCAT('%',#{customerName},'%')
 		</if>
-		<if test="startDate!=null">
+		<!-- <if test="startDate!=null">
 		AND sold_date>#{startDate}
-		</if>
+		</if> -->
 		<if test="endDate!=null">
 		AND sold_date&lt;#{endDate}
 		</if>
+		
 	</select>
 	<update id="payRebate">
 		UPDATE cy_business_rebate_table SET 

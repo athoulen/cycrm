@@ -39,10 +39,11 @@ public class RebateProcessController extends BaseController {
 	 * @return
 	 * @throws ServiceException 
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	@RequestMapping("list")
 	public ModelMap queryRebateList(String json,int page,int pageSize) throws ServiceException{
 		Map<String, Object> params=JsonUtil.convertJson2Object(json, Map.class);
+		Object startDate=params.get("startDate");
 		PageListBean bean = rebateService.queryRebateList(params,(page-1)*pageSize,pageSize);
 		return rightPageListBeanResult(null, "查询成功！", "result", bean);
 	}

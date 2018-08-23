@@ -80,8 +80,12 @@ public class StockServiceImpl extends BaseServiceImpl implements IStockService {
 			params.put("soldMonth", soldMonth);
 			List<MerchanProductBean> merProduct = getBaseDao().queryForList("BusinessFlowMapper.queryForDemissMerchanProductSoldSum", params, MerchanProductBean.class);
 			List<MerchanProductBean> allocMerProduct = getBaseDao().queryForList("BusinessFlowMapper.queryForDemissMerchanProductAllocSum", params, MerchanProductBean.class);
-			getBaseDao().update("BusinessFlowMapper.updateDemissMerProduct", merProduct);
-			getBaseDao().update("BusinessFlowMapper.updateDemissMerProduct", allocMerProduct);
+			if(merProduct!=null&&!merProduct.isEmpty()) {
+				getBaseDao().update("BusinessFlowMapper.updateDemissMerProduct", merProduct);
+			}
+			if(allocMerProduct!=null&&!allocMerProduct.isEmpty()) {
+				getBaseDao().update("BusinessFlowMapper.updateDemissMerProduct", allocMerProduct);
+			}
 		}else{
 			//查找到商业库存最后计算的流向id
 			Object lastFlowIdEl=getBaseDao().queryForObject("BusinessFlowMapper.queryForLastFlowIdEl", null);

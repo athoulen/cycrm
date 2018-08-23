@@ -3,8 +3,8 @@ package com.blueair.service.impl;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
-
 import com.blueair.service.IAreaService;
+
 @Service("areaService")
 public class AreaServiceImpl extends BaseServiceImpl implements IAreaService {
 

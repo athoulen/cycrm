@@ -1,5 +1,11 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
+encoding//src/main/webapp/views/agreement/guestAgreement/guestAgreement.html=UTF-8
+encoding//src/main/webapp/views/flowto/flow.html=UTF-8
+encoding//src/main/webapp/views/flowto/flow/addFlow.html=UTF-8
+encoding//src/main/webapp/views/flowto/flow/bjFlow.html=UTF-8
+encoding//src/main/webapp/views/flowto/flow/flowGl.html=UTF-8
+encoding//src/main/webapp/views/flowto/settlement/settlement.html=UTF-8
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8

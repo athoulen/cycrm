@@ -1,8 +1,14 @@
 package com.blueair.common.excel;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.blueair.common.exception.CyException;
 
 /**
  * 解析Excel
@@ -27,6 +33,12 @@ public class ReadExcel extends ExcelProcessor {
 	 */
 	public ReadExcel(String fileName) throws Exception  {
 		super(fileName);
+		excelList = new ArrayList<HashMap<String, String>>();
+		tempList = new ArrayList<HashMap<String, String>>();
+	}
+	
+	public ReadExcel(MultipartFile file) throws FileNotFoundException, CyException {
+		super(file);
 		excelList = new ArrayList<HashMap<String, String>>();
 		tempList = new ArrayList<HashMap<String, String>>();
 	}

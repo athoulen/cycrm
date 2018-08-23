@@ -36,7 +36,7 @@ public class DataCheckUtil {
 			Object val=field.get(bean);
 			System.out.println("name:"+field.getName()+"\t value="+val);
 			String type=field.getType().toString();
-			if(val==null&&type.endsWith("String")){
+			if(ObjectUtil.isEmpty(val)&&type.endsWith("String")){
 				field.set(bean, "");
 			}
 		}

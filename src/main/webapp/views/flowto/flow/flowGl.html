@@ -23,11 +23,11 @@
 		<div class="form-group clearfix" style="margin-bottom:20px;" >
 		    <label class="col-sm-2 control-label text_left" >接收单位</label>
 		    <div class="col-sm-4">
-		        <input type="text" class="form-control" ng-change = "getStart()" ng-model = "search.acceptUnit" />
+		        <input type="text" class="form-control" ng-change = "getStart()" ng-model = "searchMsg.acceptUnit" />
 		    </div>
 		    <label class="col-sm-2 control-label text_left" >产品批号</label>
 		    <div class="col-sm-4">
-		        <input type="text" class="form-control" ng-change = "getStart()" ng-model = "search.batchNo" />
+		        <input type="text" class="form-control" ng-change = "getStart()" ng-model = "searchMsg.batchNo" />
 		    </div>
 		    
 		</div>	
@@ -51,7 +51,7 @@
 			    </label>
 		        <label>
 		        	其他：
-					<input type="radio" name = "flowFlag" value = "02" ng-model = "searchMsg.flowFlag" />
+					<input type="radio" name = "flowFlag" value = "" ng-model = "searchMsg.flowFlag" />
 			    </label>
 		    </div>
 		</div>
@@ -68,6 +68,8 @@
 				<td>商品名称</td>
 				<td>商品规格</td>
 				<td>批号</td>
+				<td>数量(盒)</td>
+				<td>毛利(元)</td>
 				<td>操作</td>
 			</tr>
 			<tr ng-repeat='x in dataList track by $index'>
@@ -77,12 +79,16 @@
 				<td>{{x.productName}}</td>
 				<td>{{x.productNorms}}</td>
 				<td>{{x.batchNo}}</td>
+				<td>{{x.amount}}</td>
+				<td>{{x.balance}}</td>
 				<td>
 					<a href='javascript:;' ng-click='bjZd(x)'>查看详情</a>
 				</td>
 			</tr>
 		</table>
 	</div>
-		
+	<div class="col-sm-4 pull-right text-right">
+		小计：<input type="text" ng-model="baseBalance" size="10" style="border: 0px;color: red" readonly="readonly">
+	</div>	
 	<tm-pagination conf="paginationConf" ng-show='pagShow'></tm-pagination>
 </div>

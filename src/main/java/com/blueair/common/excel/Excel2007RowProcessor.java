@@ -12,6 +12,7 @@ import org.apache.poi.xssf.eventusermodel.XSSFReader;
 import org.apache.poi.xssf.model.SharedStringsTable;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
+import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -46,6 +47,18 @@ public abstract class Excel2007RowProcessor implements ExcelRowProcessor {
 			throw new FileFormatException("Excel板式与解析器不匹配，解析器仅支持Excel-2007及以上版本。");
 		}
 		this.fileName=filename;
+		this.hander=new MyHander();
+	}
+	/**
+	 * 构造Excel-2007行级解析器
+	 * @param file
+	 * @throws java.io.IOException
+	 */
+	public Excel2007RowProcessor(MultipartFile file) throws FileFormatException{
+		if(file.getOriginalFilename().endsWith(".xls")){
+			throw new FileFormatException("Excel板式与解析器不匹配，解析器仅支持Excel-2007及以上版本。");
+		}
+		this.fileName=file.getOriginalFilename();
 		this.hander=new MyHander();
 	}
 

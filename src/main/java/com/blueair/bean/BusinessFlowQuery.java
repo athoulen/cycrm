@@ -131,7 +131,7 @@ public class BusinessFlowQuery {
 	public void setBalance() {
 		BigDecimal salePrice=this.soldPrice;
 //		BigDecimal upBack=new BigDecimal(merProtocol.getUpBack().toString());
-		BigDecimal loBack=new BigDecimal(merProtocol.getLoBack().toString());
+		BigDecimal loBack=new BigDecimal(merProtocol==null?"0":merProtocol.getLoBack().toString());
 		BigDecimal rebate=new BigDecimal(this.rebatePrice==null?"0":this.rebatePrice);
 		BigDecimal secRebate=new BigDecimal(this.secExpense==null?"0":this.secExpense);
 		BigDecimal account=new BigDecimal(this.amount);

@@ -25,8 +25,8 @@ public class ProductCache {
 		List<Product> proList = productService.queryProductList();
 		productMap = new HashMap<String, Object>();
 		for (Product pro : proList) {
-			productMap.put(pro.getProductName().trim() + pro.getProductNorms().trim()
-					+ pro.getManufacture().trim(), pro);
+			productMap.put(pro.getProductName().trim() +"-"+pro.getProductNorms().trim()
+					/*+ pro.getManufacture().trim()*/, pro);
 		}
 	}
 

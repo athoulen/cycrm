@@ -18,11 +18,15 @@ public final class DateUtil {
 		String YYYYMMDDDOTE = "yyyy.MM.dd";
 		String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
 		String YYYY_MM_DD = "yyyy-MM-dd";
+		String YYYYMMDD_SLASH="yyyy/MM/dd";
 		String YYYY_MMM_DDD="yyyy年MM月dd日 HH时mm分ss秒";
 		String YYYYMMDDHH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 		String YYYY_MM_DD_HH_MM = "yyyy/MM/dd HH:mm";
 	}
 
+	public static Date str2Date(String dateStr) {
+		return string2Date(dateStr, DATE_PATTERN.YYYY_MM_DD);
+	}
 	/**
 	 * 将Date类型转换成String类型
 	 * 

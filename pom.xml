@@ -81,6 +81,13 @@
 				<artifactId>shiro-web</artifactId>
 				<version> ${shiro.version}</version>
 			</dependency>
+			<!-- https://mvnrepository.com/artifact/javax.ejb/javax.ejb-api -->
+			<dependency>
+			    <groupId>javax.ejb</groupId>
+			    <artifactId>javax.ejb-api</artifactId>
+			    <version>3.2</version>
+			</dependency>
+			
 			<dependency>
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-quartz</artifactId>

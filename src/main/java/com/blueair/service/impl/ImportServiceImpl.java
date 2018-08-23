@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +70,10 @@ public class ImportServiceImpl extends BaseServiceImpl implements ImportService 
 			String protocolCode=param.get("B");
 			String customerName=param.get("C");
 			Integer customerId=queryForCustomerId(protocolCode,customerName);
+//			System.out.println("客户名称：["+customerName+"]"+"====> 客户ID：["+customerId+"]");
+			if(customerId==null) {
+				throw new Exception("未查询到客户ID");
+			}
 			String productName=param.get("D");
 			String productNorms=param.get("E");
 			String manufacture=param.get("F");
@@ -85,14 +90,20 @@ public class ImportServiceImpl extends BaseServiceImpl implements ImportService 
 			String lomerchanStr=param.get("I");
 			Integer loMerchanId=queryForMerchanId(lomerchanStr);
 			if(upmerchanStr!=null&&(upMerchanId==null||upMerchanId==0)){
-				errorList.add("商业公司["+upmerchanStr+"]没有目录");
+				if(!upmerchanStr.isEmpty()) {
+					errorList.add("商业公司["+upmerchanStr+"]没有目录");
+				}
 			}
 			if (lomerchanStr!=null&&(loMerchanId==null||loMerchanId==0)) {
-				errorList.add("商业公司["+lomerchanStr+"]没有目录");
+				if(!lomerchanStr.isEmpty()) {
+					errorList.add("商业公司["+lomerchanStr+"]没有目录");
+				}
 			}
 			String hospitalName=param.get("J");
-			Integer hospitalId = queryForHospitalId(hospitalName);
-			if(hospitalId==null||hospitalId==0){
+			List<Integer> hospitalIds = queryForHospitalId(hospitalName);
+			if(hospitalIds==null||hospitalIds.isEmpty()||hospitalIds.get(0)==null){
+				/*System.out.println("未找到医院["+hospitalName+"]的目录");
+				throw new Exception();*/
 				errorList.add("未找到医院["+hospitalName+"]的目录");
 			}
 			String expenseStr=param.get("K");
@@ -121,7 +132,7 @@ public class ImportServiceImpl extends BaseServiceImpl implements ImportService 
 			String dateStr=param.get("R");
 			String[] dateStrs=dateStr.split("-");
 			String startDate=DateUtil.fromDateStringToLong2(dateStrs[0])+"";
-			String endDate=DateUtil.fromDateStringToLong2((dateStrs.length==1||dateStrs[1].isEmpty())?"2018.12.31":dateStrs[1])+"";
+			String endDate=DateUtil.fromDateStringToLong2("2020.12.31")+"";
 			String backStyleStr=param.get("S");
 			Byte backStyle=-1;
 			if("公司".equals(backStyleStr)){
@@ -159,7 +170,7 @@ public class ImportServiceImpl extends BaseServiceImpl implements ImportService 
 			protocol.setCreateTime(System.currentTimeMillis()+"");
 			protocol.setCustomerId(customerId);
 			protocol.setEndTime(DateUtil.fromDateStringToLong2(endDate)+"");
-			protocol.setHospitalId(hospitalId);
+			protocol.setHospitals(hospitalIds);
 			protocol.setIsHonour(isHonour);
 			protocol.setIsValid(isValid);
 			protocol.setLowerMerchan(loMerchanId);
@@ -167,7 +178,7 @@ public class ImportServiceImpl extends BaseServiceImpl implements ImportService 
 			protocol.setPromotionExpense((expenseStr==null||expenseStr.isEmpty())?0:Double.valueOf(expenseStr));
 			protocol.setProtocolCode(protocolCode);
 			System.out.println("["+cusPay+"]");
-			protocol.setRebate((cusPay==null||cusPay.isEmpty())?0:Double.valueOf(cusPay));
+			protocol.setRebate((cusPay==null||cusPay.isEmpty()||"/".equals(cusPay))?0:Double.valueOf(cusPay));
 			protocol.setRebatePayer(backStyle);
 			protocol.setRebatePeriod(period);
 			protocol.setStartTime(DateUtil.fromDateStringToLong2(startDate)+"");
@@ -180,7 +191,7 @@ public class ImportServiceImpl extends BaseServiceImpl implements ImportService 
 		for (String string : errorList) {
 			ps.println(string);
 		}
-//		getBaseDao().insert("ImportMapper.insertCusProtocol", list);
+		getBaseDao().insert("ImportMapper.insertCusProtocol", list);
 		
 	}
 
@@ -228,7 +239,7 @@ public class ImportServiceImpl extends BaseServiceImpl implements ImportService 
 			product.setManufacture(manufacture);
 			product.setProductPrice(productPrice);
 			product.setBidPrice(bidPrice);
-			product.setPromoteFee(new BigDecimal(promoteFee));
+			product.setPromoteFee(new BigDecimal((promoteFee==null||promoteFee.trim().isEmpty())?"0.0":promoteFee));
 			list.add(product);
 		}
 		getBaseDao().insert("ImportMapper.insertProduct", list);
@@ -289,10 +300,21 @@ public class ImportServiceImpl extends BaseServiceImpl implements ImportService 
 		getBaseDao().insert("ImportMapper.insertCustomers", list);
 	}
 	
-	private Integer queryForHospitalId(String hospitalName) {
+	private List<Integer> queryForHospitalId(String hospitalName) {
+		List<Integer> list=new ArrayList<>();
 		Map<String, Object> params=new HashMap<>();
-		params.put("hospitalName", hospitalName);
-		return getBaseDao().queryForObject("ImportMapper.queryForHospitalId", params, Integer.class);
+		if(hospitalName.contains(",")) {
+			params.put("hospitalName", hospitalName);
+			list=getBaseDao().queryForListForObject("ImportMapper.queryForHospitals", params, Integer.class);
+		}/*else if(hospitalName.contains("、")){
+			hospitalNames=Arrays.asList(hospitalName.split("、"));
+			params.put("hospitalNames", hospitalNames);
+			list.add(getBaseDao().queryForObject("ImportMapper.queryForHospitalSameId", params, Integer.class));
+		}*/else {
+			params.put("hospitalName", hospitalName);
+			list.add(getBaseDao().queryForObject("ImportMapper.queryForHospitalId", params, Integer.class));
+		}
+		return list;
 	}
 	
 	private Integer queryForProductId(String productName, String productNorms, String manufacture) {

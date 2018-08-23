@@ -104,9 +104,9 @@ public class RebateProcessServiceImpl extends BaseServiceImpl implements IRebate
 				RebateMain.class);
 		for (RebateMain rebateMain : rebates) {
 			if (rebateMain.getMerProtocol() == null) {
-				throw new ServiceException(HandleCode.FAIL,
+				/*throw new ServiceException(HandleCode.FAIL,
 						"客户" + rebateMain.getCustomerName() + rebateMain.getSoldDate() + "向医院"
-								+ rebateMain.getHospitalName() + "销售的产品" + rebateMain.getProductName() + "流向缺少商业协议");
+								+ rebateMain.getHospitalName() + "销售的产品" + rebateMain.getProductName() + "流向缺少商业协议");*/
 			}
 			rebateMain.setBalance();
 		}
@@ -174,7 +174,7 @@ public class RebateProcessServiceImpl extends BaseServiceImpl implements IRebate
 		params.put("soldDate", rebateProcess.getSoldDate());
 		Integer sum = getBaseDao().queryForObject("RebateProcessMapper.getFlowSum", params, Integer.class);
 		sum=sum==null?0:sum;
-		return sum >= rebateProcess.getSoldGoodsNum() / 2;
+		return sum>0&&sum >= rebateProcess.getSoldGoodsNum() / 2;
 	}
 
 	// 计算医院类型后期是否调货
@@ -184,8 +184,9 @@ public class RebateProcessServiceImpl extends BaseServiceImpl implements IRebate
 		params.put("productId", rebateProcess.getProductId());
 		params.put("acceptUnitId", rebateProcess.getAcceptUnitId());
 		params.put("soldDate", rebateProcess.getSoldDate());
-		Integer count = getBaseDao().queryForObject("RebateProcessMapper.getFlowCount", params, Integer.class);
-		return count > 0;
+		params.put("flowId", rebateProcess.getFlowId());
+		Integer total = getBaseDao().queryForObject("RebateProcessMapper.getFlowCount", params, Integer.class);
+		return total!=null&&total> 0;
 	}
 
 	// 获取协议需要增加多少个月

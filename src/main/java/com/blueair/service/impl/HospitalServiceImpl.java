@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.blueair.bean.ClinicKey;
 import com.blueair.bean.Hospital;
 import com.blueair.bean.HospitalDetail;
 import com.blueair.bean.PageListBean;
@@ -73,4 +74,19 @@ public class HospitalServiceImpl extends BaseServiceImpl implements IHospitalSer
 		return bean;
 	}
 
+	@Override
+	public ClinicKey queryClinics(String clinicName) {
+		Map<String, Object> params=new HashMap<>();
+		params.put("clinicName", clinicName);
+		ClinicKey clinic= getBaseDao().queryForObject("HospitalMapper.queryClinics", params, ClinicKey.class);
+		return clinic;
+	}
+
+	@Override
+	public String queryClinicsById(String acceptUnitId) {
+		Map<String, Object> params=new HashMap<>();
+		params.put("hospitalId", acceptUnitId);
+		String clinic= getBaseDao().queryForObject("HospitalMapper.queryClinicsById", params, String.class);
+		return clinic;
+	}
 }

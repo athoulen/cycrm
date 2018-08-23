@@ -2384,7 +2384,8 @@ angular.module('flow.ctrl',['pubulic','data'])
 }])
 .controller('flowglCtrl',['$scope','GetList','Url','$http','$state','$timeout','groupsRoles','Tip','Http',function($scope,GetList,Url,$http,$state,$timeout,groupsRoles,Tip,Http){
 	$scope.searchMsg = {};
-	$scope.searchMsg.startDate = '';
+	//$scope.searchMsg.startDate = '';
+	$scope.baseBalance=0;
 	function getlist(){
 		GetList.Post({
 			url:Url.getUrl('flowList'),
@@ -2393,9 +2394,14 @@ angular.module('flow.ctrl',['pubulic','data'])
 			},
 			scope:$scope,
 			success:function(data){
-				console.log(data);
 				if(data.code == 1){
 					$scope.dataList = data.result;
+					var baseBalance=0;
+					for(i=0;i<$scope.dataList.length;i++){
+						baseBalance+=$scope.dataList[i].balance;
+					}
+					console.log("小计"+baseBalance);
+					$scope.baseBalance=baseBalance+"元";
 				}else{
 					Tip.Log($scope,{txt:data.message,type:0})
 				}
@@ -2499,7 +2505,7 @@ angular.module('flow.ctrl',['pubulic','data'])
 }])
 .controller('settlementCtrl',['$scope','Tip','$state','Url','$http','Tip','groupsRoles','Http','GetList',function($scope,Tip,$state,Url,$http,Tip,groupsRoles,Http,GetList){
 	$scope.searchMsg = {};
-	$scope.searchMsg.startDate = '';
+	//$scope.searchMsg.startDate = '';
 	function getlist(){
 		GetList.Post({
 			url:Url.getUrl('getsettlementList'),

@@ -3,9 +3,12 @@ package com.blueair.service.impl;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.blueair.bean.BusinessFlow;
 import com.blueair.bean.BusinessFlowQuery;
+import com.blueair.bean.ClinicKey;
 import com.blueair.bean.CustomerProtocol;
 import com.blueair.bean.FileRecord;
 import com.blueair.bean.PageListBean;
@@ -24,15 +28,19 @@ import com.blueair.cache.MerchanCache;
 import com.blueair.cache.ProductCache;
 import com.blueair.constant.HandleCode;
 import com.blueair.service.IFlowImpService;
+import com.blueair.service.IHospitalService;
 import com.blueair.service.IStockService;
 import com.blueair.util.Constants;
 import com.blueair.util.DateUtil;
+import com.blueair.util.DateUtil.DATE_PATTERN;
 import com.blueair.web.exception.ServiceException;
 
 @Service("flowImpService")
 public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpService {
 	@Autowired
 	private IStockService stockService;
+	@Autowired
+	private IHospitalService hospitalService;
 
 	/**
 	 * 导入流向数据
@@ -100,6 +108,11 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 		if (impType.equals("4")) {
 			flowList = processSecClassData(dataList, impYear, impType, impMonth);
 		}
+		// 整理流向总表格式的数据
+		if (impType.equals("5")) {
+			flowList = processNeoClassData(dataList, impYear, impType, impMonth);
+		}
+		
 		if (!flowList.isEmpty()) {
 			// 执行开始时间
 			StopWatch watch=new StopWatch();
@@ -120,6 +133,177 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 		return true;
 	}
 
+	//处理新型总报表
+	private List<BusinessFlow> processNeoClassData(List<HashMap<String, String>> dataList, String impYear,
+			String impType, String impMonth) throws ServiceException {
+		dataList.remove(0);
+		dataList.remove(0);
+		List<BusinessFlow> flowList = new ArrayList<BusinessFlow>();
+		for (HashMap<String, String> dataMap : dataList) {
+			BusinessFlow flow = new BusinessFlow();
+			// 文件类型
+			flow.setFileType(Constants.TOTAL_NEO);
+			// 销售年份
+			flow.setSoldYear(impYear);
+			// 销售月份
+			flow.setSoldMonth(impMonth);
+			// 销售日期
+			String soldDateNumStr = dataMap.get("K");
+			Date soldDate = HSSFDateUtil.getJavaDate(Double.valueOf(soldDateNumStr));
+			flow.setSoldDate(DateUtil.date2String(soldDate, DATE_PATTERN.YYYY_MM_DD));
+			// 销售部门
+			String soldUnitName = dataMap.get("G");
+			// 销售部门id
+			String soldUnitId = MerchanCache.getMerchanMap().get(soldUnitName) == null ? null
+					: MerchanCache.getMerchanMap().get(soldUnitName).toString();
+			if(soldUnitId==null){
+				throw new ServiceException(HandleCode.FAIL,
+						"商业公司：" + soldUnitName + "，未找到名录");
+			}
+			flow.setSoldUnitId(soldUnitId);
+			// 药品名称
+			String productName = dataMap.get("I");
+			// 药品规格
+			String productNorm=dataMap.get("J");
+//			String manufacturer = dataMap.get("I");
+			// 产品
+			Product pro = (Product) ProductCache.getProductMap().get(productName.trim() +"-"+ productNorm.trim());
+			if (null != pro) {
+				flow.setProductId(pro.getId() + "");
+			} else {
+				throw new ServiceException(HandleCode.FAIL,
+						"产品名称为：" + productName + "规格为：" + productNorm + "，未找到名录");
+			}
+			// 产品销售单价
+			BigDecimal salePrice = new BigDecimal(pro.getProductPrice() + "");
+			// 接收部门
+			String acceptUnitId =null;
+			String acceptUnitName = dataMap.get("L");
+			if(acceptUnitName.contains("（")) {
+				acceptUnitId = cover2ExternalHosp(acceptUnitName);
+			}else {
+			// 接收部门id
+				acceptUnitId = MerchanCache.getHospitalMap().get(acceptUnitName) == null ? null
+					: MerchanCache.getHospitalMap().get(acceptUnitName).toString();
+			}
+			// 调货数量
+			int allocateGoodsNum = 0;
+			// 销售数量
+			int soldGoodsNum = 0;
+				if (StringUtils.isBlank(acceptUnitId)) {
+					/* * *为卫生院新增处理方式* * */
+					String clinicName=dataMap.get("L");
+					//TODO
+					ClinicKey clinic = hospitalService.queryClinics(clinicName);
+					if(clinic==null||clinic.getHospitalId()==null){
+						throw new ServiceException(HandleCode.FAIL, "未找到" + acceptUnitName + "终端或公司");
+					}else {
+						acceptUnitId=clinic.getHospitalId();
+						flow.setClinicId(clinic.getClinicId());
+					}
+					String customerName=dataMap.get("T");
+					// 客户protocol
+					Integer customerId = (Integer) CustomerCache.getCustomerMap()
+							.get(customerName.replaceAll(" ", ""));
+					if (null != customerId) {
+						flow.setCustomerId(customerId+"");
+					} else {
+						throw new ServiceException(HandleCode.FAIL,
+								"未找到客户：[" + customerName + "]");
+					}
+					/***为卫生院新增处理方式***/
+					flow.setIsTerminal("1");
+				}
+			if (StringUtils.isBlank(acceptUnitId)) {
+				if(acceptUnitName.contains("（")) {
+					acceptUnitId=cover2ExternalMerchan(acceptUnitName);
+				}else {
+					acceptUnitId = MerchanCache.getMerchanMap().get(acceptUnitName) == null ? null
+						: MerchanCache.getMerchanMap().get(acceptUnitName).toString();
+				}
+					// 是否是终端
+					flow.setIsTerminal("0");
+					allocateGoodsNum = Integer.parseInt(dataMap.get("N"));
+					flow.setAllocateGoodsNum(allocateGoodsNum);
+			} else {
+				flow.setClinicId(hospitalService.queryClinicsById(acceptUnitId));
+				// 客户protocol
+				CustomerProtocol protocol = (CustomerProtocol) CustomerCache.getCustomerPtlMap()
+						.get(acceptUnitId +"-"+ pro.getId());
+				if (null != protocol) {
+					flow.setCustomerId(protocol.getCustomerId() + "");
+				} else {
+					throw new ServiceException(HandleCode.FAIL,
+							"未找到产品名称为：" + productName + "规格为：" + productNorm + "发往"+acceptUnitName+"的客户协议");
+				}
+				soldGoodsNum = Integer.parseInt(dataMap.get("N"));
+				flow.setSoldGoodsNum(soldGoodsNum);
+				// 是否是终端
+				flow.setIsTerminal("1");
+				/*if (null != protocol) {
+					// 如果有客户的话，就是客户中的销售单价，否则就是默认药品销售单价
+					salePrice = protocol.getSalePrice();
+				}*/
+			}
+			flow.setRemark(dataMap.get("U"));
+			flow.setAcceptUnitId(acceptUnitId);
+			String batchNo =dataMap.get("O");
+			flow.setBatchNo(batchNo);
+			// 批号信息
+//			String batchNoContents = dataMap.get("J");
+			// 批号
+		/*	String batchNo = "";
+			if (StringUtils.isNotBlank(batchNoContents)) {
+				// 批号:170131/3 生产日期:2016-12-22 效期:2018-11-30 数量:30
+				batchNo = batchNoContents.split("生产日期")[0].replace("批号:", "");
+			}
+			flow.setBatchNo(batchNo);*/
+			// 商业调拨价
+			BigDecimal allocatePrice = new BigDecimal(dataMap.get("P"));
+			flow.setAllocatePrice(allocatePrice);
+			// 一级流向
+			flow.setFlowFlag("03");
+			// 部门
+			flow.setDepartment("商务部");
+			// 销售单价
+			flow.setSoldPrice(salePrice);
+			// 销售金额
+			flow.setSoldMoney(salePrice.multiply(new BigDecimal(soldGoodsNum)));
+			flowList.add(flow);
+		}
+		return flowList;
+	}
+
+	private static String cover2ExternalMerchan(String acceptUnitName) {
+		String acceptUnitId;
+		String[] acceptNames= splitWord(acceptUnitName);
+		acceptUnitId=MerchanCache.getMerchanMap().get(acceptNames[0]) == null ? null
+				: MerchanCache.getMerchanMap().get(acceptNames[0]).toString();
+		if(acceptUnitId==null) {
+			acceptUnitId = MerchanCache.getMerchanMap().get(acceptNames[1])==null?null:MerchanCache.getMerchanMap().get(acceptNames[1]).toString();
+		}
+		return acceptUnitId;
+	}
+
+	private static String cover2ExternalHosp(String acceptUnitName) {
+		String acceptUnitId;
+		String[] acceptNames= splitWord(acceptUnitName);
+		acceptUnitId = MerchanCache.getHospitalMap().get(acceptNames[0])==null?null:MerchanCache.getHospitalMap().get(acceptNames[0]).toString();
+		if(acceptUnitId==null) {
+			acceptUnitId = MerchanCache.getHospitalMap().get(acceptNames[1])==null?null:MerchanCache.getHospitalMap().get(acceptNames[1]).toString();
+		}
+		return acceptUnitId;
+	}
+
+	
+	
+	private static String[] splitWord(String acceptUnitName) {
+		String[] strs=new String[2];
+		strs[0]=acceptUnitName.substring(0, acceptUnitName.indexOf("（"));
+		strs[1]=acceptUnitName.substring( acceptUnitName.indexOf("（")+1,acceptUnitName.indexOf("）"));
+		return strs;
+	}
+	
 	// 处理二级流向格式的数据
 	private List<BusinessFlow> processSecClassData(List<HashMap<String, String>> dataList, String impYear,
 			String impType, String impMonth) throws ServiceException {
@@ -153,7 +337,7 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 			String manufacturer = dataMap.get("L");
 			// 产品
 			Product pro = (Product) ProductCache.getProductMap().get(productName.trim() + manufacturer.trim());
-			if (null != pro) {
+			if (null != pro) {  
 				flow.setProductId(pro.getId() + "");
 			}
 			// 接收部门
@@ -603,12 +787,12 @@ public class FlowImpServiceImpl extends BaseServiceImpl implements IFlowImpServi
 				BusinessFlowQuery.class);
 		Long totalCount = getBaseDao().queryForObject("BusinessFlowMapper.queryForFlowCount", queryMap, Long.class);
 		for (BusinessFlowQuery businessFlowQuery : flows) {
-			if (businessFlowQuery.getMerProtocol() == null && businessFlowQuery.getIsTerminal() == 1) {
+			/*if (businessFlowQuery.getMerProtocol() == null && businessFlowQuery.getIsTerminal() == 1) {
 				throw new ServiceException(HandleCode.FAIL,
 						"客户" + businessFlowQuery.getCustomerName() + businessFlowQuery.getSoldDate() + "销售给"
 								+ businessFlowQuery.getAcceptUnit() + "的" + businessFlowQuery.getProductName()
 								+ "流向缺少商业协议");
-			}
+			}*/
 			if (businessFlowQuery.getIsTerminal() != 1) {
 				continue;
 			}

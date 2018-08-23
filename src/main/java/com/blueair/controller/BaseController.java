@@ -26,6 +26,7 @@ public class BaseController {
 	public ModelMap exp(HttpServletRequest request, Exception ex) {
 		request.setAttribute("ex", ex);
 		LOGGER.error("Controller Exception:", ex);
+		ex.printStackTrace();
 		// 根据不同错误转向不同页面
 		if (ex instanceof ServiceException) {
 			return errorResult(((ServiceException) ex).getErrorMessage());

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.blueair.util.JsonUtil;
 import com.blueair.util.PropertiesUtil;
+import com.blueair.web.exception.ServiceException;
 
 @RestController
 @RequestMapping("upload")
@@ -27,9 +29,10 @@ public class UploadController extends BaseController {
 	 * @return
 	 * @throws IOException
 	 * @throws IllegalStateException
+	 * @throws ServiceException 
 	 */
 	@RequestMapping("/file")
-	public ModelMap uploadFile(HttpServletRequest request) throws IllegalStateException, IOException {
+	public ModelMap uploadFile(HttpServletRequest request) throws IllegalStateException, IOException, ServiceException {
 		// 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
 				request.getSession().getServletContext());
@@ -52,7 +55,7 @@ public class UploadController extends BaseController {
 					//服务路径
 					String uploadPath = PropertiesUtil.getString("system", "uploadPath");
 					//上传路径 
-					String path = uploadPath + file.getOriginalFilename();
+					String path = uploadPath + file.getOriginalFilename()+UUID.randomUUID();
 					// 上传
 					file.transferTo(new File(path));
 					pathList.add(path);
@@ -62,4 +65,5 @@ public class UploadController extends BaseController {
 		map.put("pathList", JsonUtil.convertObject2Json(pathList));
 		return rightResult(map, "上传成功！");
 	}
+
 }

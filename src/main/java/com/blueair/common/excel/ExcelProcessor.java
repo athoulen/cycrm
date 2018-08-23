@@ -3,8 +3,10 @@ package com.blueair.common.excel;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
+import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
 import com.blueair.common.exception.CyException;
@@ -36,6 +38,25 @@ public abstract class ExcelProcessor implements ExcelRowProcessor{
 		
 	}
 	
+	public ExcelProcessor(MultipartFile file) throws CyException, FileNotFoundException{
+		if(file.getOriginalFilename()==null||"".equals(file.getOriginalFilename())){
+			throw new CyException("构造Excel导入器失败，未指定文件全名。");
+		}
+		if(file.isEmpty()){
+			throw new FileNotFoundException("构造Excel导入器失败，指定的文件不存在："+file.getOriginalFilename());
+		}
+		try {
+			if(file.getOriginalFilename().endsWith("xls")){
+				processor=new MyExcel2003RowProcessor(file);
+			}else{
+				processor=new MyExcel2007RowProcessor(file);
+			}
+		} catch (Exception e) {
+			throw new CyException("构造Excel解析器失败" + e.getMessage());
+		}
+		
+	}
+	
 	public void processByRow() throws IOException, OpenXML4JException, SAXException {
 		processor.processByRow();
 	}
@@ -56,6 +77,10 @@ public abstract class ExcelProcessor implements ExcelRowProcessor{
 		public MyExcel2003RowProcessor(String filename) throws Exception {
 			super(filename);
 		}
+		
+		public MyExcel2003RowProcessor(MultipartFile file) throws Exception {
+			super(file);
+		}
 
 		@Override
 		public void processRow(XRow row) {
@@ -67,6 +92,9 @@ public abstract class ExcelProcessor implements ExcelRowProcessor{
 	private class MyExcel2007RowProcessor extends Excel2007RowProcessor{
 		public MyExcel2007RowProcessor(String filename) throws Exception {
 			super(filename);
+		}
+		public MyExcel2007RowProcessor(MultipartFile file) throws Exception {
+			super(file);
 		}
 
 		@Override
